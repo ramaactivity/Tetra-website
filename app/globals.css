@@ -219,6 +219,14 @@ body.touch .cur {
     transform: scale(1.08);
   }
 }
+/* viewfinder frame — scaled by GSAP to mimic an autofocus "hunt" then lock */
+.ld-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+}
 /* viewfinder corner brackets — tetra = four */
 .ld-corner {
   position: absolute;
@@ -227,6 +235,18 @@ body.touch .cur {
   border: 1px solid rgba(200, 169, 106, 0.5);
   opacity: 0;
   pointer-events: none;
+}
+/* focus reticle — a thin ring that contracts onto the mark as it locks */
+.ld-reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(220px, 34vw, 360px);
+  height: clamp(220px, 34vw, 360px);
+  margin: calc(clamp(220px, 34vw, 360px) / -2) 0 0 calc(clamp(220px, 34vw, 360px) / -2);
+  border: 1px solid rgba(226, 200, 140, 0.32);
+  border-radius: 50%;
+  opacity: 0;
 }
 .ld-corner.tl {
   top: clamp(22px, 4vw, 44px);
@@ -262,28 +282,42 @@ body.touch .cur {
 }
 .ld-mark {
   position: relative;
-  overflow: hidden;
-  /* starts "undeveloped" — GSAP wipes it open (no flash before JS for no-JS
-     users the whole loader is hidden via the fallback rules below) */
-  clip-path: inset(0 0 100% 0);
 }
 .ld-mark img {
   width: clamp(150px, 24vw, 196px);
   display: block;
+  /* GSAP racks this from blurred → sharp (autofocus). Driven via --b. */
+  filter: blur(var(--b, 0px));
+  will-change: filter, transform;
 }
+/* Gold glint that runs across the wordmark. Masked to the logo's own glyphs
+   (the wordmark PNG) so the highlight only touches the letters — never the
+   surrounding box. The element stays put; only the gradient sweeps inside it. */
 .ld-sheen {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
     110deg,
-    transparent 38%,
-    rgba(255, 255, 255, 0.85) 49%,
-    rgba(226, 200, 140, 0.9) 52%,
-    transparent 64%
+    transparent 42%,
+    rgba(255, 255, 255, 0.95) 49%,
+    rgba(226, 200, 140, 1) 51%,
+    rgba(255, 255, 255, 0.95) 53%,
+    transparent 60%
   );
+  background-size: 250% 100%;
+  background-position: 150% 0;
+  background-repeat: no-repeat;
   mix-blend-mode: screen;
   opacity: 0;
+  -webkit-mask-image: url("/images/word-white.png");
+  mask-image: url("/images/word-white.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 #loader .ll {
   font-family: var(--disp);
@@ -298,49 +332,15 @@ body.touch .cur {
   display: inline-block;
   transform: translateY(115%);
 }
-.ld-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 2px;
-}
-.ld-bar {
-  display: block;
-  width: clamp(96px, 16vw, 140px);
-  height: 1px;
-  background: rgba(255, 255, 255, 0.13);
-  overflow: hidden;
-}
-.ld-bar-fill {
-  display: block;
-  height: 100%;
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: left;
-  background: linear-gradient(90deg, var(--gold), var(--gold2));
-}
-.ld-pct {
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  color: var(--ink2);
-  font-variant-numeric: tabular-nums;
-  min-width: 32px;
-}
-.curtain {
+/* camera flash — the capture moment dips the whole screen to white, then
+   clears to reveal the site (as if the guest's photo was just taken) */
+.ld-flash {
   position: fixed;
   inset: 0;
-  background: var(--paper);
-  z-index: 8999;
-}
-/* a fine gold light-line rides the curtain's edge as it lifts away */
-.curtain::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(226, 200, 140, 0.85), transparent);
+  z-index: 9100;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* nav */
@@ -2026,9 +2026,9 @@ html.reduced .viewer.open {
    the loader is removed — so content is never trapped behind motion.
    ========================================================================= */
 html:not(.js) #loader,
-html:not(.js) .curtain,
+html:not(.js) .ld-flash,
 html.reduced #loader,
-html.reduced .curtain {
+html.reduced .ld-flash {
   display: none !important;
 }
 

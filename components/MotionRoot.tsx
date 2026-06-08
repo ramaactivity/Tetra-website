@@ -244,61 +244,76 @@ export default function MotionRoot() {
       const ll = document.getElementById("ll");
       if (loaderEl && ll) {
         const ch = splitChars(ll);
-        const pctEl = document.getElementById("ldpct");
-        const counter = { v: 0 };
+        const markImg = loaderEl.querySelector<HTMLElement>("#ldmark img");
+        const sheen = document.getElementById("ldsheen");
+        // autofocus blur driver (via CSS var so the rack is buttery, not janky)
+        const focus = { b: 18 };
+        const setBlur = () => markImg && markImg.style.setProperty("--b", `${focus.b}px`);
+        setBlur();
+        // gold glint driver — only the gradient moves; its logo-shaped mask stays put
+        const glint = { p: 150 };
+        const setGlint = () => sheen && (sheen.style.backgroundPositionX = `${glint.p}%`);
+        setGlint();
+
+        let heroFired = false;
+        const fireHero = () => {
+          if (heroFired) return;
+          heroFired = true;
+          runHero();
+        };
+
+        gsap.set("#ldmark img", { scale: 1.09, opacity: 0, transformOrigin: "50% 50%" });
+        gsap.set("#ldframe", { scale: 1.12, opacity: 0 });
+        gsap.set("#ldreticle", { scale: 1.5, opacity: 0 });
+
         gsap
-          .timeline({
-            onComplete: () => {
-              ScrollTrigger.refresh();
-              runHero();
-            },
-          })
-          // viewfinder corners settle in
+          .timeline({ onComplete: () => ScrollTrigger.refresh() })
+          // ---- viewfinder powers on, wide ----
+          .to("#ldframe", { opacity: 1, duration: 0.6, ease: "power2.out" }, 0)
           .fromTo(
             ".ld-corner",
-            { opacity: 0, scale: 1.18 },
-            { opacity: 1, scale: 1, duration: 0.5, stagger: 0.05, ease: "power2.out" },
-            0
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, stagger: 0.06, ease: "power2.out" },
+            0.05
           )
-          // wordmark "develops" — clip wipes open top→bottom
-          .to("#ldmark", { clipPath: "inset(0 0 0% 0)", duration: 0.85, ease: "power3.inOut" }, 0.12)
-          // a single gold sheen sweeps across the freshly-revealed mark
-          .fromTo(
-            "#ldsheen",
-            { xPercent: -130, opacity: 0 },
-            {
-              xPercent: 130,
-              opacity: 1,
-              duration: 0.85,
-              ease: "power2.inOut",
-              onComplete: () => gsap.set("#ldsheen", { opacity: 0 }),
-            },
-            0.62
-          )
-          // tagline characters rise into view
-          .to(ch, { y: 0, duration: 0.65, stagger: 0.011, ease: "power3.out" }, 0.5)
-          // loading hairline fills + counter ticks to 100
-          .to("#ldfill", { scaleX: 1, duration: 1.2, ease: "power1.inOut" }, 0.2)
+          .to("#ldreticle", { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1)
+          // mark emerges, out of focus
+          .to("#ldmark img", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.4)
+          // ---- AUTOFOCUS: a slow, deliberate hunt toward sharp ----
+          .to(focus, { b: 2.6, duration: 1.05, ease: "power2.inOut", onUpdate: setBlur }, 0.6)
+          .to("#ldmark img", { scale: 1.0, duration: 1.05, ease: "power2.inOut" }, 0.6)
+          .to("#ldframe", { scale: 0.965, duration: 1.05, ease: "power2.inOut" }, 0.6)
+          .to("#ldreticle", { scale: 1.02, duration: 1.05, ease: "power2.inOut" }, 0.6)
+          // ---- FOCUS LOCK: snap crisp, frame settles, reticle blinks out ----
+          .to(focus, { b: 0, duration: 0.45, ease: "power3.out", onUpdate: setBlur }, 1.65)
+          .to("#ldframe", { scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 1.65)
+          .to("#ldreticle", { scale: 0.92, opacity: 0, duration: 0.4, ease: "power2.out" }, 1.65)
+          // gold glint catches the letters on lock (masked to the glyphs)
+          .set(sheen, { opacity: 1 }, 1.72)
           .to(
-            counter,
+            glint,
             {
-              v: 100,
-              duration: 1.2,
-              ease: "power1.inOut",
-              onUpdate: () => {
-                if (pctEl) pctEl.textContent = String(Math.round(counter.v));
-              },
+              p: -150,
+              duration: 1.05,
+              ease: "power2.inOut",
+              onUpdate: setGlint,
+              onComplete: () => sheen && gsap.set(sheen, { opacity: 0 }),
             },
-            0.2
+            1.72
           )
-          .to({}, { duration: 0.22 })
-          // composition lifts away, corners fade
-          .to(".ld-inner", { y: -22, opacity: 0, duration: 0.55, ease: "power2.in" })
-          .to(".ld-corner", { opacity: 0, duration: 0.4 }, "<")
+          // ---- tagline rises (the "pose") ----
+          .to(ch, { y: 0, duration: 0.75, stagger: 0.013, ease: "power3.out" }, 2.05)
+          // hold the moment — let the guest settle into frame
+          .to({}, { duration: 1.0 })
+          // ---- CAPTURE: shutter punch (quick scale grab) then FLASH ----
+          .to(".ld-inner", { scale: 0.965, duration: 0.13, ease: "power2.in" })
+          .to("#ldframe", { scale: 0.94, opacity: 0.85, duration: 0.13, ease: "power2.in" }, "<")
+          .to("#ldflash", { opacity: 1, duration: 0.07, ease: "power1.out" })
           .set("#loader", { display: "none" })
-          // curtain lifts to reveal the page (gold edge-line riding its bottom)
-          .to("#curtain", { yPercent: -100, duration: 1.05, ease: "expo.inOut" }, "-=.1")
-          .set("#curtain", { display: "none" });
+          // the photo "resolves" into the site behind the white, then it clears
+          .add(fireHero, "+=0.04")
+          .to("#ldflash", { opacity: 0, duration: 0.9, ease: "power2.inOut" }, "+=0.02")
+          .set("#ldflash", { display: "none" });
       } else {
         runHero();
       }

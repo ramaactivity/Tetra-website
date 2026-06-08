@@ -1,18 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-// Cinematic brand intro overlay. Server-rendered so it paints immediately for
-// JS users; hidden via CSS for no-JS / reduced-motion. MotionRoot plays + removes it.
-// Composition: viewfinder corner brackets (tetra = four) frame a wordmark that
-// "develops" via a clip reveal + gold sheen, over a breathing gold atmosphere,
-// with an elegant loading hairline + counter. Exits behind a curtain wipe.
+// Cinematic photobooth intro overlay. Server-rendered so it paints immediately
+// for JS users; hidden via CSS for no-JS / reduced-motion. MotionRoot plays it.
+// Story: a viewfinder frames the wordmark → the camera autofocuses on the logo
+// (out-of-focus → sharp) → a gold glint catches the letters → the tagline rises
+// → shutter punch + flash (dip to white), as if the guest was just photographed,
+// which clears to reveal the site.
 export default function Loader() {
   return (
     <>
       <div id="loader">
         <div className="ld-atmos" aria-hidden />
-        <span className="ld-corner tl" aria-hidden />
-        <span className="ld-corner tr" aria-hidden />
-        <span className="ld-corner bl" aria-hidden />
-        <span className="ld-corner br" aria-hidden />
+        <div className="ld-frame" id="ldframe" aria-hidden>
+          <span className="ld-corner tl" />
+          <span className="ld-corner tr" />
+          <span className="ld-corner bl" />
+          <span className="ld-corner br" />
+          <span className="ld-reticle" id="ldreticle" />
+        </div>
         <div className="ld-inner">
           <div className="ld-mark" id="ldmark">
             <img src="/images/word-white.png" alt="tetra photobooth" />
@@ -21,17 +25,10 @@ export default function Loader() {
           <div className="ll" id="ll">
             Sesuatu untuk dipegang, sesuatu untuk dikenang
           </div>
-          <div className="ld-meta" aria-hidden>
-            <span className="ld-bar">
-              <span className="ld-bar-fill" id="ldfill" />
-            </span>
-            <span className="ld-pct">
-              <span id="ldpct">0</span>%
-            </span>
-          </div>
         </div>
       </div>
-      <div className="curtain" id="curtain" />
+      {/* camera flash — the "dip to white" capture moment */}
+      <div className="ld-flash" id="ldflash" aria-hidden />
     </>
   );
 }
