@@ -346,24 +346,14 @@ header.solid {
   overflow: hidden;
   position: relative;
 }
-/* Bottom dissolve — melts the hero atmosphere into the paper of the next
-   section so the hero→manifesto seam reads as one continuous surface instead
-   of a hard cut. */
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 30vh;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(21, 18, 14, 0) 0%,
-    rgba(21, 18, 14, 0.55) 55%,
-    var(--paper) 100%
-  );
+/* Seamless section seam: rather than painting a dark band at the hero bottom
+   (which over-darkens the hero relative to the ambient glow the next section
+   still catches), we fade the hero's *atmosphere* to nothing near the bottom.
+   That reveals the exact same continuous body background both sections sit on,
+   so the hero→manifesto boundary has no edge at all. */
+.hero-fluid {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 96%);
 }
 .hero .wrap {
   display: grid;
