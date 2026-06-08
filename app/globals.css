@@ -2072,14 +2072,28 @@ html.reduced .viewer.open {
   opacity: 1;
   background: rgba(28, 22, 16, 0.96);
 }
+/* stage holds the two crossfading image layers, both centered over each other */
+.vstage {
+  position: relative;
+  width: 100%;
+  height: 62vh;
+  z-index: 2;
+  cursor: zoom-in;
+}
 .vimg {
-  max-height: 62vh;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  max-height: 100%;
   max-width: 86vw;
+  width: auto;
+  height: auto;
   border-radius: 5px;
   box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.6);
   will-change: transform, opacity;
-  position: relative;
-  z-index: 2;
+}
+.vimg-b {
+  opacity: 0;
 }
 .vmeta {
   position: static;
@@ -2117,19 +2131,46 @@ html.reduced .viewer.open {
   background: #fff;
   color: var(--ink);
 }
+/* visible circular arrow buttons */
 .vnav {
   position: absolute;
-  top: 12vh;
-  bottom: 16vh;
-  width: 26vw;
+  top: 50%;
+  z-index: 6;
+  width: clamp(46px, 4vw, 58px);
+  height: clamp(46px, 4vw, 58px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.88);
   cursor: pointer;
-  z-index: 1;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-appearance: none;
+  appearance: none;
+  transform: translateY(-50%);
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s var(--ease-out-expo);
+}
+.vnav svg {
+  width: 44%;
+  height: 44%;
 }
 .vnav.prev {
-  left: 0;
+  left: clamp(14px, 3vw, 42px);
 }
 .vnav.next {
-  right: 0;
+  right: clamp(14px, 3vw, 42px);
+}
+.vnav:hover {
+  background: #fff;
+  color: var(--ink);
+  border-color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+.vnav:active {
+  transform: translateY(-50%) scale(0.95);
 }
 .vcount {
   position: absolute;
@@ -2506,7 +2547,7 @@ header nav a.lnk:hover .roll span {
   .vfilm {
     display: none;
   }
-  .vimg {
-    max-height: 70vh;
+  .vstage {
+    height: 64vh;
   }
 }

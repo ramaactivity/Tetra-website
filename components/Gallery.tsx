@@ -18,7 +18,11 @@ export default function Gallery() {
   const gridRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
   const viewerRef = useRef<HTMLDivElement>(null);
-  const vimgRef = useRef<HTMLImageElement>(null);
+  // Two stacked image layers crossfade-slide between photos so navigation is
+  // seamless (no src-swap flash, no dimension jump on a single element).
+  const layerA = useRef<HTMLImageElement>(null);
+  const layerB = useRef<HTMLImageElement>(null);
+  const activeIsA = useRef(true);
   const firstFilter = useRef(true);
   const busy = useRef(false);
   const zoomed = useRef(false);
@@ -100,56 +104,83 @@ export default function Gallery() {
     openIdx !== null ? `${`0${openIdx + 1}`.slice(-2)} / ${GALLERY.length}` : "";
 
   /* ---- lightbox controls ---- */
+  const activeImg = useCallback(
+    () => (activeIsA.current ? layerA.current : layerB.current),
+    []
+  );
+  const backImg = useCallback(
+    () => (activeIsA.current ? layerB.current : layerA.current),
+    []
+  );
+
   const resetZoom = useCallback(() => {
     zoomed.current = false;
-    const v = vimgRef.current;
+    const v = activeImg();
     if (v) {
       v.classList.remove("zoomed");
       v.style.transformOrigin = "center center";
     }
-  }, []);
+  }, [activeImg]);
 
-  const animateSlide = useCallback((vimg: HTMLImageElement, target: number, d: number) => {
-    busy.current = true;
-    gsap.to(vimg, {
-      x: -d * 110,
-      opacity: 0,
-      scale: 0.92,
-      duration: 0.5,
-      ease: "power3.in",
-      onComplete: () => {
-        vimg.src = GALLERY[target].src;
-        gsap.fromTo(
-          vimg,
-          { x: d * 110, opacity: 0, scale: 0.92 },
-          {
-            x: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.75,
-            ease: "expo.out",
-            onComplete: () => {
-              busy.current = false;
-            },
-          }
-        );
-      },
-    });
-  }, []);
+  const slideDist = () =>
+    Math.min(180, (typeof window !== "undefined" ? window.innerWidth : 1200) * 0.11);
+
+  // Crossfade-slide: the incoming photo (preloaded into the back layer) slides
+  // in from the travel direction while the current one slides out — both at once,
+  // so the change reads as one continuous motion with no flash or jump.
+  const animateSlide = useCallback(
+    (target: number, d: number) => {
+      const front = activeImg();
+      const back = backImg();
+      if (!front || !back) return;
+      busy.current = true;
+      const dist = slideDist();
+      back.src = GALLERY[target].src;
+      back.alt = GALLERY[target].title || "";
+      back.classList.remove("zoomed");
+      back.style.transformOrigin = "center center";
+      gsap.set(back, { x: d * dist, opacity: 0, scale: 0.96, zIndex: 3 });
+      gsap.set(front, { zIndex: 2 });
+      gsap.to(front, { x: -d * dist * 0.6, opacity: 0, scale: 0.97, duration: 0.62, ease: "power3.inOut" });
+      gsap.to(back, {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.62,
+        ease: "power3.inOut",
+        onComplete: () => {
+          activeIsA.current = !activeIsA.current;
+          busy.current = false;
+        },
+      });
+    },
+    [activeImg, backImg]
+  );
 
   const show = useCallback((i: number) => {
     setOpenIdx(i);
     getLenis()?.stop();
     document.body.style.overflow = "hidden";
     document.body.classList.add("lb-open");
-    if (isReduced()) return;
+    activeIsA.current = true;
+    const a = layerA.current;
+    const b = layerB.current;
+    if (a) {
+      a.src = GALLERY[i].src;
+      a.alt = GALLERY[i].title || "";
+    }
+    if (b) gsap.set(b, { opacity: 0 });
+    if (isReduced()) {
+      if (a) gsap.set(a, { opacity: 1, scale: 1, x: 0, y: 0 });
+      return;
+    }
     requestAnimationFrame(() => {
       if (viewerRef.current) gsap.to(viewerRef.current, { opacity: 1, duration: 0.5 });
-      if (vimgRef.current)
+      if (a)
         gsap.fromTo(
-          vimgRef.current,
-          { scale: 0.86, opacity: 0, y: 26 },
-          { scale: 1, opacity: 1, y: 0, duration: 0.85, ease: "expo.out" }
+          a,
+          { scale: 0.86, opacity: 0, y: 26, x: 0 },
+          { scale: 1, opacity: 1, y: 0, x: 0, duration: 0.85, ease: "expo.out" }
         );
     });
   }, []);
@@ -163,10 +194,10 @@ export default function Gallery() {
       setOpenIdx(null);
       return;
     }
-    if (vimgRef.current)
-      gsap.to(vimgRef.current, { scale: 0.9, opacity: 0, duration: 0.45, ease: "power2.in" });
+    const v = activeImg();
+    if (v) gsap.to(v, { scale: 0.9, opacity: 0, duration: 0.45, ease: "power2.in" });
     gsap.to(viewerRef.current, { opacity: 0, duration: 0.45, onComplete: () => setOpenIdx(null) });
-  }, [resetZoom]);
+  }, [resetZoom, activeImg]);
 
   const go = useCallback(
     (d: number) => {
@@ -174,10 +205,9 @@ export default function Gallery() {
       setOpenIdx((i) => {
         if (i === null) return i;
         const ni = (i + d + GALLERY.length) % GALLERY.length;
-        const vimg = vimgRef.current;
         resetZoom();
-        if (isReduced() || !vimg) return ni;
-        animateSlide(vimg, ni, d);
+        if (isReduced()) return ni;
+        animateSlide(ni, d);
         return ni;
       });
     },
@@ -190,10 +220,9 @@ export default function Gallery() {
       setOpenIdx((i) => {
         if (i === null || i === target) return i;
         const d = target > i ? 1 : -1;
-        const vimg = vimgRef.current;
         resetZoom();
-        if (isReduced() || !vimg) return target;
-        animateSlide(vimg, target, d);
+        if (isReduced()) return target;
+        animateSlide(target, d);
         return target;
       });
     },
@@ -202,7 +231,7 @@ export default function Gallery() {
 
   const toggleZoom = () => {
     if (isReduced()) return;
-    const v = vimgRef.current;
+    const v = activeImg();
     if (!v) return;
     zoomed.current = !zoomed.current;
     if (zoomed.current) {
@@ -215,9 +244,9 @@ export default function Gallery() {
     }
   };
 
-  const onImgMove = (e: ReactMouseEvent<HTMLImageElement>) => {
+  const onImgMove = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (!zoomed.current) return;
-    const v = vimgRef.current;
+    const v = activeImg();
     if (!v) return;
     const r = v.getBoundingClientRect();
     const px = ((e.clientX - r.left) / r.width) * 100;
@@ -325,34 +354,47 @@ export default function Gallery() {
       >
         Tutup ✕
       </div>
-      <div
+      <button
         className="vnav prev"
         id="vprev"
+        type="button"
+        aria-label="Foto sebelumnya"
+        tabIndex={open ? 0 : -1}
         onClick={(e) => {
           e.stopPropagation();
           go(-1);
         }}
-      />
-      <div
+      >
+        <svg viewBox="0 0 24 24" aria-hidden focusable="false">
+          <path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <button
         className="vnav next"
         id="vnext"
+        type="button"
+        aria-label="Foto berikutnya"
+        tabIndex={open ? 0 : -1}
         onClick={(e) => {
           e.stopPropagation();
           go(1);
         }}
-      />
-      <img
-        className="vimg"
-        id="vimg"
-        ref={vimgRef}
-        src={current?.src || ""}
-        alt={current?.title || ""}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden focusable="false">
+          <path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <div
+        className="vstage"
         onClick={(e) => {
           e.stopPropagation();
           toggleZoom();
         }}
         onMouseMove={onImgMove}
-      />
+      >
+        <img className="vimg" id="vimg" ref={layerA} alt="" />
+        <img className="vimg vimg-b" ref={layerB} alt="" aria-hidden />
+      </div>
       <div className="vmeta">
         <div className="vnm" id="vnm">
           {current?.title}
