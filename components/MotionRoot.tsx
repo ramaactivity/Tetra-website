@@ -94,7 +94,7 @@ export default function MotionRoot() {
       /* ---- nav smooth-scroll (offset clears the fixed header) ---- */
       const scrollTo = (sel: string) => {
         const e = document.querySelector(sel) as HTMLElement | null;
-        if (e) lenis.scrollTo(e, { offset: -78 });
+        if (e) lenis.scrollTo(e, { offset: -92 });
       };
       const navHandlers: Array<[HTMLElement, (ev: Event) => void]> = [];
       document.querySelectorAll<HTMLElement>("[data-scroll]").forEach((a) => {
