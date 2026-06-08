@@ -229,7 +229,7 @@ export default function MotionRoot() {
         gsap.to("#hs", { opacity: 1, y: 0, duration: 0.9, delay: 0.5 });
         gsap.to("#hc", { opacity: 1, y: 0, duration: 0.9, delay: 0.62 });
         gsap.to("#ht", { opacity: 1, y: 0, duration: 0.9, delay: 0.74 });
-        gsap.from("#heroMedia .hg", {
+        gsap.from("#heroMedia .hgw", {
           opacity: 0,
           y: 36,
           duration: 1.1,

@@ -16,8 +16,11 @@ export default function PrintStack() {
     <div className="hero-media" id="heroMedia">
       <div className="hero-media-inner" id="heroMediaInner">
         {STACK.map((s) => (
-          <div key={s.cls} className={`hg ${s.cls}`}>
-            <img src={s.src} alt="" />
+          // .hgw owns the stack position + entrance; .hg floats independently
+          <div key={s.cls} className={`hgw ${s.cls}`}>
+            <div className="hg">
+              <img src={s.src} alt="" />
+            </div>
           </div>
         ))}
       </div>
