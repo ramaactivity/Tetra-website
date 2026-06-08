@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const ITEMS = [
   {
@@ -27,7 +27,6 @@ const ITEMS = [
 
 export default function Faq() {
   const [open, setOpen] = useState<number | null>(null);
-  const answers = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
     <section className="faq">
@@ -41,23 +40,25 @@ export default function Faq() {
         <div className="qa" id="qa">
           {ITEMS.map((item, idx) => {
             const isOpen = open === idx;
-            const el = answers.current[idx];
             return (
               <div className={`qrow${isOpen ? " open" : ""}`} key={item.q}>
                 <div
                   className="q"
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? null : idx)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setOpen(isOpen ? null : idx);
+                    }
+                  }}
                 >
                   {item.q}
-                  <span className="pm" />
+                  <span className="pm" aria-hidden />
                 </div>
-                <div
-                  className="a"
-                  ref={(node) => {
-                    answers.current[idx] = node;
-                  }}
-                  style={{ height: isOpen && el ? el.scrollHeight : 0 }}
-                >
+                <div className="a">
                   <p>{item.a}</p>
                 </div>
               </div>

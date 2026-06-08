@@ -60,9 +60,9 @@ export default function CtaFooter() {
             </div>
             <div className="col">
               <h5>Jelajah</h5>
-              <a href="#galeri">Galeri</a>
-              <a href="#format">Format</a>
-              <a href="#cara">Cara Kerja</a>
+              <a href="#galeri" data-scroll="#galeri">Galeri</a>
+              <a href="#format" data-scroll="#format">Format</a>
+              <a href="#cara" data-scroll="#cara">Cara Kerja</a>
             </div>
           </div>
           <div className="brand">

@@ -31,7 +31,7 @@ export default function Hero() {
             >
               Tanya Paket &amp; Harga
             </a>
-            <a className="btn" href="#galeri">
+            <a className="btn" href="#galeri" data-scroll="#galeri">
               Lihat Galeri
             </a>
           </div>

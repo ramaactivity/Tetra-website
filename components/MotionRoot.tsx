@@ -1,0 +1,515 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import Lenis from "lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { setLenis } from "@/lib/lenis";
+
+/* ---- helpers (ported from reference, typed) -------------------------------- */
+
+// Split an element's HTML into per-word mask spans (.w > .wi), preserving inline
+// element wrappers like <span class="it"> and carrying .it onto the inner span.
+function splitWords(el: HTMLElement): HTMLElement[] {
+  const tmp = document.createElement("div");
+  tmp.innerHTML = el.innerHTML;
+  const out: Node[] = [];
+  const walk = (n: Node, s: Node[]) => {
+    n.childNodes.forEach((x) => {
+      if (x.nodeType === 3) {
+        (x.textContent || "").split(/(\s+)/).forEach((t) => {
+          if (t.trim() === "") {
+            s.push(document.createTextNode(t));
+            return;
+          }
+          const a = document.createElement("span");
+          a.className = "w";
+          const b = document.createElement("span");
+          b.className = "wi";
+          const parent = n as HTMLElement;
+          if (parent.classList && parent.classList.contains("it")) b.classList.add("it");
+          b.textContent = t;
+          a.appendChild(b);
+          s.push(a);
+        });
+      } else if (x.nodeType === 1) {
+        const xe = x as HTMLElement;
+        const e = document.createElement(xe.tagName.toLowerCase());
+        e.className = xe.className;
+        const inner: Node[] = [];
+        walk(xe, inner);
+        inner.forEach((y) => e.appendChild(y));
+        s.push(e);
+      }
+    });
+  };
+  walk(tmp, out);
+  el.innerHTML = "";
+  out.forEach((x) => el.appendChild(x));
+  return Array.from(el.querySelectorAll<HTMLElement>(".wi"));
+}
+
+function splitChars(el: HTMLElement): HTMLElement[] {
+  const t = el.textContent || "";
+  el.innerHTML = "";
+  return Array.from(t).map((c) => {
+    const s = document.createElement("span");
+    s.className = "c";
+    s.textContent = c === " " ? " " : c;
+    el.appendChild(s);
+    return s;
+  });
+}
+
+/* ---------------------------------------------------------------------------- */
+
+export default function MotionRoot() {
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+
+    // Reduced motion: CSS already reveals content + hides the loader. Do nothing.
+    if (reduced) return;
+
+    const cleanups: Array<() => void> = [];
+    const restores: Array<{ el: HTMLElement; html: string }> = [];
+
+    const ctx = gsap.context(() => {
+      /* ---- Lenis smooth scroll, wired to ScrollTrigger ---- */
+      const lenis = new Lenis({ lerp: 0.055, wheelMultiplier: 0.85, touchMultiplier: 1.3 });
+      lenisRef.current = lenis;
+      setLenis(lenis);
+      lenis.on("scroll", ScrollTrigger.update);
+      const ticker = (t: number) => lenis.raf(t * 1000);
+      gsap.ticker.add(ticker);
+      gsap.ticker.lagSmoothing(0);
+      cleanups.push(() => {
+        gsap.ticker.remove(ticker);
+        lenis.destroy();
+        lenisRef.current = null;
+        setLenis(null);
+      });
+
+      /* ---- nav smooth-scroll (offset clears the fixed header) ---- */
+      const scrollTo = (sel: string) => {
+        const e = document.querySelector(sel) as HTMLElement | null;
+        if (e) lenis.scrollTo(e, { offset: -78 });
+      };
+      const navHandlers: Array<[HTMLElement, (ev: Event) => void]> = [];
+      document.querySelectorAll<HTMLElement>("[data-scroll]").forEach((a) => {
+        const h = (ev: Event) => {
+          ev.preventDefault();
+          scrollTo(a.getAttribute("data-scroll") || "");
+        };
+        a.addEventListener("click", h);
+        navHandlers.push([a, h]);
+      });
+      cleanups.push(() => navHandlers.forEach(([a, h]) => a.removeEventListener("click", h)));
+
+      /* ---- scroll reveals ---- */
+      document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+        restores.push({ el, html: el.innerHTML });
+        const w = splitWords(el);
+        gsap.to(w, {
+          y: 0,
+          duration: 0.9,
+          stagger: 0.04,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 82%" },
+        });
+      });
+      gsap.utils.toArray<HTMLElement>("[data-rv]").forEach((el) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 90%" },
+        });
+      });
+
+      /* ---- hero scrubs (scroll-tied, start immediately) ---- */
+      gsap.to("#bgword", {
+        xPercent: -26,
+        ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.fromTo(
+        "#heroMedia",
+        { rotation: -1.5, yPercent: 0 },
+        {
+          rotation: 3,
+          yPercent: -6,
+          ease: "none",
+          scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+        }
+      );
+
+      /* ---- floating CTA cards ---- */
+      document.querySelectorAll<HTMLElement>("[data-float]").forEach((f, i) => {
+        gsap.to(f, {
+          y: "+=10",
+          duration: 3.2 + i * 0.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.2,
+        });
+      });
+
+      /* ---- why widget: custom-frame cycle ---- */
+      const cfrm = document.getElementById("cfrm");
+      if (cfrm) {
+        const imgs = cfrm.querySelectorAll<HTMLElement>(".ph img");
+        const lbl = document.getElementById("cfrmLbl");
+        const set = [
+          { l: "Wedding", c: "#9C7733" },
+          { l: "Corporate", c: "#5B7186" },
+          { l: "Ulang Tahun", c: "#C77BA0" },
+          { l: "Wisuda", c: "#6E9A6B" },
+        ];
+        let i = 0;
+        const id = window.setInterval(() => {
+          i = (i + 1) % set.length;
+          imgs.forEach((im, k) => im.classList.toggle("on", k === i));
+          if (lbl) {
+            lbl.textContent = set[i].l;
+            lbl.style.color = set[i].c;
+          }
+          cfrm.style.borderColor = set[i].c;
+        }, 1900);
+        cleanups.push(() => window.clearInterval(id));
+      }
+
+      /* ---- FORMAT pinned scrollytelling (4R → 2R → Polaroid) ---- */
+      formatStory();
+
+      /* ---- process timeline ---- */
+      gsap.to("#stepProg", {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: { trigger: "#steps", start: "top 60%", end: "bottom 70%", scrub: true },
+      });
+      gsap.utils.toArray<HTMLElement>(".step").forEach((s) => {
+        ScrollTrigger.create({
+          trigger: s,
+          start: "top 72%",
+          onEnter: () => s.classList.add("lit"),
+          onLeaveBack: () => s.classList.remove("lit"),
+        });
+      });
+
+      /* ---- gold ribbon ---- */
+      ribbon(lenis);
+
+      /* ---- custom cursor (pointer devices only) ---- */
+      if (!touch) cursor();
+
+      /* Split H1 now (words sit masked below) so the curtain lift reveals a
+         clean line with no text flash; runHero animates them up afterwards. */
+      const h1El = document.getElementById("h1");
+      let heroWords: HTMLElement[] = [];
+      if (h1El) {
+        restores.push({ el: h1El, html: h1El.innerHTML });
+        heroWords = splitWords(h1El);
+      }
+
+      /* ---- hero entrance (runs after the loader) ---- */
+      const runHero = () => {
+        if (heroWords.length)
+          gsap.to(heroWords, { y: 0, duration: 1, stagger: 0.06, ease: "power4.out", delay: 0.1 });
+        gsap.to("#he", { opacity: 1, y: 0, duration: 0.9, delay: 0.15 });
+        gsap.to("#hs", { opacity: 1, y: 0, duration: 0.9, delay: 0.5 });
+        gsap.to("#hc", { opacity: 1, y: 0, duration: 0.9, delay: 0.62 });
+        gsap.to("#ht", { opacity: 1, y: 0, duration: 0.9, delay: 0.74 });
+        gsap.from("#heroMedia .hg", {
+          opacity: 0,
+          y: 36,
+          duration: 1.1,
+          stagger: 0.12,
+          ease: "power3.out",
+          delay: 0.3,
+        });
+      };
+
+      /* ---- loader intro → curtain wipe → reveal page ---- */
+      const loaderEl = document.getElementById("loader");
+      const ll = document.getElementById("ll");
+      if (loaderEl && ll) {
+        const ch = splitChars(ll);
+        gsap
+          .timeline({
+            onComplete: () => {
+              ScrollTrigger.refresh();
+              runHero();
+            },
+          })
+          .to("#loader img", { opacity: 1, duration: 0.6 })
+          .to(ch, { y: 0, duration: 0.7, stagger: 0.012, ease: "power3.out" }, "-=.2")
+          .to(["#loader img", "#ll"], { opacity: 0, duration: 0.4 }, "+=.5")
+          .set("#loader", { display: "none" })
+          .to("#curtain", { yPercent: -100, duration: 1, ease: "expo.inOut" })
+          .set("#curtain", { display: "none" });
+      } else {
+        runHero();
+      }
+
+      /* ---- refresh after fonts/images settle (pin + ribbon geometry) ---- */
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => ScrollTrigger.refresh());
+      }
+      const onLoad = () => window.setTimeout(() => ScrollTrigger.refresh(), 300);
+      window.addEventListener("load", onLoad);
+      cleanups.push(() => window.removeEventListener("load", onLoad));
+      window.setTimeout(() => ScrollTrigger.refresh(), 450);
+
+      /* ===== FORMAT timeline ===== */
+      function formatStory() {
+        const s4 = document.getElementById("o4r");
+        const s2 = document.getElementById("o2r");
+        const sp = document.getElementById("opol");
+        const c4 = document.getElementById("c4r");
+        const c2 = document.getElementById("c2r");
+        const cp = document.getElementById("cpol");
+        const frame4 = document.getElementById("frame4");
+        const img4l = document.getElementById("img4l");
+        const img4p = document.getElementById("img4p");
+        const oriBadge = document.getElementById("oriBadge");
+        const ori4 = document.getElementById("ori4");
+        const ds4 = document.getElementById("ds4");
+        const seam = document.querySelector<HTMLElement>("#o2r .seam");
+        const l2 = document.querySelector<HTMLElement>("#o2r .half.left");
+        const r2 = document.querySelector<HTMLElement>("#o2r .half.right");
+        const perf = document.querySelector<HTMLElement>("#opol .perf");
+        const lp = document.querySelector<HTMLElement>("#opol .half.left");
+        const rp = document.querySelector<HTMLElement>("#opol .half.right");
+        if (!s4 || !c4) return;
+
+        let oriState = -1;
+        const setOri = (st: number) => {
+          if (st === oriState) return;
+          oriState = st;
+          if (st === 0) {
+            if (oriBadge) oriBadge.textContent = "Landscape";
+            if (ori4) ori4.textContent = "orientasi landscape";
+            if (ds4)
+              ds4.innerHTML =
+                "Cetak utama, lembar utuh. Yang ini <b>landscape</b> — pas buat foto rame-rame.";
+          } else {
+            if (oriBadge) oriBadge.textContent = "Portrait";
+            if (ori4) ori4.textContent = "orientasi portrait";
+            if (ds4)
+              ds4.innerHTML =
+                "Sama-sama 4R, diputar jadi <b>portrait</b> — pas buat potret formal & elegan.";
+          }
+        };
+        setOri(0);
+
+        gsap.set(seam, { scaleY: 0, opacity: 1 });
+        gsap.set(perf, { scaleY: 0, opacity: 1 });
+        gsap.set([s2, sp, c2, cp], { opacity: 0 });
+        gsap.set([s4, c4], { opacity: 1 });
+        gsap.set([s2, sp], { rotationY: -90, scale: 0.82, transformOrigin: "50% 50%" });
+        gsap.set(s4, { rotationY: 0, scale: 1, transformOrigin: "50% 50%" });
+        gsap.set(img4l, { opacity: 1 });
+        gsap.set(img4p, { opacity: 0 });
+        gsap.set(frame4, { width: 300, height: 200, rotateY: 0, transformOrigin: "50% 50%" });
+
+        const tl = gsap.timeline();
+        const flip = { a: 0 };
+        tl.to({}, { duration: 0.5 })
+          .to(flip, {
+            a: 1,
+            duration: 1.5,
+            ease: "power2.inOut",
+            onUpdate: () => {
+              const a = flip.a;
+              if (a < 0.5) {
+                gsap.set(frame4, { rotateY: a * 180, width: 300, height: 200 });
+                gsap.set(img4l, { opacity: 1 });
+                gsap.set(img4p, { opacity: 0 });
+                setOri(0);
+              } else {
+                gsap.set(frame4, { rotateY: (a - 1) * 180, width: 200, height: 300 });
+                gsap.set(img4l, { opacity: 0 });
+                gsap.set(img4p, { opacity: 1 });
+                setOri(1);
+              }
+            },
+          })
+          .to({}, { duration: 0.7 })
+          .to(s4, { rotationY: 90, scale: 0.82, opacity: 0, duration: 0.7, ease: "power2.in" })
+          .to(c4, { opacity: 0, duration: 0.45 }, "<")
+          .to(s2, { rotationY: 0, scale: 1, opacity: 1, duration: 0.85, ease: "power3.out" }, "-=.4")
+          .to(c2, { opacity: 1, duration: 0.5 }, "<")
+          .to(seam, { scaleY: 1, duration: 0.6, ease: "none" })
+          .addLabel("cut")
+          .to(l2, { xPercent: -55, rotation: -1, duration: 1.0, ease: "power2.inOut" }, "cut")
+          .to(r2, { xPercent: 55, rotation: 1, duration: 1.0, ease: "power2.inOut" }, "cut")
+          .to(seam, { opacity: 0, duration: 0.4 }, "cut")
+          .to({}, { duration: 0.5 })
+          .to(s2, { rotationY: 90, scale: 0.82, opacity: 0, duration: 0.7, ease: "power2.in" })
+          .to(c2, { opacity: 0, duration: 0.45 }, "<")
+          .to(sp, { rotationY: 0, scale: 1, opacity: 1, duration: 0.85, ease: "power3.out" }, "-=.4")
+          .to(cp, { opacity: 1, duration: 0.5 }, "<")
+          .to(perf, { scaleY: 1, duration: 0.55, ease: "none" })
+          .addLabel("tear")
+          .to(lp, { xPercent: -52, rotation: -3, duration: 1.0, ease: "power2.inOut" }, "tear")
+          .to(rp, { xPercent: 52, rotation: 3, duration: 1.0, ease: "power2.inOut" }, "tear")
+          .to(perf, { opacity: 0, duration: 0.4 }, "tear")
+          .to({}, { duration: 0.6 });
+
+        ScrollTrigger.create({
+          trigger: ".fmt",
+          start: "top top",
+          end: "+=3400",
+          pin: "#fpin",
+          scrub: 1,
+          animation: tl,
+        });
+      }
+
+      /* ===== cursor ===== */
+      function cursor() {
+        const c = document.getElementById("cur");
+        if (!c) return;
+        const qx = gsap.quickTo(c, "x", { duration: 0.5, ease: "power3" });
+        const qy = gsap.quickTo(c, "y", { duration: 0.5, ease: "power3" });
+        const move = (e: MouseEvent) => {
+          qx(e.clientX);
+          qy(e.clientY);
+        };
+        window.addEventListener("mousemove", move);
+        cleanups.push(() => window.removeEventListener("mousemove", move));
+        const hoverEls = document.querySelectorAll<HTMLElement>("a,button,.cell,.qrow .q");
+        const enter = () => c.classList.add("show");
+        const leave = () => {
+          c.classList.remove("show");
+          c.textContent = "";
+        };
+        hoverEls.forEach((el) => {
+          el.addEventListener("mouseenter", enter);
+          el.addEventListener("mouseleave", leave);
+        });
+        const cells = document.querySelectorAll<HTMLElement>(".cell");
+        const cellEnter = () => {
+          c.textContent = "Lihat";
+        };
+        const cellLeave = () => {
+          c.textContent = "";
+        };
+        cells.forEach((el) => {
+          el.addEventListener("mouseenter", cellEnter);
+          el.addEventListener("mouseleave", cellLeave);
+        });
+        cleanups.push(() => {
+          hoverEls.forEach((el) => {
+            el.removeEventListener("mouseenter", enter);
+            el.removeEventListener("mouseleave", leave);
+          });
+          cells.forEach((el) => {
+            el.removeEventListener("mouseenter", cellEnter);
+            el.removeEventListener("mouseleave", cellLeave);
+          });
+        });
+      }
+
+      /* ===== ribbon ===== */
+      function ribbon(lenisInst: Lenis) {
+        const svg = document.getElementById("ribbon");
+        const glow = document.getElementById("ribbonGlow");
+        const core = document.getElementById("ribbonCore") as unknown as SVGPathElement | null;
+        const head = document.getElementById("ribbonHead");
+        if (!svg || !glow || !core || !head) return;
+        let len = 0;
+        const sel = ["#top", ".manifesto", ".fmt", "#galeri", ".why", "#cara", ".testi", "#kontak"];
+        const sides = [0.5, 0.22, 0.8, 0.2, 0.82, 0.24, 0.78, 0.5];
+
+        const build = () => {
+          const W = window.innerWidth;
+          const H = document.documentElement.scrollHeight;
+          svg.setAttribute("width", String(W));
+          svg.setAttribute("height", String(H));
+          svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+          const pts: Array<[number, number]> = [[W * 0.5, -40]];
+          sel.forEach((s, i) => {
+            const el = document.querySelector<HTMLElement>(s);
+            if (!el) return;
+            const y = el.offsetTop + el.offsetHeight * 0.5;
+            const x = W * sides[i % sides.length];
+            pts.push([x, y]);
+          });
+          pts.push([W * 0.5, H + 40]);
+          let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+          for (let i = 0; i < pts.length - 1; i++) {
+            const p0 = pts[i - 1] || pts[i];
+            const p1 = pts[i];
+            const p2 = pts[i + 1];
+            const p3 = pts[i + 2] || p2;
+            const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+            const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+            const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+            const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+            d += `C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+          }
+          glow.setAttribute("d", d);
+          core.setAttribute("d", d);
+          len = core.getTotalLength();
+          core.style.strokeDasharray = String(len);
+          glow.style.strokeDasharray = String(len);
+        };
+        const prog = () => {
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          const s = lenisInst ? lenisInst.scroll : window.scrollY;
+          const p = h > 0 ? s / h : 0;
+          return Math.max(0, Math.min(1, p));
+        };
+        const draw = () => {
+          const p = prog();
+          const off = len * (1 - p);
+          core.style.strokeDashoffset = String(off);
+          glow.style.strokeDashoffset = String(off);
+          if (len > 0) {
+            const pt = core.getPointAtLength(len * p);
+            head.setAttribute("cx", String(pt.x));
+            head.setAttribute("cy", String(pt.y));
+          }
+        };
+        build();
+        draw();
+        lenisInst.on("scroll", draw);
+        const onRefresh = () => {
+          build();
+          draw();
+        };
+        ScrollTrigger.addEventListener("refresh", onRefresh);
+        let rt: ReturnType<typeof setTimeout>;
+        const onResize = () => {
+          clearTimeout(rt);
+          rt = setTimeout(() => {
+            build();
+            draw();
+            ScrollTrigger.refresh();
+          }, 220);
+        };
+        window.addEventListener("resize", onResize);
+        cleanups.push(() => {
+          ScrollTrigger.removeEventListener("refresh", onRefresh);
+          window.removeEventListener("resize", onResize);
+          clearTimeout(rt);
+        });
+      }
+    });
+
+    return () => {
+      ctx.revert();
+      cleanups.forEach((fn) => fn());
+      restores.forEach(({ el, html }) => {
+        el.innerHTML = html;
+      });
+    };
+  }, []);
+
+  return <div className="cur" id="cur" aria-hidden />;
+}

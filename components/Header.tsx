@@ -18,18 +18,18 @@ export default function Header() {
   return (
     <header id="hdr" className={solid ? "solid" : undefined}>
       <div className="wrap">
-        <a className="nlogo" href="#top">
+        <a className="nlogo" href="#top" data-scroll="#top" aria-label="Tetra Photobooth — ke atas">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/word-white.png" alt="tetra photobooth" />
         </a>
         <nav>
-          <a className="lnk" href="#galeri">
+          <a className="lnk" href="#galeri" data-scroll="#galeri">
             Galeri
           </a>
-          <a className="lnk" href="#format">
+          <a className="lnk" href="#format" data-scroll="#format">
             Format
           </a>
-          <a className="lnk" href="#cara">
+          <a className="lnk" href="#cara" data-scroll="#cara">
             Cara Kerja
           </a>
           <a className="btn fill" href={waLink()} target="_blank" rel="noopener noreferrer">

@@ -28,6 +28,17 @@
   --gold2: #e2c88c;
   --line: rgba(255, 255, 255, 0.12);
   --sh: 0 26px 52px -24px rgba(0, 0, 0, 0.72), 0 10px 22px -12px rgba(0, 0, 0, 0.5);
+  /* Easing tokens — natural deceleration, no bounce/elastic */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Keyboard focus — visible gold ring (mouse users unaffected) */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 3px;
 }
 
 * {
@@ -289,6 +300,13 @@ header nav a.lnk:hover::after {
 .btn:not(.fill):hover {
   background: var(--ink);
   color: var(--paper);
+}
+/* Enhancement: subtle premium hover lift (per design system) */
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
 }
 header.solid {
   background: rgba(21, 18, 14, 0.82);
@@ -1632,15 +1650,27 @@ header.solid {
 .qrow.open .q .pm::after {
   transform: scaleY(0);
 }
+/* Enhancement: grid-rows collapse (smoother & jank-free vs animating height) */
 .qrow .a {
-  overflow: hidden;
-  height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease-out-expo);
+}
+.qrow.open .a {
+  grid-template-rows: 1fr;
 }
 .qrow .a p {
+  overflow: hidden;
+  min-height: 0;
   padding: 0 0 28px;
   color: var(--ink2);
   line-height: 1.7;
   max-width: 60ch;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-quart);
+}
+.qrow.open .a p {
+  opacity: 1;
 }
 
 /* cta */
@@ -1752,6 +1782,13 @@ footer .brand .fine {
 }
 .viewer.open {
   pointer-events: auto;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+/* Reduced motion / no-JS: GSAP won't fade the viewer in, so show it directly */
+html.reduced .viewer.open {
+  opacity: 1;
+  background: rgba(28, 22, 16, 0.96);
 }
 .vimg {
   max-height: 80vh;
@@ -1825,46 +1862,52 @@ footer .brand .fine {
 }
 
 /* =========================================================================
-   PHASE 1 STATIC OVERRIDES — content is fully visible & ambient loops are
-   paused, so layout/responsive can be reviewed before motion lands.
-   ⚠ REMOVE THIS ENTIRE BLOCK in Phase 2 when GSAP/Lenis reveals are wired.
+   MOTION FALLBACK (progressive enhancement)
+   With JS on (html.js) GSAP starts elements hidden and reveals them.
+   Without JS, or under reduced-motion (html.reduced), everything is shown and
+   the loader is removed — so content is never trapped behind motion.
    ========================================================================= */
-[data-rv] {
-  opacity: 1;
-  transform: none;
+html:not(.js) #loader,
+html:not(.js) .curtain,
+html.reduced #loader,
+html.reduced .curtain {
+  display: none !important;
 }
-.hero .eyebrow,
-.hero .sub,
-.hero .cta,
-.hero .trust {
-  opacity: 1;
-  transform: none;
+
+html:not(.js) [data-rv],
+html.reduced [data-rv],
+html:not(.js) .hero .eyebrow,
+html.reduced .hero .eyebrow,
+html:not(.js) .hero .sub,
+html.reduced .hero .sub,
+html:not(.js) .hero .cta,
+html.reduced .hero .cta,
+html:not(.js) .hero .trust,
+html.reduced .hero .trust {
+  opacity: 1 !important;
+  transform: none !important;
 }
-/* Format pinned story: show the 4R (Act 1) initial frame statically */
-#o4r,
-#c4r {
+
+/* Format pinned story collapses to the static 4R frame when motion is off */
+html:not(.js) #o4r,
+html:not(.js) #c4r,
+html.reduced #o4r,
+html.reduced #c4r {
   opacity: 1;
 }
-/* 4R frame stacks landscape + portrait imgs; show only landscape at rest */
-#img4l {
-  opacity: 1;
-}
-#img4p {
+html:not(.js) #img4p,
+html.reduced #img4p {
   opacity: 0;
 }
-/* Pause ambient/looping animations (blobs stay visible but still) */
-.hero-fluid b,
-.scrollcue .ln,
-.qrbox .scan,
-.qrbox .ok,
-.prn .led,
-.prn-out,
-.prn-out img,
-.dprint .gloss,
-.drop,
-.qcmp .good-wrap {
-  animation: none !important;
-}
-.hero-fluid b {
-  opacity: 0.42;
+
+/* Reduced motion: neutralize CSS transitions/animations as a safety net */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
