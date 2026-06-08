@@ -40,9 +40,13 @@ export default function RootLayout({
     <html lang="id" className={`${marcellus.variable} ${outfit.variable}`}>
       <body>
         <script dangerouslySetInnerHTML={{ __html: FLAGS }} />
+        <div className="scrollprog" id="scrollprog" aria-hidden />
         <Ribbon />
         <Loader />
         {children}
+        {/* atmosphere overlays (fixed, non-interactive) */}
+        <div className="vignette" aria-hidden />
+        <div className="grain" aria-hidden />
         <MotionRoot />
       </body>
     </html>

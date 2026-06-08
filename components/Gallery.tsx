@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
 import { GALLERY, GALLERY_TABS } from "@/lib/gallery";
@@ -18,6 +18,7 @@ export default function Gallery() {
   const vimgRef = useRef<HTMLImageElement>(null);
   const firstFilter = useRef(true);
   const busy = useRef(false);
+  const zoomed = useRef(false);
 
   /* Lock grid min-height (measured with all cells) so filtering never changes
      page height — keeps the ribbon geometry stable. */
@@ -96,14 +97,50 @@ export default function Gallery() {
     openIdx !== null ? `${`0${openIdx + 1}`.slice(-2)} / ${GALLERY.length}` : "";
 
   /* ---- lightbox controls ---- */
+  const resetZoom = useCallback(() => {
+    zoomed.current = false;
+    const v = vimgRef.current;
+    if (v) {
+      v.classList.remove("zoomed");
+      v.style.transformOrigin = "center center";
+    }
+  }, []);
+
+  const animateSlide = useCallback((vimg: HTMLImageElement, target: number, d: number) => {
+    busy.current = true;
+    gsap.to(vimg, {
+      x: -d * 110,
+      opacity: 0,
+      scale: 0.92,
+      duration: 0.5,
+      ease: "power3.in",
+      onComplete: () => {
+        vimg.src = GALLERY[target].src;
+        gsap.fromTo(
+          vimg,
+          { x: d * 110, opacity: 0, scale: 0.92 },
+          {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: "expo.out",
+            onComplete: () => {
+              busy.current = false;
+            },
+          }
+        );
+      },
+    });
+  }, []);
+
   const show = useCallback((i: number) => {
     setOpenIdx(i);
     getLenis()?.stop();
     document.body.style.overflow = "hidden";
     if (isReduced()) return;
     requestAnimationFrame(() => {
-      if (viewerRef.current)
-        gsap.to(viewerRef.current, { opacity: 1, duration: 0.5 });
+      if (viewerRef.current) gsap.to(viewerRef.current, { opacity: 1, duration: 0.5 });
       if (vimgRef.current)
         gsap.fromTo(
           vimgRef.current,
@@ -114,6 +151,7 @@ export default function Gallery() {
   }, []);
 
   const close = useCallback(() => {
+    resetZoom();
     getLenis()?.start();
     document.body.style.overflow = "";
     if (isReduced() || !viewerRef.current) {
@@ -122,48 +160,65 @@ export default function Gallery() {
     }
     if (vimgRef.current)
       gsap.to(vimgRef.current, { scale: 0.9, opacity: 0, duration: 0.45, ease: "power2.in" });
-    gsap.to(viewerRef.current, {
-      opacity: 0,
-      duration: 0.45,
-      onComplete: () => setOpenIdx(null),
-    });
-  }, []);
+    gsap.to(viewerRef.current, { opacity: 0, duration: 0.45, onComplete: () => setOpenIdx(null) });
+  }, [resetZoom]);
 
-  const go = useCallback((d: number) => {
-    if (busy.current) return;
-    setOpenIdx((i) => {
-      if (i === null) return i;
-      const ni = (i + d + GALLERY.length) % GALLERY.length;
-      const vimg = vimgRef.current;
-      if (isReduced() || !vimg) return ni;
-      busy.current = true;
-      gsap.to(vimg, {
-        x: -d * 110,
-        opacity: 0,
-        scale: 0.92,
-        duration: 0.5,
-        ease: "power3.in",
-        onComplete: () => {
-          vimg.src = GALLERY[ni].src;
-          gsap.fromTo(
-            vimg,
-            { x: d * 110, opacity: 0, scale: 0.92 },
-            {
-              x: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 0.75,
-              ease: "expo.out",
-              onComplete: () => {
-                busy.current = false;
-              },
-            }
-          );
-        },
+  const go = useCallback(
+    (d: number) => {
+      if (busy.current) return;
+      setOpenIdx((i) => {
+        if (i === null) return i;
+        const ni = (i + d + GALLERY.length) % GALLERY.length;
+        const vimg = vimgRef.current;
+        resetZoom();
+        if (isReduced() || !vimg) return ni;
+        animateSlide(vimg, ni, d);
+        return ni;
       });
-      return ni;
-    });
-  }, []);
+    },
+    [resetZoom, animateSlide]
+  );
+
+  const jump = useCallback(
+    (target: number) => {
+      if (busy.current) return;
+      setOpenIdx((i) => {
+        if (i === null || i === target) return i;
+        const d = target > i ? 1 : -1;
+        const vimg = vimgRef.current;
+        resetZoom();
+        if (isReduced() || !vimg) return target;
+        animateSlide(vimg, target, d);
+        return target;
+      });
+    },
+    [resetZoom, animateSlide]
+  );
+
+  const toggleZoom = () => {
+    if (isReduced()) return;
+    const v = vimgRef.current;
+    if (!v) return;
+    zoomed.current = !zoomed.current;
+    if (zoomed.current) {
+      v.classList.add("zoomed");
+      gsap.to(v, { scale: 1.9, duration: 0.55, ease: "expo.out" });
+    } else {
+      v.classList.remove("zoomed");
+      v.style.transformOrigin = "center center";
+      gsap.to(v, { scale: 1, duration: 0.45, ease: "power3.out" });
+    }
+  };
+
+  const onImgMove = (e: ReactMouseEvent<HTMLImageElement>) => {
+    if (!zoomed.current) return;
+    const v = vimgRef.current;
+    if (!v) return;
+    const r = v.getBoundingClientRect();
+    const px = ((e.clientX - r.left) / r.width) * 100;
+    const py = ((e.clientY - r.top) / r.height) * 100;
+    v.style.transformOrigin = `${px}% ${py}%`;
+  };
 
   /* keyboard nav while open */
   useEffect(() => {
@@ -282,7 +337,11 @@ export default function Gallery() {
           ref={vimgRef}
           src={current?.src || ""}
           alt={current?.title || ""}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleZoom();
+          }}
+          onMouseMove={onImgMove}
         />
         <div className="vmeta">
           <div className="vnm" id="vnm">
@@ -291,6 +350,22 @@ export default function Gallery() {
           <div className="vfm" id="vfm">
             {current?.sub}
           </div>
+        </div>
+        <div className="vfilm" aria-hidden={!open}>
+          {GALLERY.map((g) => (
+            <button
+              key={g.i}
+              className={openIdx === g.i ? "on" : undefined}
+              tabIndex={open ? 0 : -1}
+              aria-label={g.title}
+              onClick={(e) => {
+                e.stopPropagation();
+                jump(g.i);
+              }}
+            >
+              <img src={g.src} alt="" />
+            </button>
+          ))}
         </div>
       </div>
     </section>

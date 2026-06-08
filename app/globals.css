@@ -1928,3 +1928,273 @@ html.reduced #img4p {
     scroll-behavior: auto !important;
   }
 }
+
+/* =========================================================================
+   ADVANCED ATMOSPHERE & INTERACTION ("berani" pass)
+   Atmosphere/motion only — JS-driven effects are gated off under
+   reduced-motion / touch in MotionRoot; CSS loops calmed by the query above.
+   ========================================================================= */
+
+/* --- film grain + vignette (fixed, non-interactive) --- */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 300;
+  background: radial-gradient(125% 105% at 50% 40%, transparent 52%, rgba(0, 0, 0, 0.34) 88%, rgba(0, 0, 0, 0.5) 100%);
+}
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 301;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    display: none;
+  }
+}
+
+/* --- gold scroll progress (thin, top edge) --- */
+.scrollprog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  box-shadow: 0 0 12px rgba(200, 169, 106, 0.5);
+  z-index: 250;
+  pointer-events: none;
+}
+
+/* --- custom cursor (precise dot + lagging ring); native hidden only when active --- */
+html.cursor-on,
+html.cursor-on body,
+html.cursor-on a,
+html.cursor-on button,
+html.cursor-on .cell,
+html.cursor-on [role="button"] {
+  cursor: none;
+}
+.cur-dot,
+.cur-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  opacity: 0;
+}
+.cur-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--gold2);
+}
+.cur-ring {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 1px solid rgba(226, 200, 140, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--paper);
+  transition: width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo),
+    background 0.4s, border-color 0.4s;
+}
+.cur-ring.hot {
+  width: 58px;
+  height: 58px;
+  border-color: rgba(226, 200, 140, 0.9);
+}
+.cur-ring.label {
+  width: 84px;
+  height: 84px;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.cur-on .cur-dot,
+.cur-on .cur-ring {
+  opacity: 1;
+}
+
+/* --- hero: perspective stage, cursor tilt wrapper, shine sweep --- */
+.hero-media {
+  perspective: 1200px;
+}
+.hero-media-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.hero-shine {
+  position: absolute;
+  inset: -12%;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.12) 50%, transparent 58%);
+  mix-blend-mode: screen;
+  transform: translateX(-130%);
+  animation: heroShine 8s ease-in-out infinite;
+}
+@keyframes heroShine {
+  0%, 58% {
+    transform: translateX(-130%);
+  }
+  86%, 100% {
+    transform: translateX(130%);
+  }
+}
+
+/* --- hero light leaks (drifting streaks over the fluid bg) --- */
+.leak {
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(46px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.leak1 {
+  width: 150%;
+  height: 150px;
+  left: -25%;
+  top: 14%;
+  background: linear-gradient(90deg, transparent, rgba(226, 200, 140, 0.5), transparent);
+  animation: leak1 19s ease-in-out infinite;
+}
+.leak2 {
+  width: 130%;
+  height: 110px;
+  right: -20%;
+  top: 56%;
+  background: linear-gradient(90deg, transparent, rgba(156, 119, 51, 0.6), transparent);
+  animation: leak2 24s ease-in-out infinite;
+}
+@keyframes leak1 {
+  0%, 100% {
+    opacity: 0;
+    transform: rotate(-13deg) translateX(-14%);
+  }
+  40%, 60% {
+    opacity: 0.55;
+  }
+  50% {
+    transform: rotate(-13deg) translateX(12%);
+  }
+}
+@keyframes leak2 {
+  0%, 100% {
+    opacity: 0;
+    transform: rotate(9deg) translateX(12%);
+  }
+  45%, 65% {
+    opacity: 0.5;
+  }
+  55% {
+    transform: rotate(9deg) translateX(-12%);
+  }
+}
+
+/* --- nav link letter-roll on hover --- */
+header nav a.lnk .roll {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.05;
+}
+header nav a.lnk .roll span {
+  display: block;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+header nav a.lnk .roll span:last-child {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--gold);
+}
+html.cursor-on header nav a.lnk:hover .roll span,
+header nav a.lnk:hover .roll span {
+  transform: translateY(-100%);
+}
+
+/* --- gallery: cinematic hover depth --- */
+.cell {
+  transition: transform 0.55s var(--ease-out-expo), box-shadow 0.55s var(--ease-out-expo);
+}
+.cell:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 44px 76px -30px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+/* --- lightbox: filmstrip + zoom --- */
+.vmeta {
+  bottom: 14vh;
+}
+.vfilm {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4.5vh;
+  z-index: 6;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 18px;
+}
+.vfilm button {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  opacity: 0.45;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.3s, border-color 0.3s, transform 0.3s;
+}
+.vfilm button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.vfilm button.on {
+  opacity: 1;
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+.vfilm button:hover {
+  opacity: 0.85;
+}
+.vimg {
+  cursor: zoom-in;
+}
+.vimg.zoomed {
+  cursor: zoom-out;
+}
+@media (max-width: 680px) {
+  .vfilm {
+    display: none;
+  }
+  .vmeta {
+    bottom: 6vh;
+  }
+}

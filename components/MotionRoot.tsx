@@ -203,8 +203,14 @@ export default function MotionRoot() {
       /* ---- gold ribbon ---- */
       ribbon(lenis);
 
-      /* ---- custom cursor (pointer devices only) ---- */
-      if (!touch) cursor();
+      /* ---- advanced interaction & atmosphere layer ---- */
+      scrollProgress();
+      dividerReveal();
+      if (!touch) {
+        cursor();
+        magnetic();
+        heroTilt();
+      }
 
       /* Split H1 now (words sit masked below) so the curtain lift reveals a
          clean line with no text flash; runHero animates them up afterwards. */
@@ -370,48 +376,151 @@ export default function MotionRoot() {
         });
       }
 
-      /* ===== cursor ===== */
+      /* ===== cursor (precise dot + lagging ring) ===== */
       function cursor() {
-        const c = document.getElementById("cur");
-        if (!c) return;
-        const qx = gsap.quickTo(c, "x", { duration: 0.5, ease: "power3" });
-        const qy = gsap.quickTo(c, "y", { duration: 0.5, ease: "power3" });
+        const dot = document.getElementById("curDot");
+        const ring = document.getElementById("curRing");
+        if (!dot || !ring) return;
+        document.documentElement.classList.add("cursor-on", "cur-on");
+        const dx = gsap.quickTo(dot, "x", { duration: 0.12, ease: "power3" });
+        const dy = gsap.quickTo(dot, "y", { duration: 0.12, ease: "power3" });
+        const rx = gsap.quickTo(ring, "x", { duration: 0.5, ease: "power3" });
+        const ry = gsap.quickTo(ring, "y", { duration: 0.5, ease: "power3" });
         const move = (e: MouseEvent) => {
-          qx(e.clientX);
-          qy(e.clientY);
+          dx(e.clientX);
+          dy(e.clientY);
+          rx(e.clientX);
+          ry(e.clientY);
         };
         window.addEventListener("mousemove", move);
-        cleanups.push(() => window.removeEventListener("mousemove", move));
-        const hoverEls = document.querySelectorAll<HTMLElement>("a,button,.cell,.qrow .q");
-        const enter = () => c.classList.add("show");
-        const leave = () => {
-          c.classList.remove("show");
-          c.textContent = "";
-        };
-        hoverEls.forEach((el) => {
-          el.addEventListener("mouseenter", enter);
-          el.addEventListener("mouseleave", leave);
+        cleanups.push(() => {
+          window.removeEventListener("mousemove", move);
+          document.documentElement.classList.remove("cursor-on", "cur-on");
         });
+        const hot = document.querySelectorAll<HTMLElement>('a,button,[role="button"],.qrow .q');
+        const hEnter = () => ring.classList.add("hot");
+        const hLeave = () => ring.classList.remove("hot");
         const cells = document.querySelectorAll<HTMLElement>(".cell");
-        const cellEnter = () => {
-          c.textContent = "Lihat";
+        const cEnter = () => {
+          ring.classList.add("label");
+          ring.textContent = "Lihat";
         };
-        const cellLeave = () => {
-          c.textContent = "";
+        const cLeave = () => {
+          ring.classList.remove("label");
+          ring.textContent = "";
         };
+        hot.forEach((el) => {
+          el.addEventListener("mouseenter", hEnter);
+          el.addEventListener("mouseleave", hLeave);
+        });
         cells.forEach((el) => {
-          el.addEventListener("mouseenter", cellEnter);
-          el.addEventListener("mouseleave", cellLeave);
+          el.addEventListener("mouseenter", cEnter);
+          el.addEventListener("mouseleave", cLeave);
         });
         cleanups.push(() => {
-          hoverEls.forEach((el) => {
-            el.removeEventListener("mouseenter", enter);
-            el.removeEventListener("mouseleave", leave);
+          hot.forEach((el) => {
+            el.removeEventListener("mouseenter", hEnter);
+            el.removeEventListener("mouseleave", hLeave);
           });
           cells.forEach((el) => {
-            el.removeEventListener("mouseenter", cellEnter);
-            el.removeEventListener("mouseleave", cellLeave);
+            el.removeEventListener("mouseenter", cEnter);
+            el.removeEventListener("mouseleave", cLeave);
           });
+        });
+      }
+
+      /* ===== magnetic buttons / nav / filter tabs ===== */
+      function magnetic() {
+        const els = document.querySelectorAll<HTMLElement>(
+          ".btn, header nav a.lnk, .gtabs button"
+        );
+        const reg: Array<[HTMLElement, EventListener, EventListener]> = [];
+        els.forEach((el) => {
+          const qx = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
+          const qy = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
+          const strength = 0.35;
+          const move = ((e: MouseEvent) => {
+            const r = el.getBoundingClientRect();
+            qx((e.clientX - (r.left + r.width / 2)) * strength);
+            qy((e.clientY - (r.top + r.height / 2)) * strength);
+          }) as EventListener;
+          const leave = (() => {
+            qx(0);
+            qy(0);
+          }) as EventListener;
+          el.addEventListener("mousemove", move);
+          el.addEventListener("mouseleave", leave);
+          reg.push([el, move, leave]);
+        });
+        cleanups.push(() =>
+          reg.forEach(([el, m, l]) => {
+            el.removeEventListener("mousemove", m);
+            el.removeEventListener("mouseleave", l);
+          })
+        );
+      }
+
+      /* ===== hero 3D tilt + light parallax toward the cursor ===== */
+      function heroTilt() {
+        const hero = document.querySelector<HTMLElement>(".hero");
+        const inner = document.getElementById("heroMediaInner");
+        const fluid = document.getElementById("heroFluid");
+        const bg = document.getElementById("bgword");
+        if (!hero || !inner) return;
+        const ry = gsap.quickTo(inner, "rotationY", { duration: 0.6, ease: "power3" });
+        const rx = gsap.quickTo(inner, "rotationX", { duration: 0.6, ease: "power3" });
+        const fx = fluid ? gsap.quickTo(fluid, "x", { duration: 0.8, ease: "power3" }) : null;
+        const fy = fluid ? gsap.quickTo(fluid, "y", { duration: 0.8, ease: "power3" }) : null;
+        const bx = bg ? gsap.quickTo(bg, "x", { duration: 0.9, ease: "power3" }) : null;
+        const move = (e: MouseEvent) => {
+          const r = hero.getBoundingClientRect();
+          const nx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          const ny = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          ry(nx * 7);
+          rx(-ny * 6);
+          if (fx) fx(nx * 26);
+          if (fy) fy(ny * 18);
+          if (bx) bx(nx * -22);
+        };
+        const leave = () => {
+          ry(0);
+          rx(0);
+          if (fx) fx(0);
+          if (fy) fy(0);
+          if (bx) bx(0);
+        };
+        hero.addEventListener("mousemove", move);
+        hero.addEventListener("mouseleave", leave);
+        cleanups.push(() => {
+          hero.removeEventListener("mousemove", move);
+          hero.removeEventListener("mouseleave", leave);
+        });
+      }
+
+      /* ===== gold scroll-progress bar ===== */
+      function scrollProgress() {
+        const bar = document.getElementById("scrollprog");
+        if (!bar) return;
+        gsap.to(bar, {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 },
+        });
+      }
+
+      /* ===== dividers draw from center on scroll-in ===== */
+      function dividerReveal() {
+        gsap.utils.toArray<HTMLElement>(".divider").forEach((d) => {
+          gsap.fromTo(
+            d,
+            { scaleX: 0, transformOrigin: "50% 50%" },
+            {
+              scaleX: 1,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: { trigger: d, start: "top 92%" },
+            }
+          );
         });
       }
 
@@ -511,5 +620,10 @@ export default function MotionRoot() {
     };
   }, []);
 
-  return <div className="cur" id="cur" aria-hidden />;
+  return (
+    <>
+      <div className="cur-ring" id="curRing" aria-hidden />
+      <div className="cur-dot" id="curDot" aria-hidden />
+    </>
+  );
 }

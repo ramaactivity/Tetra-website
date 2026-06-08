@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import { waLink } from "@/lib/site";
 
+const NAV = [
+  { id: "#galeri", label: "Galeri" },
+  { id: "#format", label: "Format" },
+  { id: "#cara", label: "Cara Kerja" },
+];
+
 // Fixed frosted header. Phase 1: simple scroll listener toggles `.solid` after 40px.
 // Phase 2 will drive this off Lenis' scroll + add smooth-scroll on nav links.
 export default function Header() {
@@ -23,15 +29,14 @@ export default function Header() {
           <img src="/images/word-white.png" alt="tetra photobooth" />
         </a>
         <nav>
-          <a className="lnk" href="#galeri" data-scroll="#galeri">
-            Galeri
-          </a>
-          <a className="lnk" href="#format" data-scroll="#format">
-            Format
-          </a>
-          <a className="lnk" href="#cara" data-scroll="#cara">
-            Cara Kerja
-          </a>
+          {NAV.map((n) => (
+            <a key={n.id} className="lnk" href={n.id} data-scroll={n.id}>
+              <span className="roll">
+                <span>{n.label}</span>
+                <span aria-hidden>{n.label}</span>
+              </span>
+            </a>
+          ))}
           <a className="btn fill" href={waLink()} target="_blank" rel="noopener noreferrer">
             Chat Admin
           </a>

@@ -1,12 +1,14 @@
-// Hero fluid background — 4 large blurred radial blobs.
-// Phase 1: rendered static (breathing animation paused via globals.css override).
+// Hero fluid background — 4 breathing radial blobs + 2 drifting light-leak
+// streaks for a living, cinematic atmosphere. MotionRoot adds cursor parallax.
 export default function FluidBg() {
   return (
-    <div className="hero-fluid" aria-hidden>
+    <div className="hero-fluid" id="heroFluid" aria-hidden>
       <b className="bl1" />
       <b className="bl2" />
       <b className="bl3" />
       <b className="bl4" />
+      <span className="leak leak1" />
+      <span className="leak leak2" />
     </div>
   );
 }
