@@ -312,6 +312,31 @@ export default function MotionRoot() {
         };
         setOri(0);
 
+        // One-shot light sweep across a group's photo(s). Runs as its own
+        // real-time tween (not part of the scrubbed timeline) so it glides
+        // smoothly when an act appears / changes size, regardless of scroll speed.
+        let sweepLock = 0;
+        const sweepGroup = (group: HTMLElement | null) => {
+          if (!group) return;
+          const now = performance.now();
+          if (now - sweepLock < 280) return; // de-dupe rapid scrub crossings
+          sweepLock = now;
+          const sheens = group.querySelectorAll<HTMLElement>(".fsheen");
+          sheens.forEach((sh) =>
+            gsap.fromTo(
+              sh,
+              { xPercent: -150, opacity: 0 },
+              {
+                xPercent: 150,
+                opacity: 1,
+                duration: 0.95,
+                ease: "power2.inOut",
+                onComplete: () => gsap.set(sh, { opacity: 0 }),
+              }
+            )
+          );
+        };
+
         gsap.set(seam, { scaleY: 0, opacity: 1 });
         gsap.set(perf, { scaleY: 0, opacity: 1 });
         gsap.set([s2, sp, c2, cp], { opacity: 0 });
@@ -324,7 +349,8 @@ export default function MotionRoot() {
 
         const tl = gsap.timeline();
         const flip = { a: 0 };
-        tl.to({}, { duration: 0.5 })
+        tl.call(() => sweepGroup(s4), undefined, 0.15)
+          .to({}, { duration: 0.5 })
           .to(flip, {
             a: 1,
             duration: 1.5,
@@ -348,6 +374,7 @@ export default function MotionRoot() {
           .to(s4, { rotationY: 90, scale: 0.82, opacity: 0, duration: 0.7, ease: "power2.in" })
           .to(c4, { opacity: 0, duration: 0.45 }, "<")
           .to(s2, { rotationY: 0, scale: 1, opacity: 1, duration: 0.85, ease: "power3.out" }, "-=.4")
+          .call(() => sweepGroup(s2), undefined, "<+0.35")
           .to(c2, { opacity: 1, duration: 0.5 }, "<")
           .to(seam, { scaleY: 1, duration: 0.6, ease: "none" })
           .addLabel("cut")
@@ -358,6 +385,7 @@ export default function MotionRoot() {
           .to(s2, { rotationY: 90, scale: 0.82, opacity: 0, duration: 0.7, ease: "power2.in" })
           .to(c2, { opacity: 0, duration: 0.45 }, "<")
           .to(sp, { rotationY: 0, scale: 1, opacity: 1, duration: 0.85, ease: "power3.out" }, "-=.4")
+          .call(() => sweepGroup(sp), undefined, "<+0.35")
           .to(cp, { opacity: 1, duration: 0.5 }, "<")
           .to(perf, { scaleY: 1, duration: 0.55, ease: "none" })
           .addLabel("tear")

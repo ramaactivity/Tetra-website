@@ -344,6 +344,26 @@ header.solid {
   align-items: center;
   padding: 116px 0 64px;
   overflow: hidden;
+  position: relative;
+}
+/* Bottom dissolve — melts the hero atmosphere into the paper of the next
+   section so the hero→manifesto seam reads as one continuous surface instead
+   of a hard cut. */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 30vh;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(21, 18, 14, 0) 0%,
+    rgba(21, 18, 14, 0.55) 55%,
+    var(--paper) 100%
+  );
 }
 .hero .wrap {
   display: grid;
@@ -1802,8 +1822,16 @@ footer .brand .fine {
 }
 .viewer.open {
   pointer-events: auto;
+  background: rgba(14, 11, 8, 0.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+/* While the lightbox is open, retire the fixed header so the close button and
+   counter never collide with (or peek under) the nav. */
+body.lb-open header {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 /* Reduced motion / no-JS: GSAP won't fade the viewer in, so show it directly */
 html.reduced .viewer.open {
@@ -2040,23 +2068,68 @@ html.cursor-on [role="button"] {
   transform-style: preserve-3d;
   will-change: transform;
 }
-.hero-shine {
+/* --- hero gradient loop (seamless drifting gold sheen, replaces the old sweep) ---
+   A moving background-position on an over-sized linear gradient. Because both
+   ends of the gradient are transparent and it loops a whole tile, there is no
+   hard edge and no visible seam — it just breathes forever. */
+.hero-grad {
   position: absolute;
-  inset: -12%;
-  z-index: 6;
+  inset: -25%;
+  z-index: 1;
   pointer-events: none;
-  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.12) 50%, transparent 58%);
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(226, 200, 140, 0) 30%,
+    rgba(226, 200, 140, 0.1) 47%,
+    rgba(255, 255, 255, 0.07) 52%,
+    rgba(200, 169, 106, 0.09) 57%,
+    transparent 74%,
+    transparent 100%
+  );
+  background-size: 240% 240%;
   mix-blend-mode: screen;
-  transform: translateX(-130%);
-  animation: heroShine 8s ease-in-out infinite;
+  filter: blur(6px);
+  /* ping-pong drift — eases out to each end and back, so the loop is
+     inherently seamless (no keyframe-restart jump). */
+  animation: heroGrad 18s ease-in-out infinite alternate;
 }
-@keyframes heroShine {
-  0%, 58% {
-    transform: translateX(-130%);
+@keyframes heroGrad {
+  0% {
+    background-position: 8% 30%;
   }
-  86%, 100% {
-    transform: translateX(130%);
+  100% {
+    background-position: 92% 70%;
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grad {
+    animation: none;
+  }
+}
+
+/* --- FORMAT frame light sweep (sweeps the photo on appear / size change) --- */
+.frame4,
+.pair .half {
+  position: relative;
+  overflow: hidden;
+}
+.fsheen {
+  position: absolute;
+  inset: -2px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.28) 47%,
+    rgba(255, 255, 255, 0.72) 50%,
+    rgba(255, 255, 255, 0.28) 53%,
+    transparent 64%
+  );
+  mix-blend-mode: overlay;
+  transform: translateX(-150%);
+  opacity: 0;
 }
 
 /* --- hero light leaks (drifting streaks over the fluid bg) --- */

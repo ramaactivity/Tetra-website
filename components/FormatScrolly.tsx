@@ -19,6 +19,7 @@ export default function FormatScrolly() {
               <div className="frame4" id="frame4">
                 <img id="img4l" src="/images/g-corp1.jpg" alt="" />
                 <img id="img4p" src="/images/g-bday1.jpg" alt="" />
+                <span className="fsheen" aria-hidden />
               </div>
             </div>
           </div>
@@ -28,9 +29,11 @@ export default function FormatScrolly() {
             <div className="pair">
               <div className="half left">
                 <img src="/images/g-strip2.jpg" alt="" />
+                <span className="fsheen" aria-hidden />
               </div>
               <div className="half right">
                 <img src="/images/g-strip2.jpg" alt="" />
+                <span className="fsheen" aria-hidden />
               </div>
               <div className="seam" />
             </div>
@@ -41,9 +44,11 @@ export default function FormatScrolly() {
             <div className="pair">
               <div className="half left">
                 <img src="/images/g-wed1.jpg" alt="" />
+                <span className="fsheen" aria-hidden />
               </div>
               <div className="half right">
                 <img src="/images/g-wed1.jpg" alt="" />
+                <span className="fsheen" aria-hidden />
               </div>
               <div className="perf" />
             </div>

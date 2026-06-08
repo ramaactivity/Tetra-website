@@ -9,6 +9,9 @@ export default function FluidBg() {
       <b className="bl4" />
       <span className="leak leak1" />
       <span className="leak leak2" />
+      {/* Seamless gold gradient loop — drifts forever, never clips (it's a moving
+          background, so there are no hard top/bottom edges to cut off). */}
+      <span className="hero-grad" />
     </div>
   );
 }

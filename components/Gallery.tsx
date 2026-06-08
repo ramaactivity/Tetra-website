@@ -141,6 +141,7 @@ export default function Gallery() {
     setOpenIdx(i);
     getLenis()?.stop();
     document.body.style.overflow = "hidden";
+    document.body.classList.add("lb-open");
     if (isReduced()) return;
     requestAnimationFrame(() => {
       if (viewerRef.current) gsap.to(viewerRef.current, { opacity: 1, duration: 0.5 });
@@ -157,6 +158,7 @@ export default function Gallery() {
     resetZoom();
     getLenis()?.start();
     document.body.style.overflow = "";
+    document.body.classList.remove("lb-open");
     if (isReduced() || !viewerRef.current) {
       setOpenIdx(null);
       return;

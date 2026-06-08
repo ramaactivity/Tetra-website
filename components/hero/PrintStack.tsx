@@ -20,7 +20,6 @@ export default function PrintStack() {
             <img src={s.src} alt="" />
           </div>
         ))}
-        <span className="hero-shine" aria-hidden />
       </div>
     </div>
   );
