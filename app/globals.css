@@ -1791,8 +1791,11 @@ footer .brand .fine {
   inset: 0;
   z-index: 500;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(16px, 2.6vh, 28px);
+  padding: 88px 5vw 3.5vh;
   opacity: 0;
   pointer-events: none;
   background: rgba(28, 22, 16, 0);
@@ -1808,8 +1811,8 @@ html.reduced .viewer.open {
   background: rgba(28, 22, 16, 0.96);
 }
 .vimg {
-  max-height: 80vh;
-  max-width: 82vw;
+  max-height: 62vh;
+  max-width: 86vw;
   border-radius: 5px;
   box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.6);
   will-change: transform, opacity;
@@ -1817,10 +1820,7 @@ html.reduced .viewer.open {
   z-index: 2;
 }
 .vmeta {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 5vh;
+  position: static;
   text-align: center;
   pointer-events: none;
   z-index: 4;
@@ -2143,28 +2143,33 @@ header nav a.lnk:hover .roll span {
 }
 
 /* --- lightbox: filmstrip + zoom --- */
-.vmeta {
-  bottom: 14vh;
-}
 .vfilm {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4.5vh;
   z-index: 6;
   display: flex;
   gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 0 18px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  max-width: min(92vw, 760px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 9px 12px;
+  background: rgba(20, 16, 12, 0.5);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.vfilm::-webkit-scrollbar {
+  display: none;
 }
 .vfilm button {
-  width: 44px;
-  height: 44px;
-  border-radius: 4px;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
   overflow: hidden;
   border: 1px solid transparent;
-  opacity: 0.45;
+  opacity: 0.5;
   padding: 0;
   background: none;
   cursor: pointer;
@@ -2182,7 +2187,7 @@ header nav a.lnk:hover .roll span {
   transform: translateY(-3px);
 }
 .vfilm button:hover {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 .vimg {
   cursor: zoom-in;
@@ -2194,7 +2199,7 @@ header nav a.lnk:hover .roll span {
   .vfilm {
     display: none;
   }
-  .vmeta {
-    bottom: 6vh;
+  .vimg {
+    max-height: 70vh;
   }
 }

@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
 import { GALLERY, GALLERY_TABS } from "@/lib/gallery";
@@ -12,6 +13,8 @@ const isReduced = () =>
 export default function Gallery() {
   const [cat, setCat] = useState<string>("all");
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const gridRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
   const viewerRef = useRef<HTMLDivElement>(null);
@@ -232,7 +235,7 @@ export default function Gallery() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close, go]);
 
-  return (
+  const galleryView = (
     <section className="gal" id="galeri">
       <div className="wrap">
         <div className="ghead">
@@ -292,82 +295,93 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox viewer */}
+    </section>
+  );
+
+  // Lightbox is portaled to <body> so it escapes the section's stacking
+  // context and covers the fixed header (close button + counter stay clickable).
+  const viewer = (
+    <div
+      className={`viewer${open ? " open" : ""}`}
+      id="viewer"
+      ref={viewerRef}
+      aria-hidden={!open}
+      onClick={close}
+    >
+      <div className="vcount" id="vcount">
+        {counter}
+      </div>
       <div
-        className={`viewer${open ? " open" : ""}`}
-        id="viewer"
-        ref={viewerRef}
-        aria-hidden={!open}
-        onClick={close}
+        className="vclose"
+        id="vclose"
+        role="button"
+        tabIndex={open ? 0 : -1}
+        onClick={(e) => {
+          e.stopPropagation();
+          close();
+        }}
       >
-        <div className="vcount" id="vcount">
-          {counter}
+        Tutup ✕
+      </div>
+      <div
+        className="vnav prev"
+        id="vprev"
+        onClick={(e) => {
+          e.stopPropagation();
+          go(-1);
+        }}
+      />
+      <div
+        className="vnav next"
+        id="vnext"
+        onClick={(e) => {
+          e.stopPropagation();
+          go(1);
+        }}
+      />
+      <img
+        className="vimg"
+        id="vimg"
+        ref={vimgRef}
+        src={current?.src || ""}
+        alt={current?.title || ""}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleZoom();
+        }}
+        onMouseMove={onImgMove}
+      />
+      <div className="vmeta">
+        <div className="vnm" id="vnm">
+          {current?.title}
         </div>
-        <div
-          className="vclose"
-          id="vclose"
-          role="button"
-          tabIndex={open ? 0 : -1}
-          onClick={(e) => {
-            e.stopPropagation();
-            close();
-          }}
-        >
-          Tutup ✕
-        </div>
-        <div
-          className="vnav prev"
-          id="vprev"
-          onClick={(e) => {
-            e.stopPropagation();
-            go(-1);
-          }}
-        />
-        <div
-          className="vnav next"
-          id="vnext"
-          onClick={(e) => {
-            e.stopPropagation();
-            go(1);
-          }}
-        />
-        <img
-          className="vimg"
-          id="vimg"
-          ref={vimgRef}
-          src={current?.src || ""}
-          alt={current?.title || ""}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleZoom();
-          }}
-          onMouseMove={onImgMove}
-        />
-        <div className="vmeta">
-          <div className="vnm" id="vnm">
-            {current?.title}
-          </div>
-          <div className="vfm" id="vfm">
-            {current?.sub}
-          </div>
-        </div>
-        <div className="vfilm" aria-hidden={!open}>
-          {GALLERY.map((g) => (
-            <button
-              key={g.i}
-              className={openIdx === g.i ? "on" : undefined}
-              tabIndex={open ? 0 : -1}
-              aria-label={g.title}
-              onClick={(e) => {
-                e.stopPropagation();
-                jump(g.i);
-              }}
-            >
-              <img src={g.src} alt="" />
-            </button>
-          ))}
+        <div className="vfm" id="vfm">
+          {current?.sub}
         </div>
       </div>
-    </section>
+      <div className="vfilm" aria-hidden={!open}>
+        {GALLERY.map((g) => (
+          <button
+            key={g.i}
+            className={openIdx === g.i ? "on" : undefined}
+            tabIndex={open ? 0 : -1}
+            aria-label={g.title}
+            onClick={(e) => {
+              e.stopPropagation();
+              jump(g.i);
+            }}
+          >
+            <img src={g.src} alt="" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {galleryView}
+      {mounted && createPortal(viewer, document.body)}
+    </>
   );
 }
