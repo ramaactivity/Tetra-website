@@ -244,6 +244,8 @@ export default function MotionRoot() {
       const ll = document.getElementById("ll");
       if (loaderEl && ll) {
         const ch = splitChars(ll);
+        const pctEl = document.getElementById("ldpct");
+        const counter = { v: 0 };
         gsap
           .timeline({
             onComplete: () => {
@@ -251,11 +253,51 @@ export default function MotionRoot() {
               runHero();
             },
           })
-          .to("#loader img", { opacity: 1, duration: 0.6 })
-          .to(ch, { y: 0, duration: 0.7, stagger: 0.012, ease: "power3.out" }, "-=.2")
-          .to(["#loader img", "#ll"], { opacity: 0, duration: 0.4 }, "+=.5")
+          // viewfinder corners settle in
+          .fromTo(
+            ".ld-corner",
+            { opacity: 0, scale: 1.18 },
+            { opacity: 1, scale: 1, duration: 0.5, stagger: 0.05, ease: "power2.out" },
+            0
+          )
+          // wordmark "develops" — clip wipes open top→bottom
+          .to("#ldmark", { clipPath: "inset(0 0 0% 0)", duration: 0.85, ease: "power3.inOut" }, 0.12)
+          // a single gold sheen sweeps across the freshly-revealed mark
+          .fromTo(
+            "#ldsheen",
+            { xPercent: -130, opacity: 0 },
+            {
+              xPercent: 130,
+              opacity: 1,
+              duration: 0.85,
+              ease: "power2.inOut",
+              onComplete: () => gsap.set("#ldsheen", { opacity: 0 }),
+            },
+            0.62
+          )
+          // tagline characters rise into view
+          .to(ch, { y: 0, duration: 0.65, stagger: 0.011, ease: "power3.out" }, 0.5)
+          // loading hairline fills + counter ticks to 100
+          .to("#ldfill", { scaleX: 1, duration: 1.2, ease: "power1.inOut" }, 0.2)
+          .to(
+            counter,
+            {
+              v: 100,
+              duration: 1.2,
+              ease: "power1.inOut",
+              onUpdate: () => {
+                if (pctEl) pctEl.textContent = String(Math.round(counter.v));
+              },
+            },
+            0.2
+          )
+          .to({}, { duration: 0.22 })
+          // composition lifts away, corners fade
+          .to(".ld-inner", { y: -22, opacity: 0, duration: 0.55, ease: "power2.in" })
+          .to(".ld-corner", { opacity: 0, duration: 0.4 }, "<")
           .set("#loader", { display: "none" })
-          .to("#curtain", { yPercent: -100, duration: 1, ease: "expo.inOut" })
+          // curtain lifts to reveal the page (gold edge-line riding its bottom)
+          .to("#curtain", { yPercent: -100, duration: 1.05, ease: "expo.inOut" }, "-=.1")
           .set("#curtain", { display: "none" });
       } else {
         runHero();
