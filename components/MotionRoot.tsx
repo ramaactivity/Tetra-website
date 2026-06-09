@@ -565,7 +565,7 @@ export default function MotionRoot() {
         const hot = document.querySelectorAll<HTMLElement>('a,button,[role="button"],.qrow .q');
         const hEnter = () => ring.classList.add("hot");
         const hLeave = () => ring.classList.remove("hot");
-        const cells = document.querySelectorAll<HTMLElement>(".cell");
+        const cells = document.querySelectorAll<HTMLElement>(".cell, .gitem");
         const cEnter = () => {
           ring.classList.add("label");
           ring.textContent = "Lihat";

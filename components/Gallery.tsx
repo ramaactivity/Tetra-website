@@ -3,100 +3,28 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { createPortal } from "react-dom";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
-import { GALLERY, GALLERY_TABS } from "@/lib/gallery";
+import { GALLERY } from "@/lib/gallery";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
 
+// Two marquee rows (top scrolls right→left, bottom left→right). Splitting the
+// set keeps each row varied (mixed print shapes) and shows more work at a glance.
+const ROW_A = GALLERY.slice(0, 5);
+const ROW_B = GALLERY.slice(5);
+
 export default function Gallery() {
-  const [cat, setCat] = useState<string>("all");
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
   const viewerRef = useRef<HTMLDivElement>(null);
-  // Two stacked image layers crossfade-slide between photos so navigation is
-  // seamless (no src-swap flash, no dimension jump on a single element).
   const layerA = useRef<HTMLImageElement>(null);
   const layerB = useRef<HTMLImageElement>(null);
   const activeIsA = useRef(true);
-  const firstFilter = useRef(true);
   const busy = useRef(false);
   const zoomed = useRef(false);
-
-  /* Lock grid min-height (measured with all cells) so filtering never changes
-     page height — keeps the ribbon geometry stable. */
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-    const lock = () => {
-      grid.style.minHeight = "";
-      grid.style.minHeight = `${grid.offsetHeight}px`;
-    };
-    lock();
-    let t: ReturnType<typeof setTimeout>;
-    const onResize = () => {
-      clearTimeout(t);
-      t = setTimeout(lock, 260);
-    };
-    window.addEventListener("resize", onResize);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-
-  /* Staggered entrance for cells as the gallery scrolls into view. */
-  useEffect(() => {
-    if (isReduced()) return;
-    const cells = cellRefs.current.filter(Boolean) as HTMLDivElement[];
-    if (!cells.length) return;
-    gsap.set(cells, { opacity: 0, y: 22 });
-    const batch = ScrollTrigger.batch(cells, {
-      start: "top 92%",
-      onEnter: (els) =>
-        gsap.to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.06, ease: "power3.out" }),
-    });
-    return () => batch.forEach((st) => st.kill());
-  }, []);
-
-  /* Filter transition (skips the initial render so it doesn't fight entrance). */
-  useEffect(() => {
-    const cells = cellRefs.current;
-    const reduced = isReduced();
-    GALLERY.forEach((g) => {
-      const el = cells[g.i];
-      if (!el) return;
-      const show = cat === "all" || g.cat === cat;
-      if (firstFilter.current || reduced) {
-        el.style.display = show ? "" : "none";
-        return;
-      }
-      if (show) {
-        el.style.display = "";
-        gsap.fromTo(
-          el,
-          { opacity: 0, scale: 0.92 },
-          { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
-        );
-      } else {
-        gsap.to(el, {
-          opacity: 0,
-          scale: 0.92,
-          duration: 0.3,
-          ease: "power2.in",
-          onComplete: () => {
-            el.style.display = "none";
-          },
-        });
-      }
-    });
-    firstFilter.current = false;
-    ScrollTrigger.refresh();
-  }, [cat]);
 
   const open = openIdx !== null;
   const current = openIdx !== null ? GALLERY[openIdx] : null;
@@ -125,9 +53,6 @@ export default function Gallery() {
   const slideDist = () =>
     Math.min(180, (typeof window !== "undefined" ? window.innerWidth : 1200) * 0.11);
 
-  // Crossfade-slide: the incoming photo (preloaded into the back layer) slides
-  // in from the travel direction while the current one slides out — both at once,
-  // so the change reads as one continuous motion with no flash or jump.
   const animateSlide = useCallback(
     (target: number, d: number) => {
       const front = activeImg();
@@ -266,71 +191,55 @@ export default function Gallery() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close, go]);
 
+  const renderRow = (items: typeof GALLERY, reverse: boolean) => (
+    <div className={`gmarq${reverse ? " rev" : ""}`}>
+      <div className="gmarq-track">
+        {[0, 1].map((dup) => (
+          <div className="gmarq-group" key={dup} aria-hidden={dup === 1 || undefined}>
+            {items.map((g) => (
+              <button
+                className="gitem"
+                key={`${dup}-${g.i}`}
+                type="button"
+                tabIndex={dup === 1 ? -1 : 0}
+                aria-label={`Lihat ${g.title} — ${g.sub}`}
+                onClick={() => show(g.i)}
+              >
+                <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
+                <span className="gitem-cap">
+                  <b>{g.title}</b>
+                  <i>{g.sub}</i>
+                </span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   const galleryView = (
     <section className="gal" id="galeri">
-      <div className="wrap">
-        <div className="ghead">
-          <div className="eyebrow" data-rv>
-            Galeri Karya
-          </div>
-          <h2 className="sec-title" data-rv style={{ marginTop: 16 }}>
-            Hasil yang <span className="it">dibawa pulang</span> tamu.
-          </h2>
-          <p className="lead" data-rv>
-            Pilih jenis acaramu. Tiap cetakan ini benar-benar keluar dari booth
-            kami, bukan stok foto.
-          </p>
+      <div className="wrap ghead">
+        <div className="eyebrow" data-rv>
+          Galeri Karya
         </div>
-
-        <div className="gtabs" data-rv id="gtabs" role="tablist" aria-label="Filter galeri">
-          {GALLERY_TABS.map((t) => (
-            <button
-              key={t.cat}
-              role="tab"
-              aria-selected={cat === t.cat}
-              className={cat === t.cat ? "on" : undefined}
-              onClick={() => setCat(t.cat)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="ggrid" id="ggrid" ref={gridRef}>
-          {GALLERY.map((g) => (
-            <div
-              key={g.i}
-              className="cell"
-              data-cat={g.cat}
-              role="button"
-              tabIndex={0}
-              aria-label={`Lihat ${g.title} — ${g.sub}`}
-              ref={(node) => {
-                cellRefs.current[g.i] = node;
-              }}
-              onClick={() => show(g.i)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  show(g.i);
-                }
-              }}
-            >
-              <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
-              <div className="cap">
-                <div className="t">{g.title}</div>
-                <div className="s">{g.sub}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2 className="sec-title gal-title" data-rv>
+          Hasil yang <span className="it">dibawa pulang</span> tamu.
+        </h2>
+        <p className="lead gal-lead" data-rv>
+          Tiap cetakan ini benar-benar keluar dari booth kami, bukan stok foto.
+        </p>
       </div>
 
+      <div className="gmarqs" data-rv>
+        {renderRow(ROW_A, false)}
+        {renderRow(ROW_B, true)}
+      </div>
     </section>
   );
 
-  // Lightbox is portaled to <body> so it escapes the section's stacking
-  // context and covers the fixed header (close button + counter stay clickable).
+  // Lightbox is portaled to <body> so it escapes the section's stacking context.
   const viewer = (
     <div
       className={`viewer${open ? " open" : ""}`}
