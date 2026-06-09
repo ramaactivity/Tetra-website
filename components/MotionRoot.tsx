@@ -479,17 +479,23 @@ export default function MotionRoot() {
         const cards = Array.from(deck.querySelectorAll<HTMLElement>(".rcard"));
         if (cards.length < 2) return;
 
+        // Each card lands at a slight, fixed tilt so the stack looks scattered
+        // (rotation folded into the GSAP transform so it doesn't fight the slide).
+        const tilt = [-2.6, 2.2, -1.7, 2.8];
+        const rot = (i: number) => tilt[i % tilt.length];
+
         // First card rests in place; the rest wait below their slot.
-        gsap.set(cards, { yPercent: 135, opacity: 0 });
-        gsap.set(cards[0], { yPercent: 0, opacity: 1 });
+        cards.forEach((c, i) => gsap.set(c, { yPercent: 135, opacity: 0, rotation: rot(i) }));
+        gsap.set(cards[0], { yPercent: 0, opacity: 1, rotation: rot(0) });
 
         const tl = gsap.timeline();
         tl.to({}, { duration: 0.45 }); // hold on the first card
         for (let i = 1; i < cards.length; i++) {
-          tl.to(cards[i], { yPercent: 0, opacity: 1, duration: 0.7, ease: "power3.out" }).to(
-            {},
-            { duration: 0.5 }
-          ); // hold after each lands
+          tl.fromTo(
+            cards[i],
+            { yPercent: 135, opacity: 0, rotation: rot(i) + (rot(i) > 0 ? 4 : -4) },
+            { yPercent: 0, opacity: 1, rotation: rot(i), duration: 0.7, ease: "power3.out" }
+          ).to({}, { duration: 0.5 }); // hold after each lands
         }
 
         // No GSAP pin — the panel holds via CSS position:sticky. This scrub maps

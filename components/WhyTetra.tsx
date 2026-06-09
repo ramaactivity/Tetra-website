@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // KENAPA TETRA — card-deck hold (assistantly-style). On desktop the section is
 // tall and the inner panel uses CSS position:sticky to "hold" in view while the
 // right column's cards deal in one by one from the bottom and stack like a deck;
@@ -10,25 +11,33 @@ const REASONS = [
     no: "01",
     tag: "Cepat",
     t: "Secepat kedipan",
-    d: "Cetakan keluar ±12 detik. Tamu nggak ngantri walau acara rame.",
+    d: "Tamu foto, langsung pegang cetakannya.",
+    img: "/images/g-bday1.jpg",
+    chip: "±12 detik / cetak",
   },
   {
     no: "02",
     tag: "Awet",
     t: "Awet bertahun-tahun",
-    d: "Lapisan pelindung bikin air & sidik jari nggak mempan, warna nggak luntur.",
+    d: "Tahan air, sidik jari, dan nggak luntur.",
+    img: "/images/g-wed1.jpg",
+    chip: "Lapisan anti-air",
   },
   {
     no: "03",
     tag: "Custom",
     t: "Didesain buat kamu",
-    d: "Tiap acara, frame-nya kami gambar ulang, bukan template seragam.",
+    d: "Frame digambar ulang tiap acara.",
+    img: "/images/g-strip2.jpg",
+    chip: "Frame custom",
   },
   {
     no: "04",
     tag: "Studio",
     t: "Sekelas studio",
-    d: "Tajam, gradasi mulus, nggak belang. Beda jauh sama printer rumahan.",
+    d: "Tajam, gradasi mulus, nggak belang.",
+    img: "/images/g-corp1.jpg",
+    chip: "Hasil sekelas studio",
   },
 ];
 
@@ -60,6 +69,10 @@ export default function WhyTetra() {
                   <div className="rc-head">
                     <span className="rc-no">{r.no}</span>
                     <span className="rc-tag">{r.tag}</span>
+                  </div>
+                  <div className="rc-figure">
+                    <img src={r.img} alt="" loading="lazy" decoding="async" />
+                    <span className="rc-chip">{r.chip}</span>
                   </div>
                   <h3 className="rc-title">{r.t}</h3>
                   <p className="rc-desc">{r.d}</p>
