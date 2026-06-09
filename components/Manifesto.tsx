@@ -3,9 +3,9 @@ export default function Manifesto() {
     <section className="manifesto">
       <div className="wrap">
         <p data-split>
-          Setiap acara punya cerita. Tugas
+          Setiap acara punya cerita.
           <br />
-          kami sederhana: memberi tamu
+          Tugas kami sederhana: memberi tamu
           <br />
           sesuatu untuk <span className="it">dipegang</span>, dan
           <br />

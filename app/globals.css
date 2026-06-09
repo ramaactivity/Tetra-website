@@ -922,8 +922,9 @@ header.solid {
   font-size: clamp(27px, 4.3vw, 60px);
   line-height: 1.18;
   letter-spacing: -0.01em;
-  /* line breaks are explicit (<br>) so each line lands exactly as intended */
+  /* explicit <br> line breaks, centered */
   max-width: none;
+  text-align: center;
 }
 .manifesto p .w {
   display: inline-block;
