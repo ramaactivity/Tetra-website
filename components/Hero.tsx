@@ -43,7 +43,7 @@ export default function Hero() {
               <b>Dipercaya ratusan acara</b>
             </span>
             <span className="dot" />
-            <span>
+            <span className="ev">
               Weddings &amp; Private Party · Birthday · Corporate Events · Social
               Gatherings · Event · Concerts &amp; Festivals · Graduation
             </span>

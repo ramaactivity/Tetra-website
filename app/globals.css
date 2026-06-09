@@ -645,9 +645,10 @@ header.solid {
 .hero h1 {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(40px, 7vh, 70px);
-  line-height: 1.04;
-  letter-spacing: -0.018em;
+  /* same scale as the Manifesto statement (.manifesto p) */
+  font-size: clamp(27px, 4.3vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.014em;
   margin: 0;
 }
 .hero h1 .w {
@@ -662,10 +663,11 @@ header.solid {
   transform: translateY(130%);
 }
 .hero .sub {
-  max-width: 38ch;
-  font-size: clamp(14px, 2vh, 18px);
-  line-height: 1.5;
+  max-width: 40ch;
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 1.55;
   color: var(--ink2);
+  text-wrap: balance;
   opacity: 0;
   transform: translateY(18px);
 }
@@ -707,12 +709,23 @@ header.solid {
   color: var(--ink);
   font-weight: 400;
 }
+/* bigger hero buttons */
+.hero .cta .btn {
+  font-size: 12px;
+  padding: 16px 34px;
+}
+/* event list drops to its own line(s) under the rating, balanced into 2 lines */
+.hero .trust .ev {
+  flex-basis: 100%;
+  max-width: 62ch;
+  text-wrap: balance;
+}
 .hero-media {
   position: relative;
   width: 100%;
-  /* cap height so the print stack never makes the hero taller than the viewport
-     on short laptop screens (keeps aspect; just shrinks + centers) */
-  max-width: calc(58vh * 1.231);
+  /* bigger print stack, but still capped to the viewport height on short laptop
+     screens (keeps aspect; shrinks + centers) */
+  max-width: calc(70vh * 1.231);
   margin: 0 auto;
   aspect-ratio: 64/52;
   align-self: center;
