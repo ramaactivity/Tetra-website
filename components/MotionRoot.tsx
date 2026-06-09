@@ -471,19 +471,43 @@ export default function MotionRoot() {
         });
       }
 
-      /* ===== WHY — sticky left copy; widgets reveal via [data-rv]. This only
-         drives the left progress bar as the stage scrolls past. ===== */
+      /* ===== WHY — pin the panel; cards deal in from the bottom and stack like
+         a deck, then scroll resumes (assistantly-style). ===== */
       function whyStory() {
-        const stage = document.getElementById("wstage");
-        const fill = document.getElementById("whyProgFill");
-        if (!stage || !fill || window.innerWidth <= 900) return;
+        const deck = document.getElementById("wdeck");
+        if (!deck || window.innerWidth <= 900) return;
+        const cards = Array.from(deck.querySelectorAll<HTMLElement>(".rcard"));
+        if (cards.length < 2) return;
+
+        // First card rests in place; the rest wait below their slot.
+        gsap.set(cards, { yPercent: 135, opacity: 0 });
+        gsap.set(cards[0], { yPercent: 0, opacity: 1 });
+
+        const tl = gsap.timeline();
+        tl.to({}, { duration: 0.45 }); // hold on the first card
+        for (let i = 1; i < cards.length; i++) {
+          tl.to(cards[i], { yPercent: 0, opacity: 1, duration: 0.7, ease: "power3.out" }).to(
+            {},
+            { duration: 0.5 }
+          ); // hold after each lands
+        }
+
+        ScrollTrigger.create({
+          trigger: ".why",
+          start: "top top",
+          end: "+=2400",
+          pin: "#wpin",
+          scrub: 1,
+          anticipatePin: 1,
+          animation: tl,
+        });
         gsap.fromTo(
-          fill,
+          "#whyProgFill",
           { scaleX: 0 },
           {
             scaleX: 1,
             ease: "none",
-            scrollTrigger: { trigger: stage, start: "top 75%", end: "bottom 75%", scrub: true },
+            scrollTrigger: { trigger: ".why", start: "top top", end: "+=2400", scrub: true },
           }
         );
       }
