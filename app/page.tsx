@@ -20,6 +20,11 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustedBy />
+
+      <div className="wrap">
+        <div className="divider" />
+      </div>
+
       <Manifesto />
 
       <div className="wrap">
