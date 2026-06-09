@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 import { gsap } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
 import { GALLERY } from "@/lib/gallery";
+import { IgIcon, TiktokIcon } from "./SocialIcons";
+import { INSTAGRAM_URL, TIKTOK_URL } from "@/lib/site";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
@@ -234,9 +236,19 @@ export default function Gallery() {
           Cara kita merawat <span className="it">ingatan</span> agar terus hidup.
         </h2>
         <p className="lead gal-lead" data-rv>
-          Lembaran kenangan dan cerita hangat yang mereka bawa pulang dari
-          acaramu.
+          Lembaran kenangan dan cerita hangat yang mereka bawa pulang dari acaramu.
         </p>
+        <div className="gal-socials" data-rv>
+          <span>Lihat portofolio lainnya</span>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram Tetra Photobooth">
+            <IgIcon />
+            <i>Instagram</i>
+          </a>
+          <a href={TIKTOK_URL} target="_blank" rel="noopener noreferrer" aria-label="TikTok Tetra Photobooth">
+            <TiktokIcon />
+            <i>TikTok</i>
+          </a>
+        </div>
       </div>
 
       <div className="gmarqs" data-rv>

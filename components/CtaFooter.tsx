@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, EMAIL } from "@/lib/site";
+import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL } from "@/lib/site";
+import { SocialLinks } from "./SocialIcons";
 
 // CTA + Footer. The prototype's "Preview situs" toast and the footer's preview
 // fine-print are intentionally removed for production.
@@ -57,7 +58,10 @@ export default function CtaFooter() {
                 Chat Admin (WhatsApp)
               </a>
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                {INSTAGRAM_HANDLE}
+                Instagram {INSTAGRAM_HANDLE}
+              </a>
+              <a href={TIKTOK_URL} target="_blank" rel="noopener noreferrer">
+                TikTok {TIKTOK_HANDLE}
               </a>
               <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </div>
@@ -70,6 +74,7 @@ export default function CtaFooter() {
           </div>
           <div className="brand">
             <img src="/images/word-white.png" alt="tetra photobooth" />
+            <SocialLinks className="ftr-socials" />
             <div className="fine">© 2026 Tetra Photobooth</div>
           </div>
         </div>

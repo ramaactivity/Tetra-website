@@ -449,6 +449,49 @@ header.solid {
   }
 }
 
+/* social icon links — shared by header + footer */
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  opacity: 0.82;
+  transition: 0.35s;
+}
+.socials a svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+.socials a:hover {
+  opacity: 1;
+  color: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+/* header variant sits between the nav links and the Chat Admin button */
+.hdr-socials {
+  gap: 10px;
+}
+@media (max-width: 600px) {
+  .hdr-socials {
+    gap: 8px;
+  }
+  .hdr-socials a {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 /* print card */
 .pcard {
   position: absolute;
@@ -1249,6 +1292,57 @@ header.solid {
   max-width: 50ch;
   line-height: 1.6;
   text-wrap: balance;
+}
+/* Kilas Momen lead stays on a single line on wider screens. */
+.gal-lead {
+  max-width: none;
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .gal-lead {
+    white-space: normal;
+    max-width: 46ch;
+  }
+}
+
+/* "Lihat portofolio lainnya" → Instagram / TikTok under the Kilas Momen lead */
+.gal-socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 22px auto 0;
+}
+.gal-socials > span {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ink2);
+}
+.gal-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: 0.35s;
+}
+.gal-socials a svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.gal-socials a:hover {
+  opacity: 1;
+  color: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-2px);
 }
 
 /* gallery marquee — two rows, opposite directions; pause on hover */

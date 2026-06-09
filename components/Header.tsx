@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { waLink } from "@/lib/site";
+import { SocialLinks } from "./SocialIcons";
 
 const NAV = [
   { id: "#galeri", label: "Galeri" },
@@ -38,6 +39,7 @@ export default function Header() {
               </span>
             </a>
           ))}
+          <SocialLinks className="hdr-socials" />
           <a className="btn fill" href={waLink()} target="_blank" rel="noopener noreferrer">
             Chat Admin
           </a>

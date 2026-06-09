@@ -25,5 +25,7 @@ export function waLink(message: string = WA_DEFAULT_MESSAGE): string {
 }
 
 export const INSTAGRAM_HANDLE = "@tetraphotobooth";
-export const INSTAGRAM_URL = "https://instagram.com/tetraphotobooth";
+export const INSTAGRAM_URL = "https://www.instagram.com/tetraphotobooth/";
+export const TIKTOK_HANDLE = "@tetraphotobooth";
+export const TIKTOK_URL = "https://www.tiktok.com/@tetraphotobooth";
 export const EMAIL = "tetraphotobooth@gmail.com";
