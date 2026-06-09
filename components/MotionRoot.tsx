@@ -743,22 +743,35 @@ export default function MotionRoot() {
           core.style.strokeDasharray = String(len);
           glow.style.strokeDasharray = String(len);
         };
-        const prog = () => {
-          const h = document.documentElement.scrollHeight - window.innerHeight;
-          const s = lenisInst ? lenisInst.scroll : window.scrollY;
-          const p = h > 0 ? s / h : 0;
-          return Math.max(0, Math.min(1, p));
+        // Find the path length whose point sits at document-Y = targetY. The
+        // spline is monotonic in Y (waypoints are in vertical order), so a binary
+        // search converges fast. This decouples the draw from global scroll
+        // fraction — which the pinned sections (.fmt/.why) distort — so the head
+        // always leads just ahead of the viewport instead of lagging far behind.
+        const lengthAtY = (targetY: number) => {
+          let lo = 0;
+          let hi = len;
+          for (let i = 0; i < 18; i++) {
+            const mid = (lo + hi) / 2;
+            if (core.getPointAtLength(mid).y < targetY) lo = mid;
+            else hi = mid;
+          }
+          return lo;
         };
         const draw = () => {
-          const p = prog();
-          const off = len * (1 - p);
+          if (len <= 0) return;
+          const vh = window.innerHeight;
+          const s = lenisInst ? lenisInst.scroll : window.scrollY;
+          // Draw down to ~90% of the viewport so the weave is visible through the
+          // content being read; the head leads the scroll instead of trailing it.
+          const targetY = s + vh * 0.9;
+          const drawn = Math.max(0, Math.min(len, lengthAtY(targetY)));
+          const off = len - drawn;
           core.style.strokeDashoffset = String(off);
           glow.style.strokeDashoffset = String(off);
-          if (len > 0) {
-            const pt = core.getPointAtLength(len * p);
-            head.setAttribute("cx", String(pt.x));
-            head.setAttribute("cy", String(pt.y));
-          }
+          const pt = core.getPointAtLength(drawn);
+          head.setAttribute("cx", String(pt.x));
+          head.setAttribute("cy", String(pt.y));
         };
         build();
         draw();
