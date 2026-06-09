@@ -4,18 +4,7 @@ export default function FormatExtras() {
   return (
     <section className="fmt-extra">
       <div className="wrap">
-        <div className="grid2">
-          <div className="fx" data-rv>
-            <div>
-              <div className="ic">Desain custom</div>
-              <h4>Frame sesuai acaramu</h4>
-              <p>
-                Nama event, tema dekorasi, atau logo perusahaan — tiap frame kami
-                desain ulang, bukan template seragam.
-              </p>
-            </div>
-          </div>
-
+        <div className="single">
           <div className="fx" data-rv>
             <div className="qrbox">
               <svg viewBox="0 0 100 100">
@@ -56,8 +45,8 @@ export default function FormatExtras() {
               <div className="ic">QR code</div>
               <h4>Soft file langsung di tangan</h4>
               <p>
-                Tiap cetakan ada QR code — tamu scan, langsung dapat versi
-                digitalnya buat dibagikan.
+                Tiap cetakan punya QR code-nya sendiri. Tamu tinggal scan, versi
+                digitalnya langsung siap dibagikan.
               </p>
             </div>
           </div>

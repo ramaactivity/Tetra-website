@@ -13,10 +13,11 @@ export default function WhyTetra() {
             Kenapa Tetra
           </div>
           <h2 className="sec-title" data-rv style={{ marginTop: 16 }}>
-            Kenangan harus <span className="it">abadi</span>.
+            Bukan sekadar <span className="it">cetak foto</span>.
           </h2>
           <p className="lead" data-rv>
-            Bukan sekadar foto — benda yang tahan dipegang bertahun-tahun.
+            Hasil sekelas studio, frame buatan sendiri, dan booth yang nggak pernah
+            bikin tamu nunggu.
           </p>
         </div>
 
@@ -120,6 +121,11 @@ export default function WhyTetra() {
             <div className="l">Video booth (bonus)</div>
           </div>
         </div>
+
+        <p className="wnote" data-rv>
+          Tiap acara dijaga <b>operator</b> plus <b>printer cadangan</b> yang siaga.
+          Kalau satu unit rewel, momenmu tetap jalan tanpa jeda.
+        </p>
       </div>
     </section>
   );

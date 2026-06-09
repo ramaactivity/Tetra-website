@@ -25,7 +25,7 @@ export default function TrustedBy() {
     <section className="trust-strip">
       <div className="wrap">
         <div className="lbl" data-rv>
-          Partner &amp; Klien Kami
+          Dipercaya brand &amp; keluarga di 500+ acara
         </div>
       </div>
       <div className="marquee" data-rv>

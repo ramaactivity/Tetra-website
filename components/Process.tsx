@@ -4,27 +4,27 @@ const STEPS = [
   {
     n: "Langkah 01",
     h: "Chat Admin",
-    p: "Cerita acaramu — tanggal, tema, jumlah tamu. Kami bantu pilih paket yang pas.",
+    p: "Cerita acaramu: tanggal, tema, jumlah tamu. Kami bantu pilih paketnya.",
   },
   {
     n: "Langkah 02",
     h: "Pilih paket & format",
-    p: "2R, 4R, polaroid, atau tambah 360 video booth. Tentukan durasi dan kebutuhanmu.",
+    p: "Tentukan format cetak, durasi, dan tambahan seperti 360 video booth.",
   },
   {
     n: "Langkah 03",
     h: "Frame didesain custom",
-    p: "Tim kami menggambar frame sesuai tema acaramu, lalu kamu approve.",
+    p: "Tim kami gambar frame sesuai tema, kamu tinggal approve.",
   },
   {
     n: "Langkah 04",
     h: "Hari-H",
-    p: "Booth siap ±1 jam sebelum acara. Tamu foto, cetak instan, bawa pulang.",
+    p: "Booth siap ±1 jam sebelum acara, tamu tinggal foto dan bawa pulang.",
   },
   {
     n: "Langkah 05",
     h: "Galeri digital",
-    p: "Semua hasil bisa diakses & dibagikan lewat QR — kenangan yang nggak hilang.",
+    p: "Semua hasil bisa diakses dan dibagikan lewat QR, kapan saja.",
   },
 ];
 

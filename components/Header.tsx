@@ -6,6 +6,7 @@ import { waLink } from "@/lib/site";
 const NAV = [
   { id: "#galeri", label: "Galeri" },
   { id: "#format", label: "Format" },
+  { id: "#paket", label: "Paket" },
   { id: "#cara", label: "Cara Kerja" },
 ];
 

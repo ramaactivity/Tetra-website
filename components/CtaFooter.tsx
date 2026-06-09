@@ -26,6 +26,9 @@ export default function CtaFooter() {
           <p className="sub" data-rv>
             Cetakan yang dibawa pulang. Momen yang nggak hilang.
           </p>
+          <p className="cta-urg" data-rv>
+            Jadwal akhir pekan biasanya cepat terisi, yuk amankan tanggalmu.
+          </p>
           <div data-rv>
             <a
               className="btn fill"

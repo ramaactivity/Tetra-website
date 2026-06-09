@@ -8,6 +8,9 @@ export default function FormatScrolly() {
     <section className="fmt" id="format">
       <div className="fpin" id="fpin">
         <div className="eyebrow">Format Cetak</div>
+        <h2 className="fmt-title">
+          Pilih bentuk <span className="it">kenanganmu</span>.
+        </h2>
 
         <div className="fstage">
           {/* Act 1 — 4R (landscape ↔ portrait flip) */}

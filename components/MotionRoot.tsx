@@ -640,8 +640,10 @@ export default function MotionRoot() {
         const head = document.getElementById("ribbonHead");
         if (!svg || !glow || !core || !head) return;
         let len = 0;
-        const sel = ["#top", ".manifesto", ".fmt", "#galeri", ".why", "#cara", ".testi", "#kontak"];
-        const sides = [0.5, 0.22, 0.8, 0.2, 0.82, 0.24, 0.78, 0.5];
+        // Waypoints MUST be listed in vertical (document) order so the spline
+        // never backtracks. Mirrors the section order in app/page.tsx.
+        const sel = ["#top", ".manifesto", "#galeri", ".why", ".fmt", "#paket", "#cara", ".testi", "#kontak"];
+        const sides = [0.5, 0.22, 0.8, 0.2, 0.82, 0.26, 0.78, 0.24, 0.5];
 
         const build = () => {
           const W = window.innerWidth;

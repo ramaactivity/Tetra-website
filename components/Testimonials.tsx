@@ -1,7 +1,7 @@
 // TESTIMONI — placeholder quotes (swap with real client quotes later).
 const QUOTES = [
   {
-    q: "Hasil cetaknya tajam banget dan nggak ngantri. Tamu kami sampai foto berkali-kali.",
+    q: "Hasil cetaknya tajam banget dan nggak ada antre. Tamu kami sampai foto berkali-kali.",
     who: "Panitia Gathering",
     detail: "Corporate Event",
   },
@@ -9,6 +9,11 @@ const QUOTES = [
     q: "Frame-nya didesain persis tema pernikahan kami. Detail kecil yang bikin beda.",
     who: "Ami & Awal",
     detail: "Wedding",
+  },
+  {
+    q: "Booth-nya datang tepat waktu, operatornya sigap. Anak-anak senang banget bawa pulang fotonya.",
+    who: "Bunda Nerissa",
+    detail: "Ulang Tahun",
   },
 ];
 

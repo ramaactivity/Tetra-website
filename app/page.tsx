@@ -2,30 +2,25 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Manifesto from "@/components/Manifesto";
 import TrustedBy from "@/components/TrustedBy";
-import FormatScrolly from "@/components/FormatScrolly";
-import FormatExtras from "@/components/FormatExtras";
 import Gallery from "@/components/Gallery";
 import WhyTetra from "@/components/WhyTetra";
+import FormatScrolly from "@/components/FormatScrolly";
+import FormatExtras from "@/components/FormatExtras";
+import Package from "@/components/Package";
 import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
 import CtaFooter from "@/components/CtaFooter";
 
-// Section order mirrors reference/index.html exactly (with inter-section dividers).
+// Story arc: Hook → bukti cepat → lihat hasil → kenapa beda → bentuknya →
+// apa yang didapat → semudah ini → suara klien → objeksi → aksi.
 export default function Home() {
   return (
     <>
       <Header />
       <Hero />
-      <Manifesto />
       <TrustedBy />
-
-      <div className="wrap">
-        <div className="divider" />
-      </div>
-
-      <FormatScrolly />
-      <FormatExtras />
+      <Manifesto />
 
       <div className="wrap">
         <div className="divider" />
@@ -43,6 +38,14 @@ export default function Home() {
         <div className="divider" />
       </div>
 
+      <FormatScrolly />
+      <FormatExtras />
+
+      <div className="wrap">
+        <div className="divider" />
+      </div>
+
+      <Package />
       <Process />
       <Testimonials />
 

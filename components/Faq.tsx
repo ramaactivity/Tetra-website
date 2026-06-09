@@ -5,19 +5,19 @@ import { useState } from "react";
 const ITEMS = [
   {
     q: "Berapa harganya?",
-    a: "Tergantung paket, durasi, dan format. Chat admin kami — pricelist lengkap langsung kami kirim, disesuaikan sama kebutuhan acaramu.",
+    a: "Tergantung paket, durasi, dan format. Chat admin kami, pricelist lengkap langsung kami kirim sesuai kebutuhan acaramu.",
   },
   {
     q: "Area jangkauannya mana aja?",
-    a: "Berbasis di Bogor, melayani Jabodetabek dan seluruh Indonesia. Untuk luar kota, ada biaya transport yang kami infokan di awal.",
+    a: "Berbasis di Bogor, melayani Jabodetabek dan seluruh Indonesia. Untuk luar kota ada biaya transport yang kami infokan di awal.",
   },
   {
     q: "Frame-nya bisa custom?",
-    a: "Selalu. Tiap acara, frame-nya kami desain ulang sesuai tema — wedding, korporat, sampai aktivasi brand.",
+    a: "Selalu. Tiap acara, frame-nya kami desain ulang sesuai tema: wedding, korporat, sampai aktivasi brand.",
   },
   {
     q: "Butuh apa aja dari kami?",
-    a: "Cukup colokan listrik dan ruang sekitar 2×2 meter. Sisanya — booth, properti, operator — kami yang bawa.",
+    a: "Cukup colokan listrik dan ruang sekitar 2×2 meter. Sisanya booth, properti, operator, kami yang bawa.",
   },
   {
     q: "Hasil cetaknya awet?",

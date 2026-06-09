@@ -19,8 +19,8 @@ export default function Hero() {
             <span className="it">dikenang</span>.
           </h1>
           <p className="sub" id="hs">
-            Cetakan berkualitas studio yang dibawa pulang tamu — dengan frame yang
-            kami desain khusus untuk setiap acaramu.
+            Tiap tamu pulang membawa cetakan sekelas studio, dalam frame yang kami
+            desain khusus untuk acaramu.
           </p>
           <div className="cta" id="hc">
             <a

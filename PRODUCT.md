@@ -24,4 +24,5 @@ Event organizers / hosts evaluating a photobooth vendor for **Wedding, Corporate
 - Full-color prints on white "paper" cards glow against the warm near-black background; that contrast is the premium effect.
 - One primary CTA everywhere → WhatsApp ("Tanya Paket & Harga" / "Chat Admin").
 - Motion is part of the voice (brand register): one orchestrated load + scroll choreography, tasteful, never gimmicky.
-- **Locked:** palette, fonts, copy, and section composition are approved and final (see DESIGN.md and `docs/`). Improvements happen through motion, interaction, refinement, and accessibility, not redesign.
+- **Locked:** palette and fonts are approved and final (see DESIGN.md). Visual-skin improvements happen through motion, interaction, refinement, and accessibility, not redesign.
+- **Content (revised 2026-06):** copy and section order were intentionally restructured into one conversion story (owner request), overriding the earlier "locked copy/composition" note. Order: Hero → Trusted-by → Manifesto → Galeri → Kenapa Tetra → Format → Paket → Cara Kerja → Testimoni → FAQ → CTA. `docs/05_CONTENT.md` is the verbatim source of truth.

@@ -274,11 +274,11 @@ export default function Gallery() {
             Galeri Karya
           </div>
           <h2 className="sec-title" data-rv style={{ marginTop: 16 }}>
-            Sesuatu untuk <span className="it">dikenang</span>.
+            Hasil yang <span className="it">dibawa pulang</span> tamu.
           </h2>
           <p className="lead" data-rv>
-            Tiap cetakan adalah benda yang dibawa pulang — pilih jenis acaramu,
-            lihat hasilnya.
+            Pilih jenis acaramu. Tiap cetakan ini benar-benar keluar dari booth
+            kami, bukan stok foto.
           </p>
         </div>
 
