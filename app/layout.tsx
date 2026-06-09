@@ -23,7 +23,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "tetra. photobooth — sesuatu untuk dipegang, abadi untuk dikenang",
+  metadataBase: new URL("https://tetraphoto.com"),
+  title: "Tetra Photobooth — Photobooth Premium Jabodetabek",
   description:
     "Photobooth premium di Bogor, melayani Jabodetabek. Cetakan berkualitas studio dengan frame yang kami desain khusus untuk setiap acaramu.",
 };
