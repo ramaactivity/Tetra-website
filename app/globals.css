@@ -1293,13 +1293,14 @@ header.solid {
   line-height: 1.6;
   text-wrap: balance;
 }
-/* Kilas Momen lead stays on a single line on wider screens. */
-.gal-lead {
+/* Kilas Momen lead stays on a single line on wider screens. Scoped under
+   .ghead so it outranks the `.ghead .lead { max-width: 50ch }` rule above. */
+.ghead .gal-lead {
   max-width: none;
   white-space: nowrap;
 }
 @media (max-width: 720px) {
-  .gal-lead {
+  .ghead .gal-lead {
     white-space: normal;
     max-width: 46ch;
   }
@@ -1311,31 +1312,31 @@ header.solid {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 14px;
-  margin: 22px auto 0;
+  gap: 10px;
+  margin: 20px auto 0;
 }
 .gal-socials > span {
-  font-size: 13px;
+  font-size: 12.5px;
   letter-spacing: 0.04em;
   color: var(--ink2);
 }
 .gal-socials a {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 100px;
   border: 1px solid var(--line);
   color: var(--ink);
-  font-size: 12px;
+  font-size: 10.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0.9;
   transition: 0.35s;
 }
 .gal-socials a svg {
-  width: 16px;
-  height: 16px;
+  width: 13px;
+  height: 13px;
   display: block;
 }
 .gal-socials a:hover {
