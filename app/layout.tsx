@@ -22,9 +22,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "tetra. photobooth — sesuatu untuk dipegang, sesuatu untuk dikenang",
+  title: "tetra. photobooth — sesuatu untuk dipegang, abadi untuk dikenang",
   description:
-    "Photobooth premium di Bogor, melayani Jabodetabek & se-Indonesia. Cetakan berkualitas studio dengan frame yang kami desain khusus untuk setiap acaramu.",
+    "Photobooth premium di Bogor, melayani Jabodetabek. Cetakan berkualitas studio dengan frame yang kami desain khusus untuk setiap acaramu.",
 };
 
 // Runs before first paint: flags JS/reduced-motion/touch so CSS can gate the

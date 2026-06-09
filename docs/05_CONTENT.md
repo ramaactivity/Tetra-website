@@ -16,17 +16,17 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Pill: `Chat Admin`
 
 ## Hero
-- Eyebrow: `Photobooth Premium · Jabodetabek & se-Indonesia`
-- H1: `Sesuatu untuk *dipegang*. Sesuatu untuk *dikenang*.`
-- Sub: `Tiap tamu pulang membawa cetakan sekelas studio, dalam frame yang kami desain khusus untuk acaramu.`
+- Eyebrow: `Photobooth Premium · Jabodetabek`
+- H1: `Sesuatu untuk *dipegang*, abadi untuk *dikenang*.`
+- Sub: `Mengubah experience acaramu menjadi suvenir cetak instan. Memori nyata yang beneran disimpan para tamu.`
 - CTA primary: `Tanya Paket & Harga`
 - CTA secondary: `Lihat Galeri`
-- Trust: `★★★★★  Dipercaya 500+ acara · Wedding · Corporate · Ulang Tahun · Wisuda`
+- Trust: `★★★★★  Dipercaya ratusan acara · Wedding · Corporate · Ulang Tahun · Wisuda`
 - Background word: `kenangan.`
 - Scroll cue: `Scroll`
 
 ## Trusted-by
-- Label: `Dipercaya brand & keluarga di 500+ acara`
+- Label: `Dipercaya brand & keluarga di ratusan acara`
 - Names (placeholder text, swap with real flat-white logo images): `SeaBank` · `Pertamina` · `Indocement` · `Danantara` · `Kemenag DKI` · `Implora`
 
 ## Manifesto
@@ -57,7 +57,7 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Widget 2: `Awet bertahun-tahun` / `Lapisan pelindung bikin air & sidik jari nggak mempan. Warna nggak luntur.`
 - Widget 3: `Didesain buat kamu` / `Tiap acara, frame-nya kami gambar ulang — bukan template seragam.` (cycling label `Frame custom`) — **single home for the frame-custom message.**
 - Widget 4: `Sekelas studio` / `Tajam, gradasi mulus, nggak belang. Beda jauh sama printer rumahan.` (labels `Printer rumahan` vs `Tetra`)
-- Stat strip: `500+ Acara` · `±12 dtk Per cetak` · `Tahunan Tahan lama` · `+360° Video booth (bonus)`
+- Stat strip: `Ratusan Acara` · `±12 dtk Per cetak` · `Tahunan Tahan lama` · `+360° Video booth (bonus)`
 - Reliability note (below stats): `Tiap acara dijaga *operator* plus *printer cadangan* yang siaga. Kalau satu unit rewel, momenmu tetap jalan tanpa jeda.`
 
 ## Format Cetak (pinned)
@@ -118,7 +118,7 @@ Placeholders are flagged `[PLACEHOLDER]`.
 ## FAQ
 - Heading: `Pertanyaan` / `Yang sering *ditanya*.`
 - Q: `Berapa harganya?` → A: `Tergantung paket, durasi, dan format. Chat admin kami, pricelist lengkap langsung kami kirim sesuai kebutuhan acaramu.`
-- Q: `Area jangkauannya mana aja?` → A: `Berbasis di Bogor, melayani Jabodetabek dan seluruh Indonesia. Untuk luar kota ada biaya transport yang kami infokan di awal.`
+- Q: `Area jangkauannya mana aja?` → A: `Berbasis di Bogor, melayani seluruh area Jabodetabek. Untuk lokasi lebih jauh, ada biaya transport yang kami infokan di awal.`
 - Q: `Frame-nya bisa custom?` → A: `Selalu. Tiap acara, frame-nya kami desain ulang sesuai tema: wedding, korporat, sampai aktivasi brand.`
 - Q: `Butuh apa aja dari kami?` → A: `Cukup colokan listrik dan ruang sekitar 2×2 meter. Sisanya booth, properti, operator, kami yang bawa.`
 - Q: `Hasil cetaknya awet?` → A: `Sangat. Lapisan pelindungnya bikin cetakan tahan air, sidik jari, dan nggak gampang pudar bertahun-tahun.`
@@ -145,7 +145,7 @@ Terima kasih
 
 ## Footer
 - Brand: `Tetra Photobooth`
-- Location: `Bogor, Jawa Barat` · `Melayani se-Indonesia`
+- Location: `Bogor, Jawa Barat` · `Melayani Jabodetabek`
 - Kontak: `Chat Admin (WhatsApp)` · `@tetraphotobooth` · `tetraphotobooth@gmail.com`
 - Jelajah: `Galeri` · `Format` · `Cara Kerja`
 - Legal: `© 2026 Tetra Photobooth`

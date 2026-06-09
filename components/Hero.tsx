@@ -12,15 +12,15 @@ export default function Hero() {
       <div className="wrap">
         <div className="hero-copy">
           <div className="eyebrow" id="he">
-            Photobooth Premium · Jabodetabek &amp; se-Indonesia
+            Photobooth Premium · Jabodetabek
           </div>
           <h1 id="h1">
-            Sesuatu untuk <span className="it">dipegang</span>. Sesuatu untuk{" "}
+            Sesuatu untuk <span className="it">dipegang</span>, abadi untuk{" "}
             <span className="it">dikenang</span>.
           </h1>
           <p className="sub" id="hs">
-            Tiap tamu pulang membawa cetakan sekelas studio, dalam frame yang kami
-            desain khusus untuk acaramu.
+            Mengubah experience acaramu menjadi suvenir cetak instan. Memori nyata
+            yang beneran disimpan para tamu.
           </p>
           <div className="cta" id="hc">
             <a
@@ -38,7 +38,7 @@ export default function Hero() {
           <div className="trust" id="ht">
             <span className="stars">★★★★★</span>
             <span>
-              <b>Dipercaya 500+ acara</b>
+              <b>Dipercaya ratusan acara</b>
             </span>
             <span className="dot" />
             <span>Wedding · Corporate · Ulang Tahun · Wisuda</span>

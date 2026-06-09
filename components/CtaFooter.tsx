@@ -49,7 +49,7 @@ export default function CtaFooter() {
             <div className="col">
               <h5>Tetra Photobooth</h5>
               <p>Bogor, Jawa Barat</p>
-              <p>Melayani se-Indonesia</p>
+              <p>Melayani Jabodetabek</p>
             </div>
             <div className="col">
               <h5>Kontak</h5>

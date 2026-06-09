@@ -9,7 +9,7 @@ const ITEMS = [
   },
   {
     q: "Area jangkauannya mana aja?",
-    a: "Berbasis di Bogor, melayani Jabodetabek dan seluruh Indonesia. Untuk luar kota ada biaya transport yang kami infokan di awal.",
+    a: "Berbasis di Bogor, melayani seluruh area Jabodetabek. Untuk lokasi lebih jauh, ada biaya transport yang kami infokan di awal.",
   },
   {
     q: "Frame-nya bisa custom?",

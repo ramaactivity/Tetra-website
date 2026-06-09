@@ -3,7 +3,7 @@
 register: brand
 
 ## Product purpose
-Single-page marketing site for **Tetra Photobooth**, a premium photobooth service based in Bogor, serving Jabodetabek and all of Indonesia. The site's job: make the brand feel premium and trustworthy, show real client prints, explain the print formats without jargon, and drive every visitor to **chat the admin on WhatsApp** (price is intentionally never shown on the page).
+Single-page marketing site for **Tetra Photobooth**, a premium photobooth service based in Bogor, serving the Jabodetabek area (Jakarta, Bogor, Depok, Tangerang, Bekasi). The site's job: make the brand feel premium and trustworthy, show real client prints, explain the print formats without jargon, and drive every visitor to **chat the admin on WhatsApp** (price is intentionally never shown on the page).
 
 The hero product is the **physical print** the guest takes home: studio-quality, with a **custom-designed frame** per event, plus a **QR code** for the digital soft-file. Emotional pitch: *"Sesuatu untuk dipegang. Sesuatu untuk dikenang."* The 360 Video Booth is a bonus mention only, never the headline.
 

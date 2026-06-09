@@ -157,7 +157,7 @@ export default function WhyTetra() {
         <div className="wrap">
           <div className="wstats">
             <div className="wstat" data-rv>
-              <div className="b">500+</div>
+              <div className="b">Ratusan</div>
               <div className="l">Acara</div>
             </div>
             <div className="wstat" data-rv>
