@@ -1278,13 +1278,17 @@ header.solid {
 }
 .gal-title {
   font-size: clamp(30px, 4.4vw, 54px);
-  line-height: 1.03;
+  line-height: 1.05;
+  max-width: 18ch;
+  margin: 0 auto;
+  text-wrap: balance;
 }
 .gal-lead,
 .ghead .lead {
-  margin: 16px auto 0;
-  max-width: 44ch;
+  margin: 18px auto 0;
+  max-width: 50ch;
   line-height: 1.6;
+  text-wrap: balance;
 }
 
 /* gallery marquee — two rows, opposite directions; pause on hover */

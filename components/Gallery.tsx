@@ -10,10 +10,12 @@ import { GALLERY } from "@/lib/gallery";
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
 
-// Two marquee rows (top scrolls right→left, bottom left→right). Splitting the
-// set keeps each row varied (mixed print shapes) and shows more work at a glance.
-const ROW_A = GALLERY.slice(0, 5);
-const ROW_B = GALLERY.slice(5);
+// Two marquee rows (top scrolls right→left, bottom left→right). Each row uses
+// the full set (row B reversed so the rows differ); items are repeated inside
+// each group so a group is always wider than the viewport → the rows never run
+// out and leave empty space.
+const ROW_A = GALLERY;
+const ROW_B = [...GALLERY].reverse();
 
 export default function Gallery() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
@@ -191,44 +193,49 @@ export default function Gallery() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close, go]);
 
-  const renderRow = (items: typeof GALLERY, reverse: boolean) => (
-    <div className={`gmarq${reverse ? " rev" : ""}`}>
-      <div className="gmarq-track">
-        {[0, 1].map((dup) => (
-          <div className="gmarq-group" key={dup} aria-hidden={dup === 1 || undefined}>
-            {items.map((g) => (
-              <button
-                className="gitem"
-                key={`${dup}-${g.i}`}
-                type="button"
-                tabIndex={dup === 1 ? -1 : 0}
-                aria-label={`Lihat ${g.title} — ${g.sub}`}
-                onClick={() => show(g.i)}
-              >
-                <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
-                <span className="gitem-cap">
-                  <b>{g.title}</b>
-                  <i>{g.sub}</i>
-                </span>
-              </button>
-            ))}
-          </div>
-        ))}
+  const renderRow = (items: typeof GALLERY, reverse: boolean) => {
+    // Repeat the set inside each group so one group spans well past the viewport.
+    const groupItems = [...items, ...items];
+    return (
+      <div className={`gmarq${reverse ? " rev" : ""}`}>
+        <div className="gmarq-track">
+          {[0, 1].map((dup) => (
+            <div className="gmarq-group" key={dup} aria-hidden={dup === 1 || undefined}>
+              {groupItems.map((g, k) => (
+                <button
+                  className="gitem"
+                  key={`${dup}-${k}`}
+                  type="button"
+                  tabIndex={dup === 1 ? -1 : 0}
+                  aria-label={`Lihat ${g.title} — ${g.sub}`}
+                  onClick={() => show(g.i)}
+                >
+                  <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
+                  <span className="gitem-cap">
+                    <b>{g.title}</b>
+                    <i>{g.sub}</i>
+                  </span>
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const galleryView = (
     <section className="gal" id="galeri">
       <div className="wrap ghead">
         <div className="eyebrow" data-rv>
-          Galeri Karya
+          Kilas Momen
         </div>
         <h2 className="sec-title gal-title" data-rv>
-          Hasil yang <span className="it">dibawa pulang</span> tamu.
+          Cara kita merawat <span className="it">ingatan</span> agar terus hidup.
         </h2>
         <p className="lead gal-lead" data-rv>
-          Tiap cetakan ini benar-benar keluar dari booth kami, bukan stok foto.
+          Lembaran kenangan dan cerita hangat yang mereka bawa pulang dari
+          acaramu.
         </p>
       </div>
 
