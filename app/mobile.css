@@ -180,17 +180,20 @@ picture.rsp {
     letter-spacing: 0.14em;
   }
 
-  /* ---- hero: tighten the copy + shrink the CTAs + slim the stack so the
-     whole section (incl. the print fan) lands inside one mobile screen ----
-     min-height:auto lets the hero size to its content instead of being forced
-     to a full 100svh, which removed a ~100px dead gap below the print fan
-     before the trusted strip. The fan is still fully visible at load. */
+  /* ---- hero: fill exactly one screen so the trusted strip below never peeks,
+     with the copy anchored at the top (clear of the header) and the print fan
+     anchored at the bottom. Buttons collapse to a single row so the photos get
+     more room. ---- */
   .hero {
-    min-height: auto;
-    padding: 74px 0 22px;
+    min-height: 100svh;
+    align-items: stretch; /* let .wrap fill the full height for space-between */
+    padding: 92px 0 26px; /* extra top clearance below the fixed header */
   }
   .hero .wrap {
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* copy → top, fan → bottom */
+    gap: 16px;
   }
   .hero-copy {
     gap: 10px;
@@ -208,23 +211,28 @@ picture.rsp {
     line-height: 1.5;
     max-width: 40ch;
   }
+  /* the two CTAs share ONE row (equal width) and are sized down so the print
+     fan below can be larger */
   .hero .cta {
     margin-top: 8px;
     gap: 10px;
+    flex-wrap: nowrap;
   }
-  /* the explicit "diperkecil" — smaller pills so the photos rise into view */
   .hero .cta .btn {
-    font-size: 11px;
-    padding: 12px 26px;
+    flex: 1 1 0;
+    justify-content: center;
+    font-size: 10px;
+    padding: 13px 8px;
+    letter-spacing: 0.07em;
   }
   .hero .trust {
     margin-top: 8px;
     gap: 10px;
     font-size: 11px;
   }
-  /* slim the print stack a touch so it sits fully on-screen, not cropped */
+  /* bigger print fan */
   .hero-media {
-    max-width: 74vw;
+    max-width: 88vw;
   }
   .hg {
     box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.62), 0 4px 10px -8px rgba(0, 0, 0, 0.4);
