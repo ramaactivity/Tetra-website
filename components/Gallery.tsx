@@ -212,7 +212,10 @@ export default function Gallery() {
                   aria-label={`Lihat ${g.title} — ${g.sub}`}
                   onClick={() => show(g.i)}
                 >
-                  <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
+                  <picture className="rsp">
+                    <source media="(max-width: 768px)" srcSet={g.src.replace(/\.jpg$/, "-sm.jpg")} />
+                    <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
+                  </picture>
                   <span className="gitem-cap">
                     <b>{g.title}</b>
                     <i>{g.sub}</i>

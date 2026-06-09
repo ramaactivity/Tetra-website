@@ -1,0 +1,299 @@
+/* ============================================================================
+   MOBILE LAYER — Tetra Photobooth
+   ----------------------------------------------------------------------------
+   Everything here lives inside ONE @media (max-width: 768px) block and is
+   imported AFTER globals.css. By construction it CANNOT touch desktop: the
+   query never matches at >=769px, and equal-specificity rules win on source
+   order. The few higher-specificity desktop rules we override are mirrored with
+   the same selector prefix (e.g. html.js:not(.reduced) .why, #o2r .half img).
+
+   Goals: tighter rhythm, proportionate cards/photos, lighter paints, no ribbon.
+   Desktop visuals are deliberately untouched.
+   ========================================================================== */
+
+/* Layout-transparent <picture> wrappers (all viewports). These wrappers are
+   added solely to serve a smaller image source on mobile via <source media>.
+   display:contents removes the wrapper's own box, so the inner <img> sizes
+   exactly as it did before (e.g. `.gitem img{height:100%}` still resolves
+   against .gitem) — desktop layout and pixels are unchanged, and desktop always
+   selects the original <img src> because the mobile <source> media never matches. */
+picture.rsp {
+  display: contents;
+}
+
+@media (max-width: 768px) {
+  /* ---- design tokens: lighter shadow (cheaper paint + less bulky cards) ---- */
+  :root {
+    --sh: 0 14px 30px -18px rgba(0, 0, 0, 0.6), 0 4px 10px -8px rgba(0, 0, 0, 0.42);
+  }
+
+  /* ---- ribbon: removed on mobile (JS also skips drawing it) -------------- */
+  #ribbon {
+    display: none !important;
+  }
+
+  /* ---- atmosphere: kill the most expensive mobile paints -----------------
+     Full-screen mix-blend grain + big blurred light-leaks repaint on every
+     scroll frame and are the kind of thing that makes a phone feel "berat".
+     The radial body glow + vignette stay (cheap, fixed). */
+  .grain {
+    display: none;
+  }
+  .leak1,
+  .leak2 {
+    display: none;
+  }
+  /* fewer, softer hero blobs — two is plenty of glow on a small screen */
+  .hero-fluid b {
+    filter: blur(18px);
+  }
+  .bl3,
+  .bl4 {
+    display: none;
+  }
+  .hero-grad {
+    filter: blur(4px);
+  }
+
+  /* ---- global vertical rhythm: vh-based section padding balloons on tall
+     phones (12vh ≈ 110px each side). Re-base to compact, fixed spacing. ---- */
+  .manifesto {
+    padding: 56px 0;
+  }
+  .trust-strip {
+    padding: 34px 0;
+  }
+  .trust-strip .lbl {
+    margin-bottom: 22px;
+  }
+  .gal {
+    padding: 44px 0 48px;
+  }
+  .ghead {
+    margin-bottom: 28px;
+  }
+  .process,
+  .testi,
+  .faq {
+    padding: 56px 0;
+  }
+  .pkg {
+    padding: 52px 0;
+  }
+  .cta {
+    padding: 64px 0 72px;
+  }
+  footer {
+    padding: 48px 0 36px;
+  }
+  footer .top {
+    padding-bottom: 40px;
+    gap: 28px;
+  }
+  footer .brand {
+    padding-top: 32px;
+  }
+
+  /* ---- typography: trim the largest display minimums so headings sit on a
+     phone instead of dominating it (keeps gold italic accents intact) ---- */
+  .why-title {
+    font-size: clamp(30px, 8.6vw, 40px);
+    max-width: none;
+  }
+  .cta h2 {
+    font-size: clamp(31px, 8.4vw, 40px);
+  }
+  .gal-title {
+    font-size: clamp(27px, 7.6vw, 40px);
+  }
+  .manifesto p {
+    font-size: clamp(24px, 6.6vw, 34px);
+    line-height: 1.22;
+  }
+  .sec-title {
+    font-size: clamp(29px, 7.6vw, 44px);
+  }
+
+  /* ---- header: drop the backdrop-blur (expensive on a bar that's visible
+     during all scrolling) for a slightly more opaque solid fill ---- */
+  header {
+    padding: 16px 0;
+    background: rgba(21, 18, 14, 0.9);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  header.solid {
+    background: rgba(18, 15, 11, 0.96);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 11px 0;
+  }
+
+  /* ---- hero: a touch more breathing room between the stack and the copy --- */
+  .hero .wrap {
+    gap: 22px;
+  }
+  .hg {
+    box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.62), 0 4px 10px -8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ---- gallery: smaller, better-proportioned tiles; calmer marquee ----
+     One row is enough motion on mobile — hiding the reversed row halves the
+     number of animating images. Caption shows by default (no hover on touch). */
+  .gitem {
+    height: 148px;
+    border-radius: 10px;
+  }
+  .gitem-cap {
+    opacity: 1;
+    padding: 20px 12px 10px;
+  }
+  .gmarqs {
+    gap: 12px;
+  }
+  .gmarq.rev {
+    display: none;
+  }
+  .gal-socials {
+    gap: 8px;
+  }
+
+  /* ---- format cetak: keep the pinned flip, but make stage + caption fit one
+     screen and stop the big empty gap. Stage scaled down, caption block
+     shortened. (Animation still driven by GSAP; we only resize the frame.) -- */
+  .fpin {
+    padding: 92px 0 5vh;
+  }
+  .fgrid {
+    gap: 18px;
+  }
+  .fstage {
+    transform: scale(0.72);
+  }
+  .fmt-title {
+    font-size: clamp(26px, 7vw, 38px);
+  }
+  .fcaps {
+    height: 188px;
+    margin: 6px auto 0;
+  }
+  .fcap .nm {
+    font-size: clamp(30px, 8vw, 44px);
+  }
+  .fcap .ds {
+    font-size: 14px;
+  }
+
+  /* ---- why deck (static stack on mobile): tighter cards ---- */
+  html.js:not(.reduced) .why {
+    padding: 52px 0;
+  }
+  .why-deck {
+    gap: 14px;
+  }
+  .rcard {
+    border-radius: 18px;
+    padding: 16px 16px 20px;
+    box-shadow: 0 18px 38px -22px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.16);
+  }
+  .rc-figure {
+    height: 112px;
+  }
+  .rc-chip {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(20, 17, 13, 0.92);
+  }
+  .rc-title {
+    margin: 14px 8px 6px;
+  }
+
+  /* ---- package manifest: tighter rows ---- */
+  .pkg > .wrap {
+    gap: 30px;
+  }
+  .manifest {
+    padding: 4px 18px;
+  }
+  .manifest .row {
+    gap: 13px;
+    padding: 13px 0;
+  }
+
+  /* ---- process: tighten the timeline ---- */
+  .steps {
+    margin-top: 36px;
+  }
+  .step {
+    padding: 0 0 36px 64px;
+  }
+  .steps::before,
+  .steps .prog {
+    left: 18px;
+  }
+  .step .dot {
+    left: 12px;
+  }
+
+  /* ---- testimonials: cards were 42px-padded slabs ---- */
+  .tcard {
+    padding: 26px 24px;
+    border-radius: 14px;
+  }
+  .tgrid {
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .tcard .who {
+    margin-top: 18px;
+  }
+
+  /* ---- faq: tighter rows ---- */
+  .qrow .q {
+    padding: 20px 0;
+    gap: 16px;
+  }
+  .qrow .a p {
+    padding: 0 0 20px;
+  }
+
+  /* ---- cta fan: the print cards were overflowing their box and colliding
+     with the heading below. Crop them to a fixed height (the .pcard already
+     clips overflow) and give the heading clear air. ---- */
+  .cfan {
+    height: 156px;
+    margin: 0 auto 36px;
+    transform: scale(0.92);
+    transform-origin: top center;
+  }
+  .cfan .pcard {
+    height: 150px;
+  }
+  .cta .sub {
+    margin-bottom: 12px;
+  }
+
+  /* ---- footer: lighter type rhythm ---- */
+  footer .col a,
+  footer .col p {
+    line-height: 1.75;
+  }
+
+  /* ---- lightbox: swap remaining backdrop-blurs for solid translucent
+     panels (the viewer already covers the screen, so the blur is wasted) ---- */
+  .viewer.open {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(12, 9, 6, 0.97);
+  }
+  .vnav {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(40, 33, 24, 0.55);
+  }
+  .vfilm {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(20, 16, 12, 0.82);
+  }
+}

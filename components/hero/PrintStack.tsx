@@ -19,7 +19,10 @@ export default function PrintStack() {
           // .hgw owns the stack position + entrance; .hg floats independently
           <div key={s.cls} className={`hgw ${s.cls}`}>
             <div className="hg">
-              <img src={s.src} alt="" />
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet={s.src.replace(/\.jpg$/, "-sm.jpg")} />
+                <img src={s.src} alt="" decoding="async" />
+              </picture>
             </div>
           </div>
         ))}

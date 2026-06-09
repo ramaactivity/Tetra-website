@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Marcellus, Outfit } from "next/font/google";
 import "./globals.css";
+import "./mobile.css";
 import Loader from "@/components/Loader";
 import Ribbon from "@/components/Ribbon";
 import MotionRoot from "@/components/MotionRoot";

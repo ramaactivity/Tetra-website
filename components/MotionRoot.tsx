@@ -76,25 +76,34 @@ export default function MotionRoot() {
     const restores: Array<{ el: HTMLElement; html: string }> = [];
 
     const ctx = gsap.context(() => {
-      /* ---- Lenis smooth scroll, wired to ScrollTrigger ---- */
-      const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, touchMultiplier: 1.5 });
-      lenisRef.current = lenis;
-      setLenis(lenis);
-      lenis.on("scroll", ScrollTrigger.update);
-      const ticker = (t: number) => lenis.raf(t * 1000);
-      gsap.ticker.add(ticker);
-      gsap.ticker.lagSmoothing(0);
-      cleanups.push(() => {
-        gsap.ticker.remove(ticker);
-        lenis.destroy();
-        lenisRef.current = null;
-        setLenis(null);
-      });
+      /* ---- Lenis smooth scroll, wired to ScrollTrigger ----
+         Touch devices use NATIVE scroll instead: Lenis' lerp + touchMultiplier
+         fights the OS momentum and is the main source of mobile scroll stutter.
+         With no Lenis, ScrollTrigger falls back to the native window scroller
+         automatically (no scrollerProxy is set), so all scrubs/pins still work. */
+      let lenis: Lenis | null = null;
+      if (!touch) {
+        lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, touchMultiplier: 1.5 });
+        lenisRef.current = lenis;
+        setLenis(lenis);
+        lenis.on("scroll", ScrollTrigger.update);
+        const ticker = (t: number) => lenis!.raf(t * 1000);
+        gsap.ticker.add(ticker);
+        gsap.ticker.lagSmoothing(0);
+        cleanups.push(() => {
+          gsap.ticker.remove(ticker);
+          lenis!.destroy();
+          lenisRef.current = null;
+          setLenis(null);
+        });
+      }
 
       /* ---- nav smooth-scroll (offset clears the fixed header) ---- */
       const scrollTo = (sel: string) => {
         const e = document.querySelector(sel) as HTMLElement | null;
-        if (e) lenis.scrollTo(e, { offset: -92 });
+        if (!e) return;
+        if (lenis) lenis.scrollTo(e, { offset: -92 });
+        else window.scrollTo({ top: e.offsetTop - 92, behavior: "smooth" });
       };
       const navHandlers: Array<[HTMLElement, (ev: Event) => void]> = [];
       document.querySelectorAll<HTMLElement>("[data-scroll]").forEach((a) => {
@@ -146,8 +155,10 @@ export default function MotionRoot() {
         }
       );
 
-      /* ---- floating CTA cards (paused by ScrollTrigger while off-screen) ---- */
-      document.querySelectorAll<HTMLElement>("[data-float]").forEach((f, i) => {
+      /* ---- floating CTA cards (paused by ScrollTrigger while off-screen) ----
+         Skipped on touch: the cards read fine static and the continuous yoyo
+         tweens are needless main-thread work on mobile. */
+      if (!touch) document.querySelectorAll<HTMLElement>("[data-float]").forEach((f, i) => {
         const tw = gsap.to(f, {
           y: "+=10",
           duration: 3.2 + i * 0.4,
@@ -209,8 +220,9 @@ export default function MotionRoot() {
         });
       });
 
-      /* ---- gold ribbon ---- */
-      ribbon(lenis);
+      /* ---- gold ribbon (desktop only — its per-frame SVG geometry reads are
+         the heaviest scroll cost; removed on mobile, hidden via mobile.css) ---- */
+      if (!touch && lenis) ribbon(lenis);
 
       /* ---- advanced interaction & atmosphere layer ---- */
       scrollProgress();
@@ -461,12 +473,16 @@ export default function MotionRoot() {
           .to(perf, { opacity: 0, duration: 0.4 }, "tear")
           .to({}, { duration: 0.6 });
 
+        // Desktop keeps the long, luxurious 3400px scrub. Touch gets a much
+        // shorter pin so the three acts resolve within a couple of swipes
+        // instead of trapping the viewport for a slow drag.
         ScrollTrigger.create({
           trigger: ".fmt",
           start: "top top",
-          end: "+=3400",
+          end: () => "+=" + (touch ? window.innerHeight * 1.6 : 3400),
           pin: "#fpin",
           scrub: 1,
+          invalidateOnRefresh: true,
           animation: tl,
         });
       }
