@@ -1014,21 +1014,32 @@ header.solid {
 .fpin {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  /* top padding clears the fixed header while pinned */
+  padding: 104px 0 7vh;
+}
+.fgrid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(36px, 5vw, 88px);
+  width: 100%;
+}
+.fstage-wrap {
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(26px, 3.4vh, 46px);
-  text-align: center;
-  /* top padding guarantees clearance below the fixed header while pinned */
-  padding: 104px 0 7vh;
+}
+.fcopy {
+  text-align: left;
 }
 .fmt-title {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(24px, 3.2vw, 40px);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin-top: -8px;
+  font-size: clamp(28px, 3.6vw, 50px);
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  margin: 12px 0 0;
 }
 .fstage {
   position: relative;
@@ -1038,6 +1049,8 @@ header.solid {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: scale(1.4);
+  transform-origin: center;
 }
 .fgroup {
   position: absolute;
@@ -1129,10 +1142,10 @@ header.solid {
 }
 .fcaps {
   position: relative;
-  height: 196px;
-  width: 92%;
-  max-width: 600px;
-  margin: 0 auto;
+  height: 220px;
+  width: 100%;
+  max-width: 460px;
+  margin-top: 30px;
 }
 .fcap {
   position: absolute;
@@ -1162,8 +1175,7 @@ header.solid {
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 34px;
   height: 1px;
   background: var(--gold);
@@ -1172,9 +1184,9 @@ header.solid {
 .fcap .ds {
   font-size: 15px;
   color: var(--ink2);
-  margin: 14px auto 0;
+  margin: 16px 0 0;
   line-height: 1.6;
-  max-width: 44ch;
+  max-width: 42ch;
 }
 .fcap .badge {
   display: inline-block;
@@ -1186,6 +1198,34 @@ header.solid {
   border: 1px solid rgba(200, 169, 106, 0.55);
   border-radius: 100px;
   padding: 7px 16px;
+}
+
+@media (max-width: 880px) {
+  .fgrid {
+    grid-template-columns: 1fr;
+    gap: 5vh;
+  }
+  .fstage-wrap {
+    order: 1;
+  }
+  .fstage {
+    transform: scale(0.95);
+  }
+  .fcopy {
+    text-align: center;
+    order: 2;
+  }
+  .fcaps {
+    margin: 22px auto 0;
+  }
+  .fcap .sz::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .fcap .ds {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* format extras */
