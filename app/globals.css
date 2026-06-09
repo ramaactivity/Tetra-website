@@ -1471,19 +1471,14 @@ html.reduced .why-prog {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
-  height: 196px;
-  background: #ece7df;
-}
-.rc-figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  height: 188px;
+  background: linear-gradient(160deg, #f7f2ea, #ece3d4);
 }
 .rc-chip {
   position: absolute;
   left: 12px;
   bottom: 12px;
+  z-index: 6;
   background: rgba(20, 17, 13, 0.8);
   color: var(--gold2);
   font-size: 12px;
@@ -1506,6 +1501,243 @@ html.reduced .why-prog {
   line-height: 1.55;
   color: #6a6253;
   margin: 0 8px;
+}
+
+/* ---- card illustrations (pure CSS/SVG, context-matched, looping) ---- */
+.ill {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+/* 01 speed — a print ejects from a printer */
+.ip-printer {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 152px;
+  height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(160deg, #3a3026, #221b14);
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+.ip-printer::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 5px;
+  height: 4px;
+  border-radius: 3px;
+  background: #000;
+}
+.ip-led {
+  position: absolute;
+  right: 12px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold2);
+  animation: ipled 1.1s steps(1) infinite;
+}
+.ip-slot {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 128px;
+  overflow: hidden;
+  z-index: 2;
+}
+.ip-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 104px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 12px 22px -12px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  transform: translateY(-135%);
+  animation: ipout 3s ease-in-out infinite;
+}
+.ip-ph {
+  display: block;
+  height: 50px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #c8a96a, #6e9a6b);
+}
+.ip-ln {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: #e4dccd;
+  margin-top: 7px;
+}
+.ip-ln.short {
+  width: 58%;
+}
+.ip-num {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  font-family: var(--disp);
+  font-size: 30px;
+  line-height: 1;
+  color: #9c7733;
+  z-index: 4;
+}
+.ip-num span {
+  font-size: 12px;
+  margin-left: 3px;
+}
+@keyframes ipout {
+  0%, 12% { transform: translateY(-135%); }
+  46%, 70% { transform: translateY(4px); }
+  100% { transform: translateY(125%); }
+}
+@keyframes ipled {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.25; }
+}
+/* 02 awet — droplets roll off a glossy print */
+.iw-card {
+  position: absolute;
+  inset: 22px 34px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: linear-gradient(150deg, #5b7186, #2f3d49);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.iw-sheen {
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 45%;
+  height: 180%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: rotate(18deg);
+  animation: iwsheen 4.2s ease-in-out infinite;
+}
+.iw-drop {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50% 50% 50% 0;
+  background: radial-gradient(circle at 34% 30%, #fff, rgba(255, 255, 255, 0.45));
+  transform: rotate(45deg);
+  opacity: 0;
+  z-index: 2;
+}
+.iw-drop.a { left: 37%; animation: iwfall 3.2s ease-in infinite; }
+.iw-drop.b { left: 51%; animation: iwfall 3.2s ease-in infinite 1s; }
+.iw-drop.c { left: 64%; animation: iwfall 3.2s ease-in infinite 2s; }
+@keyframes iwfall {
+  0% { top: 28px; opacity: 0; }
+  14% { opacity: 1; }
+  82% { top: 132px; opacity: 1; }
+  100% { top: 148px; opacity: 0; }
+}
+@keyframes iwsheen {
+  0% { left: -45%; }
+  55%, 100% { left: 135%; }
+}
+/* 03 custom — a frame draws itself, cycling event accent colors */
+.ic-frame {
+  width: 152px;
+  height: 102px;
+  position: relative;
+  z-index: 2;
+}
+.ic-rect {
+  stroke: #9c7733;
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: icdraw 3.6s ease-in-out infinite, ichue 7.2s linear infinite;
+}
+.ic-corners {
+  position: absolute;
+  width: 104px;
+  height: 56px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #d8c39a, #b9c8b0);
+  opacity: 0.5;
+  z-index: 1;
+}
+.ic-pen {
+  position: absolute;
+  top: 24px;
+  left: calc(50% + 60px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9c7733;
+  box-shadow: 0 0 0 4px rgba(156, 119, 51, 0.18);
+  animation: icpen 3.6s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes icdraw {
+  0% { stroke-dashoffset: 420; }
+  48%, 72% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 420; }
+}
+@keyframes ichue {
+  0%, 22% { stroke: #9c7733; }
+  25%, 47% { stroke: #5b7186; }
+  50%, 72% { stroke: #c77ba0; }
+  75%, 100% { stroke: #6e9a6b; }
+}
+@keyframes icpen {
+  0% { opacity: 0; transform: translate(0, 0); }
+  10% { opacity: 1; }
+  48% { transform: translate(-4px, 56px); opacity: 1; }
+  60%, 100% { opacity: 0; }
+}
+/* 04 studio — smooth gradient frame snaps from blur to sharp + focus reticle */
+.is-shot {
+  position: absolute;
+  inset: 26px 36px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  filter: blur(7px);
+  animation: isfocus 3.8s ease-in-out infinite;
+}
+.is-row { flex: 1; }
+.is-row.r1 { background: linear-gradient(90deg, #c8a96a, #e2c88c); }
+.is-row.r2 { background: linear-gradient(90deg, #6e9a6b, #a7c9a3); }
+.is-row.r3 { background: linear-gradient(90deg, #5b7186, #93acbf); }
+.is-reticle {
+  position: absolute;
+  border: 2px solid rgba(156, 119, 51, 0);
+  border-radius: 6px;
+  z-index: 2;
+  animation: isret 3.8s ease-in-out infinite;
+}
+@keyframes isfocus {
+  0%, 20% { filter: blur(8px); }
+  52%, 76% { filter: blur(0); }
+  100% { filter: blur(8px); }
+}
+@keyframes isret {
+  0%, 20% { width: 104px; height: 74px; border-color: rgba(156, 119, 51, 0); }
+  52%, 76% { width: 62px; height: 46px; border-color: rgba(156, 119, 51, 0.75); }
+  100% { width: 104px; height: 74px; border-color: rgba(156, 119, 51, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ip-card, .ip-led, .iw-sheen, .iw-drop, .ic-rect, .ic-pen, .is-shot, .is-reticle {
+    animation: none;
+  }
+  .ip-card { transform: translateY(4px); }
+  .ic-rect { stroke-dashoffset: 0; }
+  .is-shot { filter: none; }
 }
 
 /* Interactive (JS + motion): the section is tall and the inner panel sticks

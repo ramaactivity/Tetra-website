@@ -485,17 +485,20 @@ export default function MotionRoot() {
         const rot = (i: number) => tilt[i % tilt.length];
 
         // First card rests in place; the rest wait below their slot.
-        cards.forEach((c, i) => gsap.set(c, { yPercent: 135, opacity: 0, rotation: rot(i) }));
+        cards.forEach((c, i) => gsap.set(c, { yPercent: 150, opacity: 0, rotation: rot(i) }));
         gsap.set(cards[0], { yPercent: 0, opacity: 1, rotation: rot(0) });
 
         const tl = gsap.timeline();
-        tl.to({}, { duration: 0.45 }); // hold on the first card
+        tl.to({}, { duration: 0.5 }); // hold on the first card
         for (let i = 1; i < cards.length; i++) {
-          tl.fromTo(
-            cards[i],
-            { yPercent: 135, opacity: 0, rotation: rot(i) + (rot(i) > 0 ? 4 : -4) },
-            { yPercent: 0, opacity: 1, rotation: rot(i), duration: 0.7, ease: "power3.out" }
-          ).to({}, { duration: 0.5 }); // hold after each lands
+          // slide up opaque (opacity snaps in fast so there's no ghosty overlap)
+          tl.to(cards[i], { opacity: 1, duration: 0.12, ease: "none" }, ">")
+            .to(
+              cards[i],
+              { yPercent: 0, rotation: rot(i), duration: 0.72, ease: "power3.out" },
+              "<"
+            )
+            .to({}, { duration: 0.5 }); // hold after each lands
         }
 
         // No GSAP pin — the panel holds via CSS position:sticky. This scrub maps
