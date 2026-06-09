@@ -425,8 +425,15 @@ picture.rsp {
   .qrow .q .pm {
     align-self: center;
   }
+  /* When collapsed, the answer's bottom padding must NOT leak (it added ~18px
+     below .q, pushing the question + icon ~9px above the true centre between the
+     dividers). Zero it when closed; apply it only when open. */
   .qrow .a p {
-    padding: 0 0 18px;
+    padding: 0;
+    transition: opacity 0.4s var(--ease-out-quart), padding-bottom 0.45s var(--ease-out-expo);
+  }
+  .qrow.open .a p {
+    padding-bottom: 18px;
   }
 
   /* ---- cta fan: the print cards were overflowing their box and colliding
