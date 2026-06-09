@@ -2459,13 +2459,17 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
 
 /* paket — editorial split (copy + manifest checklist) */
 .pkg {
-  padding: 9vh 0;
+  padding: 6vh 0;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
 }
 .pkg > .wrap {
   display: grid;
   grid-template-columns: 0.92fr 1.08fr;
   gap: clamp(34px, 5vw, 80px);
   align-items: center;
+  width: 100%;
 }
 .pkg-lead {
   margin-top: 18px;
@@ -2502,14 +2506,14 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
   background: var(--paper2);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: clamp(8px, 1.5vw, 16px) clamp(22px, 3vw, 40px);
+  padding: clamp(6px, 1vw, 12px) clamp(22px, 3vw, 40px);
   box-shadow: var(--sh);
 }
 .manifest .row {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  padding: clamp(16px, 2vw, 22px) 0;
+  padding: clamp(11px, 1.5vw, 16px) 0;
   border-bottom: 1px solid var(--line);
 }
 .manifest .row:last-child {
@@ -2533,19 +2537,23 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
 .rtext {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 .rt {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(17px, 1.6vw, 20px);
+  font-size: clamp(16px, 1.5vw, 19px);
 }
 .rs {
   color: var(--ink2);
-  font-size: 13.5px;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.5;
 }
 @media (max-width: 860px) {
+  .pkg {
+    min-height: 0;
+    padding: 8vh 0;
+  }
   .pkg > .wrap {
     grid-template-columns: 1fr;
     gap: 38px;

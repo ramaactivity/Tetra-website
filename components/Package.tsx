@@ -4,10 +4,9 @@
 import { waLink } from "@/lib/site";
 
 const INCLUDES = [
-  { t: "Sesi foto unlimited", s: "Bebas foto & cetak sepuasnya selama durasi paket." },
+  { t: "Foto & cetak unlimited", s: "Bebas foto sepuasnya; tiap hasil langsung dicetak di tempat dengan sleeve frame." },
   { t: "2 kru profesional", s: "Standby lebih awal untuk setup & mendampingi tamu sepanjang acara." },
   { t: "Kamera & lighting studio", s: "Peralatan andal standar profesional, hasil konsisten jernih." },
-  { t: "Cetak fisik unlimited", s: "Tiap foto langsung dicetak di tempat, lengkap dengan sleeve frame." },
   { t: "Properti & background", s: "Props seru + free background basic polos kalau kamu belum sediakan." },
   { t: "File digital lengkap", s: "QR download di tempat + semua file di flashdisk kayu eksklusif." },
   { t: "Transport gratis", s: "Tanpa biaya perjalanan untuk seluruh area Jabodetabek." },
