@@ -49,19 +49,18 @@ Placeholders are flagged `[PLACEHOLDER]`.
   - `Kemenag DKI` — Corporate · 4R
   - `MTs Umdatur` — Wisuda · 4R
 
-## Kenapa Tetra
+## Kenapa Tetra (dek 6 kartu, deal-in)
 - Eyebrow: `Kenapa Tetra`
 - H2: `Bukan sekadar *cetak foto*.`
 - Sub: `Hasil sekelas studio, frame buatan sendiri, dan booth yang nggak pernah bikin tamu nunggu.`
-- Widget 1: `±12 dtk` / `Secepat kedipan` / `Cetakan keluar ±12 detik. Tamu nggak ngantri walau acara rame.`
-- Widget 2: `Awet bertahun-tahun` / `Lapisan pelindung bikin air & sidik jari nggak mempan. Warna nggak luntur.`
-- Widget 3: `Didesain buat kamu` / `Tiap acara, frame-nya kami gambar ulang — bukan template seragam.` (cycling label `Frame custom`) — **single home for the frame-custom message.**
-- Widget 4: `Sekelas studio` / `Tajam, gradasi mulus, nggak belang. Beda jauh sama printer rumahan.` (labels `Printer rumahan` vs `Tetra`)
-### Rekam Jejak band (after the Kenapa Tetra cards)
-- Eyebrow: `Rekam Jejak`
-- Headline: `Tenang, acaramu di tangan yang *tepat*.`
-- Stat band (framed, hairline + dividers): `Ratusan Acara terlayani` · `±12 dtk Per cetak` · `Jabodetabek Jangkauan` · `+360° Video booth (bonus)`
-- Reliability note (below stats): `Tiap acara dijaga *operator* plus *printer cadangan* yang siaga. Kalau satu unit rewel, momenmu tetap jalan tanpa jeda.`
+- Kartu (no · tag · judul · deskripsi · ilustrasi):
+  1. Studio · `Sekelas studio` / `Kamera & lighting profesional. Hasil tajam, terang, semua auto good-looking.`
+  2. Cepat · `Cetak ±10 detik` / `Printer DNP RX1HS kecepatan tinggi. Foto fisik langsung jadi, warna tahan lama.`
+  3. Digital · `Langsung dibagikan` / `Scan QR, foto digital masuk ke HP tamu. Siap posting saat itu juga.`
+  4. Custom · `Frame custom` / `Bingkai didesain mengikuti tema acaramu, bukan template seragam.`
+  5. Properti · `Properti kekinian` / `Props seru yang selalu di-update, bikin pose makin hidup.`
+  6. Kru · `Kru ramah & sigap` / `Memandu tamu, menjaga antrean tertib, dan jaga mood acara dari awal sampai akhir.`
+- (Section "Rekam Jejak" dihapus — dulu duplikat: stat sudah di Hero, keandalan/±dtk sudah di kartu/Paket.)
 
 ## Format Cetak (pinned)
 - Section label: `Format Cetak`
@@ -88,20 +87,22 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Body: `Tiap cetakan punya QR code-nya sendiri. Tamu tinggal scan, versi digitalnya langsung siap dibagikan.`
 - (Old "Desain custom" card removed — frame-custom lives in Kenapa Tetra.)
 
-## Paket — "Yang kamu dapat"  [NEW]
-- Eyebrow: `Paket`
-- H2: `Yang kamu *dapat* di hari-H.`
-- Lead: `Satu paket, semua yang bikin booth-mu jalan mulus dari setup sampai tamu terakhir pulang.`
+## Paket — "Yang kamu dapat"
+- Eyebrow: `Pilihan Paket`
+- H2: `Yang kamu *dapat* di acaramu.`
+- Lead: `Sudah lengkap, all-in package tanpa biaya tersembunyi.`
+- Label checklist: `Di setiap paket, sudah include:`
 - Manifest (checklist, not a card grid):
-  - `Booth + operator standby` — `Tim kami jaga dari setup sampai acara beres.`
-  - `Properti & background` — `Props seru dan latar yang nyatu sama tema acaramu.`
-  - `Cetak instan tanpa antre` — `Keluar ±12 detik, tamu bebas foto berkali-kali.`
-  - `Frame custom acaramu` — `Digambar ulang sesuai tema, bukan template seragam.`
-  - `Galeri digital (QR)` — `Semua hasil bisa diakses dan dibagikan kapan saja.`
-  - `Setup ±1 jam sebelum acara` — `Booth sudah siap sebelum tamu pertama datang.`
-- Footer line: `Detail durasi dan jumlah cetak menyesuaikan paket. Cerita acaramu, kami bantu pilih yang pas.`
-- Urgency (partner tone, not hard-sell): `Jadwal akhir pekan biasanya lebih dulu terisi. Pastikan tanggal acaramu masih aman.`
+  - `Sesi foto unlimited` — `Bebas foto & cetak sepuasnya selama durasi paket.`
+  - `2 kru profesional` — `Standby lebih awal untuk setup & mendampingi tamu sepanjang acara.`
+  - `Kamera & lighting studio` — `Peralatan andal standar profesional, hasil konsisten jernih.`
+  - `Cetak fisik unlimited` — `Tiap foto langsung dicetak di tempat, lengkap dengan sleeve frame.`
+  - `Properti & background` — `Props seru + free background basic polos kalau kamu belum sediakan.`
+  - `File digital lengkap` — `QR download di tempat + semua file di flashdisk kayu eksklusif.`
+  - `Transport gratis` — `Tanpa biaya perjalanan untuk seluruh area Jabodetabek.`
+- Urgency: `Booking sekarang sebelum penuh.`
 - Button: `Tanya Paket & Harga` (price stays off-page → WhatsApp)
+- WhatsApp (Paket): `Halo Tetra, saya mau tanya detail paket dan cek ketersediaan tanggal untuk acara saya...`
 
 ## Cara Kerja
 - Eyebrow: `Cara Kerja`

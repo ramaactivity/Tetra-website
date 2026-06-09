@@ -1584,11 +1584,11 @@ html.reduced .why-prog {
 }
 /* card deck — base = static stack fallback (no-JS / reduced / mobile) */
 .why-deck {
-  --rcardh: 384px;
-  --peek: 70px;
+  --rcardh: 340px;
+  --peek: 38px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 .rcard {
   background: var(--card);
@@ -1621,7 +1621,7 @@ html.reduced .why-prog {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
-  height: 188px;
+  height: 140px;
   background: linear-gradient(160deg, #f7f2ea, #ece3d4);
 }
 .rc-chip {
@@ -1881,13 +1881,96 @@ html.reduced .why-prog {
   52%, 76% { width: 62px; height: 46px; border-color: rgba(156, 119, 51, 0.75); }
   100% { width: 104px; height: 74px; border-color: rgba(156, 119, 51, 0); }
 }
+/* qr — scan line sweeps the code (instant digital share) */
+.iq-code {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 9px;
+  box-shadow: var(--sh);
+  overflow: hidden;
+}
+.iq-code svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.iq-scan {
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  top: 8px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 9px rgba(200, 169, 106, 0.85);
+  animation: iqscan 2.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+@keyframes iqscan {
+  0% { top: 8px; opacity: 0; }
+  12%, 86% { opacity: 1; }
+  100% { top: 80px; opacity: 0; }
+}
+/* props — playful props gently floating */
+.ipr {
+  position: absolute;
+}
+.ipr-glass {
+  width: 64px;
+  left: 22%;
+  top: 44%;
+  animation: iprA 3.4s ease-in-out infinite;
+}
+.ipr-star {
+  width: 26px;
+  left: 66%;
+  top: 24%;
+  animation: iprB 3s ease-in-out infinite;
+}
+.ipr-bubble {
+  width: 38px;
+  left: 58%;
+  top: 52%;
+  animation: iprA 3.9s ease-in-out infinite reverse;
+}
+@keyframes iprA {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+@keyframes iprB {
+  0%, 100% { transform: translateY(0) rotate(6deg); }
+  50% { transform: translateY(-10px) rotate(-5deg); }
+}
+/* crew — staff with headset + steady "on duty" pulse */
+.icr {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  z-index: 2;
+}
+.icr-ring {
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 2px solid rgba(156, 119, 51, 0.55);
+  animation: icrPulse 2.6s ease-out infinite;
+}
+@keyframes icrPulse {
+  0% { transform: scale(0.7); opacity: 0.85; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .ip-card, .ip-led, .iw-sheen, .iw-drop, .ic-rect, .ic-pen, .is-shot, .is-reticle {
+  .ip-card, .ip-led, .iw-sheen, .iw-drop, .ic-rect, .ic-pen, .is-shot, .is-reticle,
+  .iq-scan, .ipr, .icr-ring {
     animation: none;
   }
   .ip-card { transform: translateY(4px); }
   .ic-rect { stroke-dashoffset: 0; }
   .is-shot { filter: none; }
+  .icr-ring { opacity: 0; }
 }
 
 /* Interactive (JS + motion): the section is tall and the inner panel sticks
@@ -1915,7 +1998,7 @@ html.js:not(.reduced) .why2 {
 html.js:not(.reduced) .why-deck {
   position: relative;
   display: block;
-  height: calc(var(--rcardh) + var(--peek) * 3);
+  height: calc(var(--rcardh) + var(--peek) * 5);
 }
 html.js:not(.reduced) .why-deck .rcard {
   position: absolute;
@@ -1935,6 +2018,12 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(3) {
 }
 html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
   top: calc(var(--peek) * 3);
+}
+html.js:not(.reduced) .why-deck .rcard:nth-child(5) {
+  top: calc(var(--peek) * 4);
+}
+html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
+  top: calc(var(--peek) * 5);
 }
 @media (max-width: 900px) {
   html.js:not(.reduced) .why {
@@ -1971,22 +2060,7 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
 }
 
 /* stat strip after the pinned deck */
-.why-after {
-  padding: 8vh 0 10vh;
-}
-.wa-head {
-  text-align: center;
-  max-width: 30ch;
-  margin: 0 auto 5vh;
-}
-.wa-title {
-  font-family: var(--disp);
-  font-weight: 400;
-  font-size: clamp(26px, 3.4vw, 46px);
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  margin-top: 14px;
-}
+/* (Rekam Jejak section removed) */
 
 .wgrid {
   display: grid;
@@ -2366,67 +2440,6 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
     clip-path: inset(0 0 0 0);
   }
 }
-/* framed proof band: top/bottom hairlines + vertical dividers between stats */
-.wstats {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.wstat {
-  flex: 1;
-  text-align: center;
-  padding: clamp(26px, 4vh, 44px) 16px;
-  position: relative;
-}
-.wstat + .wstat::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 22%;
-  height: 56%;
-  width: 1px;
-  background: var(--line);
-}
-.wstat .b {
-  font-family: var(--disp);
-  font-size: clamp(24px, 2.9vw, 40px);
-  line-height: 1;
-}
-.wstat .l {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink2);
-  margin-top: 10px;
-}
-@media (max-width: 760px) {
-  .wstats {
-    flex-wrap: wrap;
-  }
-  .wstat {
-    flex: 0 0 50%;
-    padding: 26px 12px;
-  }
-  .wstat:nth-child(3)::before,
-  .wstat:nth-child(2)::before {
-    display: none;
-  }
-}
-.wnote {
-  text-align: center;
-  max-width: 52ch;
-  margin: 4.5vh auto 0;
-  color: var(--ink2);
-  font-size: 14px;
-  line-height: 1.65;
-}
-.wnote b {
-  color: var(--ink);
-  font-weight: 500;
-}
 
 /* paket — editorial split (copy + manifest checklist) */
 .pkg {
@@ -2459,6 +2472,14 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
 }
 .pkg-cta {
   margin-top: 28px;
+}
+.pkg-list-label {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  padding-left: 4px;
 }
 .manifest {
   list-style: none;
