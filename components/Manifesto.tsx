@@ -4,7 +4,7 @@ export default function Manifesto() {
       <div className="wrap">
         <p data-split>
           Setiap acara punya cerita. Tugas kami sederhana: memberi tamu sesuatu
-          untuk <span className="it">dipegang</span>, dan kamu sesuatu untuk{" "}
+          untuk <span className="it">dipegang</span>, dan kamu hal abadi untuk{" "}
           <span className="it">dikenang</span>.
         </p>
       </div>

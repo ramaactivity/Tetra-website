@@ -30,7 +30,7 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Names (placeholder text, swap with real flat-white logo images): `SeaBank` · `Pertamina` · `Indocement` · `Danantara` · `Kemenag DKI` · `Implora`
 
 ## Manifesto
-`Setiap acara punya cerita. Tugas kami sederhana: memberi tamu sesuatu untuk *dipegang*, dan kamu sesuatu untuk *dikenang*.`
+`Setiap acara punya cerita. Tugas kami sederhana: memberi tamu sesuatu untuk *dipegang*, dan kamu hal abadi untuk *dikenang*.`
 
 ## Galeri Karya
 - Eyebrow: `Galeri Karya`
