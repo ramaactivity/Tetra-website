@@ -2795,9 +2795,10 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
 }
 .cta .sub {
   color: var(--ink2);
-  max-width: 40ch;
-  margin: 0 auto 14px;
+  max-width: 42ch;
+  margin: 0 auto 36px;
   line-height: 1.6;
+  font-size: clamp(17px, 1.5vw, 21px);
 }
 .cta-urg {
   color: var(--gold2);

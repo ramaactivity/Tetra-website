@@ -11,24 +11,35 @@ export default function CtaFooter() {
         <div className="wrap">
           <div className="cfan" data-rv>
             <div className="pcard c1" data-float>
-              <img src="/images/g-grad1.jpg" alt="" />
+              <img src="/images/g-grad1.jpg" alt="" loading="lazy" decoding="async" />
             </div>
             <div className="pcard c2" data-float>
-              <img src="/images/g-bday1.jpg" alt="" />
+              <img src="/images/g-bday1.jpg" alt="" loading="lazy" decoding="async" />
             </div>
             <div className="pcard c3" data-float>
-              <img src="/images/g-corp2.jpg" alt="" />
+              <img src="/images/g-corp2.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            {/* c4 & c5 are mobile-only (hidden on desktop via CSS) — they round
+                out the fan into a fuller, well-balanced spread on phones. */}
+            <div className="pcard c4">
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
+                <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <div className="pcard c5">
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet="/images/g-wed2-sm.jpg" />
+                <img src="/images/g-wed2.jpg" alt="" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
           <h2 data-split>
-            Punya tanggal acara? Kami bantu bikin{" "}
-            <span className="it">kenangannya</span>.
+            Udah punya tanggal acara? Yuk bikin lebih seru bareng{" "}
+            <span className="it">Tetra</span>!
           </h2>
           <p className="sub" data-rv>
-            Cetakan yang dibawa pulang. Momen yang nggak hilang.
-          </p>
-          <p className="cta-urg" data-rv>
-            Jadwal akhir pekan biasanya cepat terisi, yuk amankan tanggalmu.
+            Yuk amankan tanggalmu dan konsultasikan dengan admin.
           </p>
           <div data-rv>
             <a

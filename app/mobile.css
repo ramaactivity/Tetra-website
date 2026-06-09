@@ -34,6 +34,13 @@ picture.rsp {
   display: none;
 }
 
+/* CTA fan cards 4 & 5 are mobile-only — hidden by default so DESKTOP keeps its
+   original 3-card fan unchanged; the mobile layer reveals them for a fuller fan. */
+.cfan .c4,
+.cfan .c5 {
+  display: none;
+}
+
 @media (max-width: 768px) {
   /* ---- design tokens: lighter shadow (cheaper paint + less bulky cards) ---- */
   :root {
@@ -436,20 +443,59 @@ picture.rsp {
     padding-bottom: 18px;
   }
 
-  /* ---- cta fan: the print cards were overflowing their box and colliding
-     with the heading below. Crop them to a fixed height (the .pcard already
-     clips overflow) and give the heading clear air. ---- */
+  /* ---- cta fan: a fuller 5-card fan with uniform thumbnails. Each card uses
+     object-fit:cover (so faces aren't sliced off like the old fixed-height
+     crop did) and is fanned around the centre, sized to sit fully inside the
+     viewport — no clipping, no glitch. ---- */
   .cfan {
-    height: 156px;
-    margin: 0 auto 36px;
-    transform: scale(0.92);
-    transform-origin: top center;
+    width: 100%;
+    max-width: 320px;
+    height: 196px;
+    margin: 0 auto 28px;
+    transform: none;
+  }
+  .cfan .c4,
+  .cfan .c5 {
+    display: block;
   }
   .cfan .pcard {
-    height: 150px;
+    width: 94px;
+    height: 134px;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding: 4px;
+    background: #fff;
+    box-shadow: 0 14px 26px -14px rgba(0, 0, 0, 0.62);
+  }
+  .cfan .pcard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+  .cfan .c1 {
+    transform: translate(-50%, -50%) translate(-82px, 10px) rotate(-15deg);
+    z-index: 1;
+  }
+  .cfan .c2 {
+    transform: translate(-50%, -50%) translate(-42px, 3px) rotate(-7deg);
+    z-index: 2;
+  }
+  .cfan .c3 {
+    transform: translate(-50%, -50%) rotate(0deg);
+    z-index: 5;
+  }
+  .cfan .c4 {
+    transform: translate(-50%, -50%) translate(42px, 3px) rotate(7deg);
+    z-index: 3;
+  }
+  .cfan .c5 {
+    transform: translate(-50%, -50%) translate(82px, 10px) rotate(15deg);
+    z-index: 4;
   }
   .cta .sub {
-    margin-bottom: 12px;
+    margin-bottom: 26px;
   }
 
   /* ---- footer: lighter type rhythm ---- */
