@@ -2759,46 +2759,73 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
   text-align: center;
   overflow: hidden;
 }
+/* Five scattered prints (mixed orientations, like the hero stack). Positioned
+   by % so the pile scales; each card is centred on its point then rotated. */
 .cfan {
   position: relative;
-  width: 340px;
-  height: 180px;
-  margin: 0 auto 46px;
+  width: 540px;
+  height: 360px;
+  margin: 0 auto 44px;
 }
 .cfan .pcard {
-  width: 154px;
   top: 0;
+  left: 0;
+  transform-origin: center;
+}
+.cfan .pcard img {
+  width: 100%;
+  height: auto;
 }
 .cfan .c1 {
-  left: 4px;
-  transform: rotate(-11deg) translateY(8px);
+  left: 27%;
+  top: 40%;
+  width: 33%;
+  transform: translate(-50%, -50%) rotate(5deg);
   z-index: 1;
 }
 .cfan .c2 {
-  left: 93px;
-  transform: rotate(-1deg);
-  z-index: 3;
+  left: 64%;
+  top: 70%;
+  width: 44%;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  z-index: 2;
 }
 .cfan .c3 {
-  left: 182px;
-  transform: rotate(10deg) translateY(8px);
-  z-index: 2;
+  left: 86%;
+  top: 36%;
+  width: 17%;
+  transform: translate(-50%, -50%) rotate(7deg);
+  z-index: 3;
+}
+.cfan .c4 {
+  left: 70%;
+  top: 40%;
+  width: 22%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  z-index: 4;
+}
+.cfan .c5 {
+  left: 43%;
+  top: 45%;
+  width: 37%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  z-index: 5;
 }
 .cta h2 {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(34px, 6vw, 82px);
-  line-height: 1.05;
+  font-size: clamp(34px, 4.6vw, 62px);
+  line-height: 1.08;
   letter-spacing: -0.02em;
-  max-width: 16ch;
-  margin: 0 auto 18px;
+  max-width: 22ch;
+  margin: 0 auto 20px;
 }
 .cta .sub {
   color: var(--ink2);
-  max-width: 42ch;
-  margin: 0 auto 36px;
+  max-width: 44ch;
+  margin: 0 auto 38px;
   line-height: 1.6;
-  font-size: clamp(17px, 1.5vw, 21px);
+  font-size: clamp(18px, 1.7vw, 24px);
 }
 .cta-urg {
   color: var(--gold2);

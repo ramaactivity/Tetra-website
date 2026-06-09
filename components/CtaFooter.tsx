@@ -9,28 +9,37 @@ export default function CtaFooter() {
     <>
       <section className="cta" id="kontak">
         <div className="wrap">
+          {/* Five scattered prints — a different set from the hero stack
+              (hero uses bday1/corp1/strip2/strip3/wed1). */}
           <div className="cfan" data-rv>
             <div className="pcard c1" data-float>
-              <img src="/images/g-grad1.jpg" alt="" loading="lazy" decoding="async" />
-            </div>
-            <div className="pcard c2" data-float>
-              <img src="/images/g-bday1.jpg" alt="" loading="lazy" decoding="async" />
-            </div>
-            <div className="pcard c3" data-float>
-              <img src="/images/g-corp2.jpg" alt="" loading="lazy" decoding="async" />
-            </div>
-            {/* c4 & c5 are mobile-only (hidden on desktop via CSS) — they round
-                out the fan into a fuller, well-balanced spread on phones. */}
-            <div className="pcard c4">
               <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
+                <source media="(max-width: 768px)" srcSet="/images/g-grad2-sm.jpg" />
+                <img src="/images/g-grad2.jpg" alt="" loading="lazy" decoding="async" />
               </picture>
             </div>
-            <div className="pcard c5">
+            <div className="pcard c2" data-float>
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet="/images/g-grad1-sm.jpg" />
+                <img src="/images/g-grad1.jpg" alt="" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <div className="pcard c3" data-float>
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet="/images/g-strip1-sm.jpg" />
+                <img src="/images/g-strip1.jpg" alt="" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <div className="pcard c4" data-float>
               <picture className="rsp">
                 <source media="(max-width: 768px)" srcSet="/images/g-wed2-sm.jpg" />
                 <img src="/images/g-wed2.jpg" alt="" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <div className="pcard c5" data-float>
+              <picture className="rsp">
+                <source media="(max-width: 768px)" srcSet="/images/g-corp2-sm.jpg" />
+                <img src="/images/g-corp2.jpg" alt="" loading="lazy" decoding="async" />
               </picture>
             </div>
           </div>

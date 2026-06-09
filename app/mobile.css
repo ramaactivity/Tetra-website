@@ -34,12 +34,6 @@ picture.rsp {
   display: none;
 }
 
-/* CTA fan cards 4 & 5 are mobile-only — hidden by default so DESKTOP keeps its
-   original 3-card fan unchanged; the mobile layer reveals them for a fuller fan. */
-.cfan .c4,
-.cfan .c5 {
-  display: none;
-}
 
 @media (max-width: 768px) {
   /* ---- design tokens: lighter shadow (cheaper paint + less bulky cards) ---- */
