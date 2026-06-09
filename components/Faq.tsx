@@ -17,7 +17,7 @@ const ITEMS = [
   },
   {
     q: "Butuh apa aja dari kami?",
-    a: "Cukup colokan listrik dan ruang sekitar 2×2 meter. Sisanya booth, properti, operator, kami yang bawa.",
+    a: "Cukup lokasi dekat sumber listrik dan area sekitar 3×3 meter, plus satu meja dan dua kursi. Sisanya — booth, properti, operator — kami yang bawa.",
   },
   {
     q: "Hasil cetaknya awet?",

@@ -397,13 +397,28 @@ picture.rsp {
     margin-top: 18px;
   }
 
-  /* ---- faq: tighter rows ---- */
+  /* ---- faq: compact, evenly-spaced rows. Question text + the "+" icon sit
+     vertically centered between the hairline dividers (symmetric padding +
+     align-items:center). The section title's inline 7vh bottom margin is
+     overridden so the list sits closer to the heading. ---- */
+  .faq {
+    padding: 44px 0;
+  }
+  .faq .sec-title {
+    margin: 12px 0 22px !important;
+  }
   .qrow .q {
-    padding: 20px 0;
+    padding: 17px 0;
     gap: 16px;
+    align-items: center;
+    line-height: 1.25;
+    font-size: 17px;
+  }
+  .qrow .q .pm {
+    align-self: center;
   }
   .qrow .a p {
-    padding: 0 0 20px;
+    padding: 0 0 18px;
   }
 
   /* ---- cta fan: the print cards were overflowing their box and colliding
