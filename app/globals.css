@@ -629,16 +629,18 @@ header.solid {
   animation-play-state: paused !important;
 }
 .hero .eyebrow {
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: 0.42em;
   opacity: 0;
   transform: translateY(18px);
 }
 .hero h1 {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(32px, 3.9vw, 54px);
-  line-height: 1.07;
-  letter-spacing: -0.015em;
-  margin: 13px 0 17px;
+  font-size: clamp(40px, 5.2vw, 74px);
+  line-height: 1.04;
+  letter-spacing: -0.018em;
+  margin: 18px 0 22px;
 }
 .hero h1 .w {
   display: inline-block;
@@ -652,9 +654,9 @@ header.solid {
   transform: translateY(130%);
 }
 .hero .sub {
-  max-width: 42ch;
-  font-size: clamp(15px, 1.4vw, 17.5px);
-  line-height: 1.65;
+  max-width: 36ch;
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.6;
   color: var(--ink2);
   opacity: 0;
   transform: translateY(18px);
