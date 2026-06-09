@@ -15,11 +15,13 @@ export default function Hero() {
             Photobooth Premium · Jabodetabek
           </div>
           <h1 id="h1">
-            Sesuatu untuk <span className="it">dipegang</span>, abadi untuk{" "}
-            <span className="it">dikenang</span>.
+            Sesuatu untuk <span className="it">dipegang</span>, abadi{" "}
+            <span className="nbk">
+              untuk <span className="it">dikenang</span>.
+            </span>
           </h1>
           <p className="sub" id="hs">
-            Mengubah experience acaramu menjadi suvenir cetak instan. Memori nyata
+            Mengubah experience acaramu menjadi souvenir cetak instan. Memori nyata
             yang beneran disimpan para tamu.
           </p>
           <div className="cta" id="hc">

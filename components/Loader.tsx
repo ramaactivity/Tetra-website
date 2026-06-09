@@ -23,7 +23,7 @@ export default function Loader() {
             <span className="ld-sheen" id="ldsheen" aria-hidden />
           </div>
           <div className="ll" id="ll">
-            Sesuatu untuk dipegang, sesuatu untuk dikenang
+            Capturing moments that matter
           </div>
         </div>
       </div>

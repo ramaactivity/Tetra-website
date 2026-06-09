@@ -109,6 +109,10 @@ body::before {
   font-style: italic;
   color: var(--gold);
 }
+/* keep a phrase together on one line (survives the word-split reveal) */
+.nbk {
+  white-space: nowrap;
+}
 section {
   position: relative;
   z-index: 1;
