@@ -492,7 +492,9 @@ header.solid {
   z-index: 2;
 }
 .hero-copy {
-  padding-top: 0;
+  /* push the copy block lower: bigger breathing room under the header, and
+     groups the eyebrow/headline/sub nearer the CTA buttons */
+  padding-top: clamp(40px, 9vh, 130px);
 }
 .hero-fluid {
   position: absolute;
