@@ -155,20 +155,29 @@ export default function WhyTetra() {
 
       <section className="why-after">
         <div className="wrap">
-          <div className="wstats">
-            <div className="wstat" data-rv>
-              <div className="b">Ratusan</div>
-              <div className="l">Acara</div>
+          <div className="wa-head">
+            <div className="eyebrow" data-rv>
+              Rekam Jejak
             </div>
-            <div className="wstat" data-rv>
+            <h2 className="wa-title" data-rv>
+              Tenang, acaramu di tangan yang <span className="it">tepat</span>.
+            </h2>
+          </div>
+
+          <div className="wstats" data-rv>
+            <div className="wstat">
+              <div className="b">Ratusan</div>
+              <div className="l">Acara terlayani</div>
+            </div>
+            <div className="wstat">
               <div className="b">±12 dtk</div>
               <div className="l">Per cetak</div>
             </div>
-            <div className="wstat" data-rv>
-              <div className="b">Tahunan</div>
-              <div className="l">Tahan lama</div>
+            <div className="wstat">
+              <div className="b">Jabodetabek</div>
+              <div className="l">Jangkauan</div>
             </div>
-            <div className="wstat" data-rv>
+            <div className="wstat">
               <div className="b">+360°</div>
               <div className="l">Video booth (bonus)</div>
             </div>

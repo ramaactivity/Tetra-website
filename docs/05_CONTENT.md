@@ -57,7 +57,10 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Widget 2: `Awet bertahun-tahun` / `Lapisan pelindung bikin air & sidik jari nggak mempan. Warna nggak luntur.`
 - Widget 3: `Didesain buat kamu` / `Tiap acara, frame-nya kami gambar ulang — bukan template seragam.` (cycling label `Frame custom`) — **single home for the frame-custom message.**
 - Widget 4: `Sekelas studio` / `Tajam, gradasi mulus, nggak belang. Beda jauh sama printer rumahan.` (labels `Printer rumahan` vs `Tetra`)
-- Stat strip: `Ratusan Acara` · `±12 dtk Per cetak` · `Tahunan Tahan lama` · `+360° Video booth (bonus)`
+### Rekam Jejak band (after the Kenapa Tetra cards)
+- Eyebrow: `Rekam Jejak`
+- Headline: `Tenang, acaramu di tangan yang *tepat*.`
+- Stat band (framed, hairline + dividers): `Ratusan Acara terlayani` · `±12 dtk Per cetak` · `Jabodetabek Jangkauan` · `+360° Video booth (bonus)`
 - Reliability note (below stats): `Tiap acara dijaga *operator* plus *printer cadangan* yang siaga. Kalau satu unit rewel, momenmu tetap jalan tanpa jeda.`
 
 ## Format Cetak (pinned)

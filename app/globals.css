@@ -1972,7 +1972,20 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
 
 /* stat strip after the pinned deck */
 .why-after {
-  padding: 4vh 0 9vh;
+  padding: 8vh 0 10vh;
+}
+.wa-head {
+  text-align: center;
+  max-width: 30ch;
+  margin: 0 auto 5vh;
+}
+.wa-title {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-top: 14px;
 }
 
 .wgrid {
@@ -2353,33 +2366,59 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
     clip-path: inset(0 0 0 0);
   }
 }
+/* framed proof band: top/bottom hairlines + vertical dividers between stats */
 .wstats {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 18px 56px;
-  margin-top: 6vh;
-  padding-top: 5vh;
+  align-items: stretch;
+  gap: 0;
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 .wstat {
+  flex: 1;
   text-align: center;
+  padding: clamp(26px, 4vh, 44px) 16px;
+  position: relative;
+}
+.wstat + .wstat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  height: 56%;
+  width: 1px;
+  background: var(--line);
 }
 .wstat .b {
   font-family: var(--disp);
-  font-size: clamp(26px, 3vw, 38px);
+  font-size: clamp(24px, 2.9vw, 40px);
+  line-height: 1;
 }
 .wstat .l {
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink2);
-  margin-top: 8px;
+  margin-top: 10px;
+}
+@media (max-width: 760px) {
+  .wstats {
+    flex-wrap: wrap;
+  }
+  .wstat {
+    flex: 0 0 50%;
+    padding: 26px 12px;
+  }
+  .wstat:nth-child(3)::before,
+  .wstat:nth-child(2)::before {
+    display: none;
+  }
 }
 .wnote {
   text-align: center;
   max-width: 52ch;
-  margin: 3.4vh auto 0;
+  margin: 4.5vh auto 0;
   color: var(--ink2);
   font-size: 14px;
   line-height: 1.65;
