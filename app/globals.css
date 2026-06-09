@@ -1478,14 +1478,18 @@ html.reduced .why-prog {
   color: #5b5347;
 }
 
-/* Interactive (JS + motion): pin the panel; the left copy holds while cards
-   deal in from the bottom and stack. The stat strip lives in .why-after (a
-   normal section) so this pin and the Format pin are never adjacent. */
+/* Interactive (JS + motion): the section is tall and the inner panel sticks
+   (CSS position:sticky — NOT a GSAP pin, so no pin-spacer to collide with the
+   Format Cetak pin). Cards deal in from the bottom and stack via a scrubbed,
+   non-pinning ScrollTrigger as the section scrolls past. */
 html.js:not(.reduced) .why {
   padding: 0;
+  height: 260vh;
 }
-html.js:not(.reduced) .wpin {
-  min-height: 100vh;
+html.js:not(.reduced) .wsticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1523,9 +1527,11 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(4) {
 @media (max-width: 900px) {
   html.js:not(.reduced) .why {
     padding: 9vh 0;
+    height: auto;
   }
-  html.js:not(.reduced) .wpin {
-    min-height: auto;
+  html.js:not(.reduced) .wsticky {
+    position: static;
+    height: auto;
     display: block;
     padding: 0;
   }

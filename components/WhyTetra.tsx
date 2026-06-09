@@ -1,9 +1,10 @@
-// KENAPA TETRA — pinned card-deck (assistantly-style). On desktop the section
-// pins: the left copy holds while the right column's cards deal in one by one
-// from the bottom and stack like a deck; once all are in, scroll resumes. The
-// stat strip lives in its own normal section AFTER the pin, so the two pinned
-// sections (this + Format Cetak) are never directly adjacent (avoids pin-spacer
-// overlap). Falls back to a static stack on mobile / no-JS / reduced-motion.
+// KENAPA TETRA — card-deck hold (assistantly-style). On desktop the section is
+// tall and the inner panel uses CSS position:sticky to "hold" in view while the
+// right column's cards deal in one by one from the bottom and stack like a deck;
+// once the section scrolls past, it releases. The card animation is a scrubbed
+// ScrollTrigger WITHOUT a GSAP pin, so it never creates a pin-spacer that could
+// collide with the pinned Format Cetak section. Falls back to a static stack on
+// mobile / no-JS / reduced-motion.
 const REASONS = [
   {
     no: "01",
@@ -35,7 +36,7 @@ export default function WhyTetra() {
   return (
     <>
       <section className="why" id="kualitas">
-        <div className="wpin" id="wpin">
+        <div className="wsticky" id="wsticky">
           <div className="wrap why2">
             <div className="why-copy">
               <div className="eyebrow" data-rv>

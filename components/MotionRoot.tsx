@@ -492,13 +492,17 @@ export default function MotionRoot() {
           ); // hold after each lands
         }
 
+        // No GSAP pin — the panel holds via CSS position:sticky. This scrub maps
+        // the deal-in to the sticky-hold range (section is 260vh, so the panel
+        // sticks for ~160vh). Mapping to innerHeight*1.6 finishes the deck just
+        // before the section releases.
+        const holdPx = () => "+=" + window.innerHeight * 1.6;
         ScrollTrigger.create({
           trigger: ".why",
           start: "top top",
-          end: "+=2400",
-          pin: "#wpin",
+          end: holdPx,
           scrub: 1,
-          anticipatePin: 1,
+          invalidateOnRefresh: true,
           animation: tl,
         });
         gsap.fromTo(
@@ -507,7 +511,7 @@ export default function MotionRoot() {
           {
             scaleX: 1,
             ease: "none",
-            scrollTrigger: { trigger: ".why", start: "top top", end: "+=2400", scrub: true },
+            scrollTrigger: { trigger: ".why", start: "top top", end: holdPx, scrub: true, invalidateOnRefresh: true },
           }
         );
       }
