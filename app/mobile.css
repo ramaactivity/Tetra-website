@@ -28,6 +28,12 @@ picture.rsp {
   display: none;
 }
 
+/* Second trusted-strip lane is mobile-only — hidden by default so DESKTOP keeps
+   its single ticker unchanged; the mobile layer reveals it (opposite scroll). */
+.trust-strip .marquee.rev {
+  display: none;
+}
+
 @media (max-width: 768px) {
   /* ---- design tokens: lighter shadow (cheaper paint + less bulky cards) ---- */
   :root {
@@ -37,6 +43,16 @@ picture.rsp {
   /* ---- ribbon: removed on mobile (JS also skips drawing it) -------------- */
   #ribbon {
     display: none !important;
+  }
+
+  /* ---- reliability: show scroll-reveal content immediately on mobile -------
+     The [data-rv] fade-up is driven by ScrollTrigger; on iOS touch scrolling it
+     can fail to fire until a tap nudges it, leaving sections (esp. the gallery)
+     blank on first load. On mobile we skip the reveal and render content up
+     front — reliability beats a subtle fade here. (Desktop keeps the reveal.) */
+  [data-rv] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   /* ---- atmosphere: kill the most expensive mobile paints -----------------
@@ -280,6 +296,15 @@ picture.rsp {
   }
   .marquee-group span {
     font-size: 18px;
+  }
+  /* two lanes scrolling in opposite directions (like the gallery rows) */
+  .trust-strip .marquee.rev {
+    display: block;
+    margin-top: 14px;
+  }
+  .trust-strip .marquee.rev .marquee-track {
+    animation-direction: reverse;
+    animation-duration: 42s;
   }
 
   /* ---- format cetak: keep the pinned flip, but make stage + caption fit one

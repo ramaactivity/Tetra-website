@@ -16,12 +16,13 @@ export default function Manifesto() {
           memberi tamu
           <br className="br-d" />
           <br className="br-m" />
-          sesuatu untuk <span className="it">dipegang</span>, dan
+          sesuatu untuk <span className="it">dipegang</span>,{" "}
+          <br className="br-m" />
+          dan{" "}
           <br className="br-d" />
+          kamu hal abadi{" "}
           <br className="br-m" />
-          kamu hal abadi untuk{" "}
-          <br className="br-m" />
-          <span className="it">dikenang</span>.
+          untuk <span className="it">dikenang</span>.
         </p>
       </div>
     </section>
