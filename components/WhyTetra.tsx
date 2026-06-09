@@ -146,35 +146,35 @@ function Illo({ kind }: { kind: string }) {
 const REASONS = [
   {
     no: "01",
-    tag: "Studio",
-    t: "Sekelas studio",
+    tag: "Kualitas",
+    t: "Hasil premium sekelas studio",
     d: "Kamera & lighting profesional. Hasil tajam, terang, semua auto good-looking.",
     kind: "studio",
     chip: "Kualitas studio",
   },
   {
     no: "02",
-    tag: "Cepat",
-    t: "Cetak ±10 detik",
-    d: "Printer DNP RX1HS kecepatan tinggi. Foto fisik langsung jadi, warna tahan lama.",
+    tag: "Kecepatan",
+    t: "Cetak instan tanpa antrian",
+    d: "Hanya 10 detik pakai printer DNP RX1HS. Hasil jernih, awet & warna tahan lama.",
     kind: "speed",
     chip: "±10 detik / cetak",
   },
   {
     no: "03",
-    tag: "Digital",
-    t: "Langsung dibagikan",
+    tag: "Softfile",
+    t: "Realtime download softfile",
     d: "Scan QR, foto digital masuk ke HP tamu. Siap posting saat itu juga.",
     kind: "qr",
-    chip: "Instant share",
+    chip: "Realtime softfile",
   },
   {
     no: "04",
-    tag: "Custom",
-    t: "Frame custom",
+    tag: "Desain",
+    t: "Free desain frame custom",
     d: "Bingkai didesain mengikuti tema acaramu, bukan template seragam.",
     kind: "custom",
-    chip: "Custom desain",
+    chip: "Free custom",
   },
   {
     no: "05",
@@ -188,7 +188,7 @@ const REASONS = [
     no: "06",
     tag: "Kru",
     t: "Kru ramah & sigap",
-    d: "Memandu tamu, menjaga antrean tertib, dan jaga mood acara dari awal sampai akhir.",
+    d: "Memandu tamu, menjaga antrean, dan bikin acara lebih seru.",
     kind: "crew",
     chip: "All-in service",
   },
@@ -207,8 +207,9 @@ export default function WhyTetra() {
               Bukan sekadar <span className="it">cetak foto</span>.
             </h2>
             <p className="lead why-lead" data-rv>
-              Hasil sekelas studio, frame buatan sendiri, dan booth yang nggak
-              pernah bikin tamu nunggu.
+              Kami menghadirkan experience yang memorable: cepat, personal, dan
+              didesain untuk memastikan setiap tamu pulang membawa cerita terbaik
+              mereka.
             </p>
             <div className="why-prog" data-rv aria-hidden>
               <span id="whyProgFill" />

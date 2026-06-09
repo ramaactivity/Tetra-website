@@ -52,14 +52,14 @@ Placeholders are flagged `[PLACEHOLDER]`.
 ## Kenapa Tetra (dek 6 kartu, deal-in)
 - Eyebrow: `Kenapa Tetra`
 - H2: `Bukan sekadar *cetak foto*.`
-- Sub: `Hasil sekelas studio, frame buatan sendiri, dan booth yang nggak pernah bikin tamu nunggu.`
-- Kartu (no · tag · judul · deskripsi · ilustrasi):
-  1. Studio · `Sekelas studio` / `Kamera & lighting profesional. Hasil tajam, terang, semua auto good-looking.`
-  2. Cepat · `Cetak ±10 detik` / `Printer DNP RX1HS kecepatan tinggi. Foto fisik langsung jadi, warna tahan lama.`
-  3. Digital · `Langsung dibagikan` / `Scan QR, foto digital masuk ke HP tamu. Siap posting saat itu juga.`
-  4. Custom · `Frame custom` / `Bingkai didesain mengikuti tema acaramu, bukan template seragam.`
+- Sub: `Kami menghadirkan experience yang memorable: cepat, personal, dan didesain untuk memastikan setiap tamu pulang membawa cerita terbaik mereka.`
+- Kartu (no · tag · judul · deskripsi · ilustrasi) — judul & deskripsi diusahakan 1 baris:
+  1. Kualitas · `Hasil premium sekelas studio` / `Kamera & lighting profesional. Hasil tajam, terang, semua auto good-looking.`
+  2. Kecepatan · `Cetak instan tanpa antrian` / `Hanya 10 detik pakai printer DNP RX1HS. Hasil jernih, awet & warna tahan lama.`
+  3. Softfile · `Realtime download softfile` / `Scan QR, foto digital masuk ke HP tamu. Siap posting saat itu juga.`
+  4. Desain · `Free desain frame custom` / `Bingkai didesain mengikuti tema acaramu, bukan template seragam.`
   5. Properti · `Properti kekinian` / `Props seru yang selalu di-update, bikin pose makin hidup.`
-  6. Kru · `Kru ramah & sigap` / `Memandu tamu, menjaga antrean tertib, dan jaga mood acara dari awal sampai akhir.`
+  6. Kru · `Kru ramah & sigap` / `Memandu tamu, menjaga antrean, dan bikin acara lebih seru.`
 - (Section "Rekam Jejak" dihapus — dulu duplikat: stat sudah di Hero, keandalan/±dtk sudah di kartu/Paket.)
 
 ## Format Cetak (pinned)

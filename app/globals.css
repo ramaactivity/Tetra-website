@@ -1584,8 +1584,8 @@ html.reduced .why-prog {
 }
 /* card deck — base = static stack fallback (no-JS / reduced / mobile) */
 .why-deck {
-  --rcardh: 340px;
-  --peek: 38px;
+  --rcardh: 300px;
+  --peek: 36px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -1621,7 +1621,7 @@ html.reduced .why-prog {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
-  height: 140px;
+  height: 128px;
   background: linear-gradient(160deg, #f7f2ea, #ece3d4);
 }
 .rc-chip {
@@ -1641,14 +1641,14 @@ html.reduced .why-prog {
 .rc-title {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(24px, 2.6vw, 32px);
+  font-size: clamp(22px, 2.2vw, 30px);
   line-height: 1.05;
   color: #1a1712;
-  margin: 20px 8px 7px;
+  margin: 18px 8px 7px;
 }
 .rc-desc {
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.5;
   color: #6a6253;
   margin: 0 8px;
 }
@@ -1991,9 +1991,9 @@ html.js:not(.reduced) .wsticky {
   padding: 104px 0 7vh;
 }
 html.js:not(.reduced) .why2 {
-  grid-template-columns: 0.92fr 1.08fr;
+  grid-template-columns: 0.74fr 1.26fr;
   align-items: center;
-  gap: clamp(40px, 5vw, 88px);
+  gap: clamp(36px, 4vw, 72px);
 }
 html.js:not(.reduced) .why-deck {
   position: relative;
