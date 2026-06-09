@@ -81,11 +81,9 @@ Placeholders are flagged `[PLACEHOLDER]`.
   - Tagline: `Satu untukmu, satu untuk temanmu.`
   - Badge: `★ Lagi tren · lebih hemat`
 
-## Format extra (QR — single feature)
-- Title: `QR code`
-- Sub: `Soft file langsung di tangan`
-- Body: `Tiap cetakan punya QR code-nya sendiri. Tamu tinggal scan, versi digitalnya langsung siap dibagikan.`
-- (Old "Desain custom" card removed — frame-custom lives in Kenapa Tetra.)
+(Format extra "QR / Soft file langsung di tangan" section removed — QR/softfile
+now lives in the Kenapa Tetra card "Realtime download softfile" + the Paket
+"File digital lengkap" inclusion.)
 
 ## Paket — "Yang kamu dapat"
 - Eyebrow: `Pilihan Paket`

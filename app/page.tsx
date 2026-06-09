@@ -5,7 +5,6 @@ import TrustedBy from "@/components/TrustedBy";
 import Gallery from "@/components/Gallery";
 import WhyTetra from "@/components/WhyTetra";
 import FormatScrolly from "@/components/FormatScrolly";
-import FormatExtras from "@/components/FormatExtras";
 import Package from "@/components/Package";
 import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
@@ -44,7 +43,6 @@ export default function Home() {
       </div>
 
       <FormatScrolly />
-      <FormatExtras />
 
       <div className="wrap">
         <div className="divider" />
