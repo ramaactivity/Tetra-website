@@ -58,13 +58,12 @@ picture.rsp {
   /* ---- global vertical rhythm: vh-based section padding balloons on tall
      phones (12vh ≈ 110px each side). Re-base to compact, fixed spacing. ---- */
   .manifesto {
-    padding: 56px 0;
+    padding: 44px 0;
   }
+  /* trusted strip — see the dedicated block lower down for the static two-line
+     client roster; padding kept tight here so it hugs the hero */
   .trust-strip {
-    padding: 34px 0;
-  }
-  .trust-strip .lbl {
-    margin-bottom: 22px;
+    padding: 6px 0 28px;
   }
   .gal {
     padding: 44px 0 48px;
@@ -151,9 +150,13 @@ picture.rsp {
   }
 
   /* ---- hero: tighten the copy + shrink the CTAs + slim the stack so the
-     whole section (incl. the print fan) lands inside one mobile screen ---- */
+     whole section (incl. the print fan) lands inside one mobile screen ----
+     min-height:auto lets the hero size to its content instead of being forced
+     to a full 100svh, which removed a ~100px dead gap below the print fan
+     before the trusted strip. The fan is still fully visible at load. */
   .hero {
-    padding: 74px 0 16px;
+    min-height: auto;
+    padding: 74px 0 22px;
   }
   .hero .wrap {
     gap: 14px;
@@ -246,6 +249,47 @@ picture.rsp {
   .gal-socials a svg {
     width: 12px;
     height: 12px;
+  }
+
+  /* ---- trusted strip (Dipercaya brand & keluarga) ----
+     On mobile the ticker is replaced by a STATIC, centered roster that wraps
+     onto two lines, so every client name is shown in full (the scrolling
+     marquee clipped names at the fade edges). Desktop keeps the live ticker.
+     The label is bumped up so it reads as a proper section cue. */
+  .trust-strip .lbl {
+    font-size: 13px;
+    letter-spacing: 0.24em;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    max-width: 22ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow: visible;
+  }
+  .marquee-track {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .marquee-group[aria-hidden] {
+    display: none;
+  }
+  .marquee-group {
+    flex: 0 1 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 22px;
+    padding-right: 0;
+  }
+  .marquee-group span {
+    font-size: 16px;
+    color: rgba(239, 231, 218, 0.62);
   }
 
   /* ---- format cetak: keep the pinned flip, but make stage + caption fit one
