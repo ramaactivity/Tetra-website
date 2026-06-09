@@ -29,8 +29,8 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Label: `Dipercaya brand & keluarga di 500+ acara`
 - Names (placeholder text, swap with real flat-white logo images): `SeaBank` · `Pertamina` · `Indocement` · `Danantara` · `Kemenag DKI` · `Implora`
 
-## Manifesto (transition beat)
-`Foto ada di mana-mana sekarang. Yang bisa kamu pegang, justru makin *langka*.`
+## Manifesto
+`Setiap acara punya cerita. Tugas kami sederhana: memberi tamu sesuatu untuk *dipegang*, dan kamu sesuatu untuk *dikenang*.`
 
 ## Galeri Karya
 - Eyebrow: `Galeri Karya`
