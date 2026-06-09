@@ -471,46 +471,19 @@ export default function MotionRoot() {
         });
       }
 
-      /* ===== WHY timeline (pin #wpin, swap the 4 widgets one by one) ===== */
+      /* ===== WHY — sticky left copy; widgets reveal via [data-rv]. This only
+         drives the left progress bar as the stage scrolls past. ===== */
       function whyStory() {
         const stage = document.getElementById("wstage");
-        if (!stage) return;
-        // Desktop only — on mobile the CSS shows a static stacked fallback.
-        if (window.innerWidth <= 900) return;
-        const cards = Array.from(stage.querySelectorAll<HTMLElement>(".wd"));
-        if (cards.length < 2) return;
-
-        gsap.set(cards, { opacity: 0, y: 26 });
-        gsap.set(cards[0], { opacity: 1, y: 0 });
-
-        const tl = gsap.timeline();
-        tl.to({}, { duration: 0.55 }); // hold the first widget
-        for (let i = 1; i < cards.length; i++) {
-          tl.to(cards[i - 1], { opacity: 0, y: -22, duration: 0.4, ease: "power2.in" })
-            .fromTo(
-              cards[i],
-              { opacity: 0, y: 26 },
-              { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-              "<0.05"
-            )
-            .to({}, { duration: 0.6 }); // hold
-        }
-
-        ScrollTrigger.create({
-          trigger: ".why",
-          start: "top top",
-          end: "+=2600",
-          pin: "#wpin",
-          scrub: 1,
-          animation: tl,
-        });
+        const fill = document.getElementById("whyProgFill");
+        if (!stage || !fill || window.innerWidth <= 900) return;
         gsap.fromTo(
-          "#whyProgFill",
+          fill,
           { scaleX: 0 },
           {
             scaleX: 1,
             ease: "none",
-            scrollTrigger: { trigger: ".why", start: "top top", end: "+=2600", scrub: true },
+            scrollTrigger: { trigger: stage, start: "top 75%", end: "bottom 75%", scrub: true },
           }
         );
       }

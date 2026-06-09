@@ -27,7 +27,7 @@ export default function WhyTetra() {
 
           <div className="why-stage" id="wstage">
             {/* 1 — speed */}
-            <div className="wd">
+            <div className="wd" data-rv>
               <div className="wd-stage">
                 <div className="prn">
                   <span className="led" />
@@ -46,7 +46,7 @@ export default function WhyTetra() {
             </div>
 
             {/* 2 — durable */}
-            <div className="wd">
+            <div className="wd" data-rv>
               <div className="wd-stage">
                 <div className="dprint">
                   <img src="/images/g-wed1.jpg" alt="" />
@@ -66,7 +66,7 @@ export default function WhyTetra() {
             </div>
 
             {/* 3 — custom frame */}
-            <div className="wd">
+            <div className="wd" data-rv>
               <div className="wd-stage">
                 <div className="cfrm" id="cfrm" style={{ borderColor: "#9C7733" }}>
                   <div className="ph">
@@ -88,7 +88,7 @@ export default function WhyTetra() {
             </div>
 
             {/* 4 — quality */}
-            <div className="wd">
+            <div className="wd" data-rv>
               <div className="wd-stage">
                 <div className="qcmp">
                   <img className="bad" src="/images/g-corp1.jpg" alt="" />

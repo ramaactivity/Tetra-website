@@ -1437,55 +1437,41 @@ html.reduced .why-prog {
   gap: 20px;
 }
 
-/* Interactive (JS + motion allowed): pin the panel, stack widgets in one cell
-   and let MotionRoot swap them on scroll. */
-html.js:not(.reduced) .why {
-  padding-top: 0; /* #wpin clears the header itself while pinned */
-}
-html.js:not(.reduced) .wpin {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 104px 0 7vh;
-}
+/* Interactive (JS + motion allowed): sticky left copy holds while the right
+   column's widgets reveal one by one on scroll. No GSAP pin — avoids spacer
+   collisions with the adjacent pinned Format Cetak section. */
 html.js:not(.reduced) .why2 {
-  grid-template-columns: 0.82fr 1.18fr;
-  align-items: center;
-  gap: clamp(36px, 5vw, 80px);
+  grid-template-columns: 0.8fr 1.2fr;
+  align-items: start;
+  gap: clamp(36px, 5vw, 84px);
+}
+html.js:not(.reduced) .why-copy {
+  position: sticky;
+  top: 120px;
+  align-self: start;
 }
 html.js:not(.reduced) .why-stage {
-  display: grid;
-  place-items: center;
-  gap: 0;
-  min-height: min(60vh, 520px);
+  gap: clamp(64px, 13vh, 150px);
+  padding: 4vh 0 8vh;
 }
 html.js:not(.reduced) .why-stage .wd {
-  grid-area: 1 / 1;
-  width: min(360px, 100%);
-  opacity: 0;
+  width: min(380px, 100%);
+  margin: 0 auto;
 }
 @media (max-width: 900px) {
-  html.js:not(.reduced) .why {
-    padding-top: 9vh;
-  }
-  html.js:not(.reduced) .wpin {
-    min-height: auto;
-    display: block;
-    padding: 0;
-  }
   html.js:not(.reduced) .why2 {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  html.js:not(.reduced) .why-copy {
+    position: static;
+  }
   html.js:not(.reduced) .why-stage {
-    display: flex;
-    flex-direction: column;
-    min-height: auto;
+    gap: 20px;
+    padding: 0;
   }
   html.js:not(.reduced) .why-stage .wd {
     width: 100%;
-    opacity: 1;
   }
   html.js:not(.reduced) .why-prog {
     display: none;
