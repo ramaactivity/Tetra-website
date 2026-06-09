@@ -128,10 +128,69 @@ picture.rsp {
     -webkit-backdrop-filter: none;
     padding: 11px 0;
   }
+  /* header: balance the wordmark, social pills and CTA so nothing feels
+     oversized next to the others */
+  header .nlogo img {
+    height: 27px;
+  }
+  .hdr-socials {
+    gap: 7px;
+  }
+  .hdr-socials a {
+    width: 29px;
+    height: 29px;
+  }
+  .hdr-socials a svg {
+    width: 13px;
+    height: 13px;
+  }
+  header .btn.fill {
+    font-size: 10px;
+    padding: 11px 18px;
+    letter-spacing: 0.14em;
+  }
 
-  /* ---- hero: a touch more breathing room between the stack and the copy --- */
+  /* ---- hero: tighten the copy + shrink the CTAs + slim the stack so the
+     whole section (incl. the print fan) lands inside one mobile screen ---- */
+  .hero {
+    padding: 74px 0 16px;
+  }
   .hero .wrap {
-    gap: 22px;
+    gap: 14px;
+  }
+  .hero-copy {
+    gap: 10px;
+  }
+  .hero .eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.34em;
+  }
+  .hero h1 {
+    font-size: clamp(23px, 6.6vw, 31px);
+    line-height: 1.1;
+  }
+  .hero .sub {
+    font-size: 13.5px;
+    line-height: 1.5;
+    max-width: 40ch;
+  }
+  .hero .cta {
+    margin-top: 8px;
+    gap: 10px;
+  }
+  /* the explicit "diperkecil" — smaller pills so the photos rise into view */
+  .hero .cta .btn {
+    font-size: 11px;
+    padding: 12px 26px;
+  }
+  .hero .trust {
+    margin-top: 8px;
+    gap: 10px;
+    font-size: 11px;
+  }
+  /* slim the print stack a touch so it sits fully on-screen, not cropped */
+  .hero-media {
+    max-width: 74vw;
   }
   .hg {
     box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.62), 0 4px 10px -8px rgba(0, 0, 0, 0.4);
