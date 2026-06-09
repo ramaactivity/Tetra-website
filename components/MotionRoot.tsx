@@ -699,8 +699,16 @@ export default function MotionRoot() {
         let len = 0;
         // Waypoints MUST be listed in vertical (document) order so the spline
         // never backtracks. Mirrors the section order in app/page.tsx.
+        // `sides` (fraction of viewport width) is tuned so the ribbon threads the
+        // EMPTY side of each section — never over the reading copy. Where a
+        // section's content side is an opaque card (.why deck, #paket manifest,
+        // .testi cards), routing the ribbon onto it is safe: the card occludes it
+        // and only the gutters show. Sections whose text sits on a transparent
+        // background (.fmt copy = right, #paket copy = left, etc.) get the side
+        // OPPOSITE the text so glyphs stay clean and readable.
         const sel = ["#top", ".manifesto", "#galeri", ".why", ".fmt", "#paket", "#cara", ".testi", "#kontak"];
-        const sides = [0.5, 0.22, 0.8, 0.2, 0.82, 0.26, 0.78, 0.24, 0.5];
+        //              #top  manif  galeri  why   fmt   paket  cara  testi  kontak
+        const sides = [0.5,  0.86,  0.15,   0.85, 0.15, 0.85,  0.85, 0.5,   0.78];
 
         const build = () => {
           const W = window.innerWidth;
