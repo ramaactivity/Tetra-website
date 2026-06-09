@@ -196,25 +196,56 @@ picture.rsp {
     box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.62), 0 4px 10px -8px rgba(0, 0, 0, 0.4);
   }
 
-  /* ---- gallery: smaller, better-proportioned tiles; calmer marquee ----
-     One row is enough motion on mobile — hiding the reversed row halves the
-     number of animating images. Caption shows by default (no hover on touch). */
+  /* ---- gallery (Kilas Momen) ----
+     Two rows (kept, like desktop) so the section fills the screen and the next
+     "Kenapa Tetra" section doesn't peek through. Event-name captions are HIDDEN
+     on mobile (they obscured the photos); desktop still reveals them on hover.
+     Tiles are sized so heading + both rows sit comfortably in one screen. */
+  .gal {
+    padding: 38px 0 44px;
+  }
+  .ghead {
+    margin-bottom: 22px;
+  }
+  .gal-title {
+    font-size: clamp(25px, 7vw, 38px);
+  }
+  .gal-lead,
+  .ghead .gal-lead {
+    font-size: 14px;
+    margin-top: 12px;
+  }
   .gitem {
-    height: 148px;
+    height: 136px;
     border-radius: 10px;
   }
+  /* captions off on mobile — the photo speaks for itself (button keeps its
+     aria-label, so the name is still announced to screen readers) */
   .gitem-cap {
-    opacity: 1;
-    padding: 20px 12px 10px;
+    display: none;
   }
   .gmarqs {
     gap: 12px;
   }
-  .gmarq.rev {
-    display: none;
-  }
+  /* instagram + tiktok on ONE line: label takes its own row above, the two
+     pills sit together below, slightly smaller */
   .gal-socials {
     gap: 8px;
+    margin-top: 16px;
+  }
+  .gal-socials > span {
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 2px;
+    font-size: 12px;
+  }
+  .gal-socials a {
+    padding: 6px 14px;
+    font-size: 10px;
+  }
+  .gal-socials a svg {
+    width: 12px;
+    height: 12px;
   }
 
   /* ---- format cetak: keep the pinned flip, but make stage + caption fit one
