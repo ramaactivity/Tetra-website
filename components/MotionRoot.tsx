@@ -77,7 +77,7 @@ export default function MotionRoot() {
 
     const ctx = gsap.context(() => {
       /* ---- Lenis smooth scroll, wired to ScrollTrigger ---- */
-      const lenis = new Lenis({ lerp: 0.055, wheelMultiplier: 0.85, touchMultiplier: 1.3 });
+      const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, touchMultiplier: 1.5 });
       lenisRef.current = lenis;
       setLenis(lenis);
       lenis.on("scroll", ScrollTrigger.update);
@@ -146,15 +146,21 @@ export default function MotionRoot() {
         }
       );
 
-      /* ---- floating CTA cards ---- */
+      /* ---- floating CTA cards (paused by ScrollTrigger while off-screen) ---- */
       document.querySelectorAll<HTMLElement>("[data-float]").forEach((f, i) => {
-        gsap.to(f, {
+        const tw = gsap.to(f, {
           y: "+=10",
           duration: 3.2 + i * 0.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
           delay: i * 0.2,
+        });
+        ScrollTrigger.create({
+          trigger: f,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => (self.isActive ? tw.play() : tw.pause()),
         });
       });
 
@@ -206,6 +212,7 @@ export default function MotionRoot() {
       /* ---- advanced interaction & atmosphere layer ---- */
       scrollProgress();
       dividerReveal();
+      pauseOffscreen();
       if (!touch) {
         cursor();
         magnetic();
@@ -459,6 +466,22 @@ export default function MotionRoot() {
           scrub: 1,
           animation: tl,
         });
+      }
+
+      /* ===== pause looping animations in sections that are off-screen ===== */
+      function pauseOffscreen() {
+        const targets = document.querySelectorAll<HTMLElement>("section");
+        if (!targets.length || !("IntersectionObserver" in window)) return;
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) =>
+              en.target.classList.toggle("amb-off", !en.isIntersecting)
+            );
+          },
+          { rootMargin: "100px" }
+        );
+        targets.forEach((t) => io.observe(t));
+        cleanups.push(() => io.disconnect());
       }
 
       /* ===== cursor (precise dot + lagging ring) ===== */

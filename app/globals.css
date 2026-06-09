@@ -353,9 +353,9 @@ header {
   padding: 22px 0;
   transition: background 0.5s, padding 0.5s, border-color 0.5s, box-shadow 0.5s;
   border-bottom: 1px solid transparent;
-  background: rgba(21, 18, 14, 0.45);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(21, 18, 14, 0.5);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
 }
 header .wrap {
   display: flex;
@@ -432,9 +432,9 @@ header nav a.lnk:hover::after {
   transform: translateY(0);
 }
 header.solid {
-  background: rgba(21, 18, 14, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(21, 18, 14, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 13px 0;
   border-color: var(--line);
   box-shadow: 0 8px 30px -18px rgba(0, 0, 0, 0.8);
@@ -501,7 +501,9 @@ header.solid {
   position: absolute;
   display: block;
   border-radius: 50%;
-  filter: blur(90px);
+  /* the radial-gradient fills are already soft — a big blur on top is mostly
+     redundant and the single most expensive paint on the page, so keep it small */
+  filter: blur(40px);
   mix-blend-mode: screen;
   will-change: transform;
 }
@@ -602,13 +604,25 @@ header.solid {
     display: none;
   }
   .hero-fluid b {
-    filter: blur(60px);
+    filter: blur(28px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-fluid b {
     animation: none;
   }
+}
+/* Pause every looping CSS animation inside any section that's scrolled out of
+   view — blobs, leaks, floating prints, the marquee, and the many decorative
+   loops in the lower sections (scan/led/emerge/gloss/fall/wipe…) otherwise burn
+   the CPU/GPU forever even when nobody can see them. MotionRoot toggles .amb-off
+   per section via IntersectionObserver. (Only affects CSS animations — GSAP
+   scroll reveals are untouched.) */
+.amb-off,
+.amb-off *,
+.amb-off *::before,
+.amb-off *::after {
+  animation-play-state: paused !important;
 }
 .hero .eyebrow {
   opacity: 0;
@@ -2412,7 +2426,7 @@ html.cursor-on [role="button"] {
   position: absolute;
   pointer-events: none;
   mix-blend-mode: screen;
-  filter: blur(46px);
+  filter: blur(30px);
   opacity: 0;
   will-change: transform, opacity;
 }
