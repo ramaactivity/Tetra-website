@@ -191,6 +191,9 @@ export default function MotionRoot() {
       /* ---- FORMAT pinned scrollytelling (4R → 2R → Polaroid) ---- */
       formatStory();
 
+      /* ---- WHY pinned 2-col reveal (widgets swap one at a time) ---- */
+      whyStory();
+
       /* ---- process timeline ---- */
       gsap.to("#stepProg", {
         height: "100%",
@@ -466,6 +469,50 @@ export default function MotionRoot() {
           scrub: 1,
           animation: tl,
         });
+      }
+
+      /* ===== WHY timeline (pin #wpin, swap the 4 widgets one by one) ===== */
+      function whyStory() {
+        const stage = document.getElementById("wstage");
+        if (!stage) return;
+        // Desktop only — on mobile the CSS shows a static stacked fallback.
+        if (window.innerWidth <= 900) return;
+        const cards = Array.from(stage.querySelectorAll<HTMLElement>(".wd"));
+        if (cards.length < 2) return;
+
+        gsap.set(cards, { opacity: 0, y: 26 });
+        gsap.set(cards[0], { opacity: 1, y: 0 });
+
+        const tl = gsap.timeline();
+        tl.to({}, { duration: 0.55 }); // hold the first widget
+        for (let i = 1; i < cards.length; i++) {
+          tl.to(cards[i - 1], { opacity: 0, y: -22, duration: 0.4, ease: "power2.in" })
+            .fromTo(
+              cards[i],
+              { opacity: 0, y: 26 },
+              { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+              "<0.05"
+            )
+            .to({}, { duration: 0.6 }); // hold
+        }
+
+        ScrollTrigger.create({
+          trigger: ".why",
+          start: "top top",
+          end: "+=2600",
+          pin: "#wpin",
+          scrub: 1,
+          animation: tl,
+        });
+        gsap.fromTo(
+          "#whyProgFill",
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            ease: "none",
+            scrollTrigger: { trigger: ".why", start: "top top", end: "+=2600", scrub: true },
+          }
+        );
       }
 
       /* ===== pause looping animations in sections that are off-screen ===== */
