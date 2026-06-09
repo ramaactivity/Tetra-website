@@ -516,3 +516,67 @@ picture.rsp {
     background: rgba(20, 16, 12, 0.82);
   }
 }
+
+/* ============================================================================
+   PRICELIST PAGE — phone overrides (natural flow, not 100vh per section).
+   Mobile stays a priority surface: legible rows, scrollable chips, sticky bar.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pl-chips-wrap { top: 53px; }
+
+  .pl-hero-actions .btn { flex: 1 1 auto; justify-content: center; }
+  .pl-hero-fan {
+    min-height: 230px;
+    transform: scale(0.84);
+    transform-origin: center top;
+    margin-top: 2px;
+  }
+
+  /* package: photo on top, modest; number watermark hidden to avoid clutter */
+  .pl-pkg { padding: clamp(40px, 7vh, 60px) 0; }
+  .pl-pkg-num { display: none; }
+  .pl-pkg-figure { justify-content: center; margin-top: 20px; }
+  .pl-pkg-figure .pl-photo-card { max-width: 220px; }
+  .pl-pkg-cta { align-self: stretch; text-align: center; justify-content: center; }
+
+  /* keychain illustration smaller */
+  .pl-keychain-ico { width: 46px; height: 46px; }
+
+  /* download band stacks */
+  .pl-download-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .pl-download-inner .btn { width: 100%; justify-content: center; }
+
+  /* spacer so the fixed bar never hides the footer's last line */
+  .pl-foot-pad { height: 76px; }
+
+  /* sticky bottom action bar */
+  .pl-sticky {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 180;
+    gap: 9px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(18, 15, 11, 0.96);
+    border-top: 1px solid var(--line);
+  }
+  .pl-sticky-btn {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .pl-sticky-btn.ghost { background: rgba(255, 255, 255, 0.04); }
+  .pl-sticky-btn.fill { background: var(--gold); border-color: var(--gold); color: #fff; }
+}

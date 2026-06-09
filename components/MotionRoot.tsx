@@ -108,8 +108,12 @@ export default function MotionRoot() {
       const navHandlers: Array<[HTMLElement, (ev: Event) => void]> = [];
       document.querySelectorAll<HTMLElement>("[data-scroll]").forEach((a) => {
         const h = (ev: Event) => {
+          const sel = a.getAttribute("data-scroll") || "";
+          // Target not on this page (e.g. nav links on /pricelist) → let the
+          // browser follow the href (root-relative, navigates home).
+          if (!document.querySelector(sel)) return;
           ev.preventDefault();
-          scrollTo(a.getAttribute("data-scroll") || "");
+          scrollTo(sel);
         };
         a.addEventListener("click", h);
         navHandlers.push([a, h]);

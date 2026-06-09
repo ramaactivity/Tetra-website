@@ -26,13 +26,15 @@ export default function Header() {
   return (
     <header id="hdr" className={solid ? "solid" : undefined}>
       <div className="wrap">
-        <a className="nlogo" href="#top" data-scroll="#top" aria-label="Tetra Photobooth — ke atas">
+        <a className="nlogo" href="/#top" data-scroll="#top" aria-label="Tetra Photobooth — ke atas">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/word-white.png" alt="tetra photobooth" />
         </a>
         <nav>
           {NAV.map((n) => (
-            <a key={n.id} className="lnk" href={n.id} data-scroll={n.id}>
+            // root-relative so the smooth-scroll handler works on the home page
+            // and the link still navigates home from other routes (e.g. /pricelist)
+            <a key={n.id} className="lnk" href={`/${n.id}`} data-scroll={n.id}>
               <span className="roll">
                 <span>{n.label}</span>
                 <span aria-hidden>{n.label}</span>
