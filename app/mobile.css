@@ -676,3 +676,12 @@ picture.rsp {
     backdrop-filter: none;
   }
 }
+
+/* ============================================================================
+   PRICELIST mobile — hero CTAs are redundant with the fixed bottom action bar
+   (Booking/Download). Hide them on mobile so the print fan rises and the hero
+   reads as one screen. Desktop keeps the hero buttons (it has no bottom bar).
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pl-hero-actions { display: none; }
+}
