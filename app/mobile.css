@@ -723,3 +723,16 @@ picture.rsp {
   .vignette { display: none; }
   .pl-photo-card { transform: none !important; }
 }
+
+/* ============================================================================
+   PRICELIST/site mobile — remove the LAST fixed full-screen overlay.
+   With .vignette already hidden on mobile, body::before (a fixed, inset:0 radial
+   glow behind all content) is the only remaining viewport-spanning fixed layer.
+   A fixed full-screen element forces iOS Safari to composite the whole viewport
+   and is the classic trigger for the "strip under the fixed header fails to
+   repaint" bug (a frozen copy of scrolled-past content). Drop it on mobile; the
+   page background already carries the warm tone. Desktop keeps the glow.
+   ========================================================================== */
+@media (max-width: 768px) {
+  body::before { display: none; }
+}
