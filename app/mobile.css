@@ -24,7 +24,8 @@ picture.rsp {
 /* Manifesto responsive line breaks (all viewports): the mobile-only breaks are
    hidden by default so DESKTOP keeps its original 4-line layout untouched; the
    mobile layer below reveals them (and hides the desktop breaks) for 7 lines. */
-.manifesto br.br-m {
+.manifesto br.br-m,
+.hero h1 br.br-m {
   display: none;
 }
 
@@ -188,7 +189,8 @@ picture.rsp {
   .hero {
     min-height: 100svh;
     align-items: stretch; /* let .wrap fill the full height for space-between */
-    padding: 92px 0 26px; /* extra top clearance below the fixed header */
+    padding: 92px 0 16px; /* top clears the header; small bottom so the fan sits
+                             near the fold and the trusted strip stays hidden */
   }
   .hero .wrap {
     display: flex;
@@ -204,8 +206,11 @@ picture.rsp {
     letter-spacing: 0.34em;
   }
   .hero h1 {
-    font-size: clamp(23px, 6.6vw, 31px);
-    line-height: 1.1;
+    font-size: clamp(27px, 7.8vw, 38px);
+    line-height: 1.14;
+  }
+  .hero h1 br.br-m {
+    display: inline;
   }
   .hero .sub {
     font-size: 13.5px;
@@ -444,7 +449,7 @@ picture.rsp {
   .cfan {
     width: 100%;
     max-width: 320px;
-    height: 196px;
+    height: 178px;
     margin: 0 auto 28px;
     transform: none;
   }

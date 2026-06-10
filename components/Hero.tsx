@@ -15,7 +15,12 @@ export default function Hero() {
             Photobooth Premium · Jabodetabek
           </div>
           <h1 id="h1">
-            Sesuatu untuk <span className="it">dipegang</span>, abadi{" "}
+            {/* br-m forces the same 3-line break on mobile as desktop wraps to
+                naturally; hidden on desktop so the desktop layout is unchanged. */}
+            Sesuatu untuk{" "}
+            <br className="br-m" />
+            <span className="it">dipegang</span>, abadi{" "}
+            <br className="br-m" />
             <span className="nbk">
               untuk <span className="it">dikenang</span>.
             </span>
