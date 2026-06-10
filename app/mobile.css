@@ -156,12 +156,17 @@ picture.rsp {
      during all scrolling) for a slightly more opaque solid fill ---- */
   header {
     padding: 16px 0;
-    background: rgba(20, 16, 12, 0.97);
+    /* FULLY opaque (no alpha): iOS Safari treats a near-opaque fixed bar as an
+       occluder and stops repainting the content scrolling behind it, but the
+       residual transparency leaks that stale paint as a "ghost". A solid bg on
+       its own layer removes the leak. */
+    background: #14100c;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    transform: translateZ(0);
   }
   header.solid {
-    background: rgba(18, 15, 11, 0.96);
+    background: #120e0a;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     padding: 11px 0;
@@ -614,8 +619,10 @@ picture.rsp {
     z-index: 180;
     gap: 9px;
     padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-    background: rgba(18, 15, 11, 0.96);
+    /* FULLY opaque + own layer: same iOS occlusion-cull ghost fix as the header */
+    background: #15120e;
     border-top: 1px solid var(--line);
+    transform: translateZ(0);
   }
   .pl-sticky-btn {
     flex: 1 1 0;
