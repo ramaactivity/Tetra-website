@@ -3561,51 +3561,24 @@ header nav a.lnk:hover .roll span {
   position: relative;
   z-index: 1;
 }
-.pl-pkg-num {
-  position: absolute;
-  top: 8%;
-  right: 3vw;
-  z-index: 0;
-  font-family: var(--disp);
-  font-size: clamp(110px, 20vw, 280px);
-  line-height: 1;
-  color: var(--ink);
-  opacity: 0.045;
-  pointer-events: none;
-  user-select: none;
-}
 .pl-pkg-stage {
   display: grid;
   grid-template-columns: 1fr;
   gap: 26px;
 }
 
-/* identity + photo */
+/* identity + illustration */
 .pl-pkg-aside {
   display: flex;
   flex-direction: column;
 }
-.pl-pkg-kicker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.pl-pkg-icon {
-  display: inline-flex;
-  flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
-  color: var(--gold);
-}
-.pl-pkg-icon svg { width: 100%; height: 100%; overflow: visible; }
 .pl-pkg-name {
   font-family: var(--disp);
   font-weight: 400;
   font-size: clamp(28px, 3.2vw, 44px);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  margin: 0;
+  margin: 12px 0 0;
 }
 .pl-pkg-blurb {
   margin: 14px 0 0;
@@ -3613,29 +3586,47 @@ header nav a.lnk:hover .roll span {
   font-size: 14.5px;
   line-height: 1.6;
 }
-.pl-pkg-figure {
-  margin: 22px 0 0;
+
+/* gold line-art emblem over a large faded package number */
+.pl-pkg-art-wrap {
+  position: relative;
+  margin-top: clamp(16px, 3vh, 32px);
   display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 196px;
 }
-.pl-photo-card {
-  display: inline-block;
-  box-sizing: border-box;
-  background: var(--card);
-  padding: 8px;
-  border-radius: 6px;
-  box-shadow: var(--sh);
-  overflow: hidden;
-  transform: rotate(-2deg);
-  transition: transform 0.6s var(--ease-out-quint);
+.pl-pkg-num {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  font-family: var(--disp);
+  font-size: clamp(130px, 18vw, 250px);
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
 }
-.pl-photo-card img {
+.pl-art {
+  position: relative;
+  z-index: 1;
   display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 3px;
+  width: clamp(162px, 16vw, 224px);
+  color: var(--gold2);
+  filter: drop-shadow(0 0 24px rgba(200, 169, 106, 0.14));
 }
-.pl-pkg--alt .pl-photo-card { transform: rotate(2deg); }
-.pl-pkg-figure:hover .pl-photo-card { transform: rotate(0deg) translateY(-5px); }
+.pl-art svg { width: 100%; height: auto; overflow: visible; }
+.pl-art-spin { transform-box: fill-box; transform-origin: center; animation: plSpin 16s linear infinite; }
+.pl-art-float { animation: plArtFloat 5s ease-in-out infinite; }
+.pl-art-print { animation: plArtFloat 4.4s ease-in-out infinite; }
+.pl-art-beam { animation: plArtBeam 3.6s ease-in-out infinite; }
+.pl-art-spark { transform-box: fill-box; transform-origin: center; animation: plArtTwinkle 4.2s ease-in-out infinite; }
+@keyframes plArtFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes plArtBeam { 0%, 100% { opacity: 0.08; } 50% { opacity: 0.26; } }
+@keyframes plArtTwinkle { 0%, 100% { opacity: 0.2; transform: scale(0.6); } 50% { opacity: 1; transform: scale(1); } }
 
 /* offer surface (single card: prices · what-you-get · cta) */
 .pl-pkg-offer {
@@ -4022,9 +4013,7 @@ header nav a.lnk:hover .roll span {
   .pl-pkg-offer { gap: 14px; }
   .pl-pkg--alt .pl-pkg-aside { order: 2; }
   .pl-pkg--alt .pl-pkg-offer { order: 1; }
-  .pl-pkg--alt .pl-pkg-num { right: auto; left: 3vw; }
-  .pl-pkg-figure .pl-photo-card { width: auto; }
-  .pl-pkg-figure .pl-photo-card img { width: auto; max-width: 100%; max-height: 40vh; }
+  .pl-pkg-art-wrap { min-height: 240px; }
   /* prices in two columns so the offer card fits one screen */
   .pl-tiers { grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
   /* "Yang kamu dapat" is shown inline on desktop: force the disclosure open and
@@ -4056,15 +4045,16 @@ header nav a.lnk:hover .roll span {
 /* ====================== reduced motion: freeze loops =================== */
 @media (prefers-reduced-motion: reduce) {
   .pl-spark,
-  .pl-pkg-icon .spin,
-  .pl-pkg-icon .flash,
-  .pl-pkg-icon .sway,
-  .pl-pkg-icon .beam,
-  .pl-keychain-ico .sway2 {
+  .pl-keychain-ico .sway2,
+  .pl-art-spin,
+  .pl-art-float,
+  .pl-art-print,
+  .pl-art-beam,
+  .pl-art-spark {
     animation: none;
   }
   .pl-spark { opacity: 0; }
-  .pl-pkg-icon .flash { opacity: 0.6; }
-  .pl-pkg-icon .beam { opacity: 0.22; }
+  .pl-art-spark { opacity: 0.7; }
+  .pl-art-beam { opacity: 0.2; }
   .pl-backdrop-swatch::after { display: none; }
 }

@@ -587,11 +587,8 @@ picture.rsp {
     margin-top: 2px;
   }
 
-  /* package: photo on top, modest; number watermark hidden to avoid clutter */
+  /* package illustration block */
   .pl-pkg { padding: clamp(40px, 7vh, 60px) 0; }
-  .pl-pkg-num { display: none; }
-  .pl-pkg-figure { justify-content: center; margin-top: 20px; }
-  .pl-pkg-figure .pl-photo-card { max-width: 220px; }
   .pl-pkg-cta { align-self: stretch; text-align: center; justify-content: center; }
 
   /* keychain illustration smaller */
@@ -699,9 +696,10 @@ picture.rsp {
   .pl-pkg-name { font-size: clamp(24px, 6.6vw, 30px); }
   .pl-pkg-blurb { font-size: 13px; line-height: 1.5; margin-top: 8px; }
 
-  .pl-pkg-figure { justify-content: center; margin-top: 10px; }
-  .pl-pkg-figure .pl-photo-card { max-width: 52vw; width: auto; }
-  .pl-pkg-figure .pl-photo-card img { width: auto; max-width: 100%; max-height: 15vh; }
+  /* compact illustration so the package still fits one phone screen */
+  .pl-pkg-art-wrap { margin-top: 8px; min-height: 138px; }
+  .pl-art { width: 132px; }
+  .pl-pkg-num { font-size: 132px; opacity: 0.05; }
 
   .pl-pkg-offer { gap: 11px; padding: 16px; }
   .pl-tier { padding: 6px 0; }
