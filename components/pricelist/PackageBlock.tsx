@@ -2,26 +2,13 @@ import { type Pkg, PKG_PHOTO } from "@/lib/pricelist";
 import { waLink, waMessage } from "@/lib/site";
 import PriceTier from "./PriceTier";
 import Collapsible from "./Collapsible";
+import FeatsDisclosure from "./FeatsDisclosure";
 import PrintPhoto from "./PrintPhoto";
 import PkgIcon from "./PkgIcon";
 
-function Check() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M5 12.5l4 4 10-10"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 // Full-viewport package "stage": identity + photo on one side, a single offer
 // card (prices · what-you-get · CTA) on the other. Sides alternate by index so
-// the scroll reads like an editorial spread; each fits one screen on desktop.
+// the scroll reads like an editorial spread; each fits one screen.
 export default function PackageBlock({ pkg, index }: { pkg: Pkg; index: number }) {
   const photo = PKG_PHOTO[pkg.id];
   const alt = index % 2 === 1;
@@ -58,19 +45,7 @@ export default function PackageBlock({ pkg, index }: { pkg: Pkg; index: number }
               <PriceTier tiers={pkg.tiers} />
             </div>
 
-            <div className="pl-offer-feats">
-              <h3 className="pl-includes-title">Yang kamu dapat</h3>
-              <ul className="pl-featlist">
-                {pkg.includes.map((item) => (
-                  <li className="pl-feat" key={item}>
-                    <span className="pl-feat-tick">
-                      <Check />
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <FeatsDisclosure items={pkg.includes} />
 
             {pkg.extras && pkg.extras.length > 0 && (
               <div className="pl-extras">

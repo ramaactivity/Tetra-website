@@ -3648,21 +3648,27 @@ header nav a.lnk:hover .roll span {
   flex-direction: column;
   gap: 18px;
 }
-.pl-tiers { list-style: none; margin: 0; padding: 0; }
+.pl-tiers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: clamp(22px, 2.6vw, 44px);
+}
 .pl-tier {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  padding: 10px 0;
+  gap: 14px;
+  padding: 9px 0;
   border-bottom: 1px solid var(--line);
 }
-.pl-tier:last-child { border-bottom: 0; }
-.pl-tier-label { font-size: 13.5px; color: var(--ink); }
+.pl-tier-label { font-size: 13px; color: var(--ink); }
 .pl-tier-price {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(16px, 1.5vw, 20px);
+  font-size: clamp(15px, 1.45vw, 19px);
   color: var(--gold2);
   white-space: nowrap;
   transition: color 0.3s;
@@ -3674,11 +3680,46 @@ header nav a.lnk:hover .roll span {
   text-transform: uppercase;
   color: var(--gold);
   font-weight: 400;
-  margin: 0 0 12px;
+  margin: 0;
 }
-.pl-offer-feats {
+
+/* "Yang kamu dapat" — collapsible on mobile, forced-open inline on desktop */
+.pl-feats {
   border-top: 1px solid var(--line);
-  padding-top: 18px;
+  padding-top: 14px;
+}
+.pl-feats-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.pl-feats-ico {
+  flex: 0 0 auto;
+  color: var(--gold);
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.pl-feats.open .pl-feats-ico { transform: rotate(180deg); }
+.pl-feats-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease-out-expo);
+}
+.pl-feats.open .pl-feats-body { grid-template-rows: 1fr; }
+.pl-feats-body > .pl-featlist {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-quart);
+}
+.pl-feats.open .pl-feats-body > .pl-featlist {
+  opacity: 1;
+  padding-top: 14px;
 }
 .pl-featlist {
   list-style: none;
@@ -3686,7 +3727,7 @@ header nav a.lnk:hover .roll span {
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 9px 22px;
+  gap: 8px 22px;
 }
 .pl-feat {
   display: flex;
@@ -3970,19 +4011,28 @@ header nav a.lnk:hover .roll span {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding: 122px 0 44px;
+    padding: 144px 0 40px; /* clears the fixed header + sticky chips */
   }
   .pl-pkg > .wrap { width: 100%; }
   .pl-pkg-stage {
     grid-template-columns: 1fr 1fr;
-    gap: clamp(40px, 5vw, 72px);
+    gap: clamp(36px, 4.5vw, 64px);
     align-items: center;
   }
+  .pl-pkg-offer { gap: 14px; }
   .pl-pkg--alt .pl-pkg-aside { order: 2; }
   .pl-pkg--alt .pl-pkg-offer { order: 1; }
   .pl-pkg--alt .pl-pkg-num { right: auto; left: 3vw; }
   .pl-pkg-figure .pl-photo-card { width: auto; }
-  .pl-pkg-figure .pl-photo-card img { width: auto; max-width: 100%; max-height: 42vh; }
+  .pl-pkg-figure .pl-photo-card img { width: auto; max-width: 100%; max-height: 40vh; }
+  /* prices in two columns so the offer card fits one screen */
+  .pl-tiers { grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
+  /* "Yang kamu dapat" is shown inline on desktop: force the disclosure open and
+     drop the tap affordance (room to show everything) */
+  .pl-feats-toggle { pointer-events: none; }
+  .pl-feats-ico { display: none; }
+  .pl-feats-body { grid-template-rows: 1fr; }
+  .pl-feats-body > .pl-featlist { opacity: 1; padding-top: 14px; }
   .pl-featlist { grid-template-columns: 1fr 1fr; }
 
   .pl-screen {

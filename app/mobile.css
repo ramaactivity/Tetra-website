@@ -685,3 +685,27 @@ picture.rsp {
 @media (max-width: 768px) {
   .pl-hero-actions { display: none; }
 }
+
+/* ============================================================================
+   PRICELIST mobile — fit each package in one screen.
+   Prices stay single-column (full width, legible), "Yang kamu dapat" collapses
+   behind its toggle (tap to expand), the accent photo shrinks, and the rhythm
+   tightens. Together the identity + photo + prices + CTA land within a phone
+   viewport without endless scrolling.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pl-pkg { padding: clamp(22px, 4vh, 36px) 0; }
+  .pl-pkg-stage { gap: 12px; }
+  .pl-pkg-name { font-size: clamp(24px, 6.6vw, 30px); }
+  .pl-pkg-blurb { font-size: 13px; line-height: 1.5; margin-top: 8px; }
+
+  .pl-pkg-figure { justify-content: center; margin-top: 10px; }
+  .pl-pkg-figure .pl-photo-card { max-width: 52vw; width: auto; }
+  .pl-pkg-figure .pl-photo-card img { width: auto; max-width: 100%; max-height: 15vh; }
+
+  .pl-pkg-offer { gap: 11px; padding: 16px; }
+  .pl-tier { padding: 6px 0; }
+
+  /* keep the disclosure toggle comfortably tappable */
+  .pl-feats-toggle { padding: 8px 0; }
+}
