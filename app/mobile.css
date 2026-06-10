@@ -736,3 +736,18 @@ picture.rsp {
 @media (max-width: 768px) {
   body::before { display: none; }
 }
+
+/* ============================================================================
+   PRICELIST mobile — remove the SECOND fixed element (the culprit).
+   The home page has the same fixed header and does NOT ghost; the only structural
+   difference is that pricelist ALSO has a fixed bottom action bar. Two fixed
+   elements sandwiching the scroll is a known iOS Safari trigger for the "strip
+   under the fixed header fails to repaint" ghost. Drop the fixed bar on mobile so
+   pricelist has a single fixed element (the header), matching the clean home page.
+   The header's CHAT ADMIN button stays as the always-visible CTA; the hero,
+   per-package, download and footer CTAs cover the rest.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pl-sticky { display: none !important; }
+  .pl-foot-pad { height: 0; }
+}
