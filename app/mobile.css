@@ -150,7 +150,7 @@ picture.rsp {
      during all scrolling) for a slightly more opaque solid fill ---- */
   header {
     padding: 16px 0;
-    background: rgba(21, 18, 14, 0.9);
+    background: rgba(20, 16, 12, 0.97);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -584,4 +584,46 @@ picture.rsp {
   }
   .pl-sticky-btn.ghost { background: rgba(255, 255, 255, 0.04); }
   .pl-sticky-btn.fill { background: var(--gold); border-color: var(--gold); color: #fff; }
+}
+
+/* ============================================================================
+   PRICELIST PAGE — mobile correctness pass (overflow, hero sizing, bleed).
+   Appended last so it wins over earlier pricelist mobile rules.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* contain any horizontal overflow; let grid/flex children shrink */
+  .pl-hero,
+  .pl-pkg,
+  .pl-screen { overflow: hidden; }
+  .pl-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .pl-hero-copy,
+  .pl-hero-fan,
+  .pl-pkg-aside,
+  .pl-pkg-offer { min-width: 0; }
+
+  /* hero type fits a 390px screen */
+  .pl-hero { padding-top: clamp(104px, 14vh, 140px); }
+  .pl-hero-title { font-size: clamp(29px, 8vw, 42px); line-height: 1.08; }
+  .pl-hero-lead { font-size: 14px; max-width: none; }
+
+  /* fan: real (smaller) card sizes — NOT transform:scale, which leaves the
+     layout box full-size and forces horizontal overflow */
+  .pl-hero-fan {
+    transform: none;
+    min-height: 0;
+    width: 100%;
+    max-width: 322px;
+    margin: 12px auto 0;
+  }
+  .pl-fan-card.f1 { width: 82px; height: 226px; margin-right: -14px; }
+  .pl-fan-card.f2 { width: 148px; height: 190px; }
+  .pl-fan-card.f3 { width: 126px; height: 94px; margin-left: -20px; margin-bottom: 20px; }
+
+  /* opaque chips so section titles don't bleed through while scrolling */
+  .pl-chips-wrap {
+    top: 53px;
+    background: #14100c;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }

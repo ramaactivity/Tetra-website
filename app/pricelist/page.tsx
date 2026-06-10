@@ -36,7 +36,7 @@ export default function PricelistPage() {
       <Header />
 
       {/* ===== Hero ===== */}
-      <section className="pl-hero" id="top">
+      <section className="pl-hero">
         <div className="wrap pl-hero-grid">
           <div className="pl-hero-copy">
             <span className="eyebrow" data-rv>
