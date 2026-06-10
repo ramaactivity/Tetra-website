@@ -3555,70 +3555,95 @@ header nav a.lnk:hover .roll span {
 /* ============================ PACKAGE ===================================== */
 .pl-pkg {
   position: relative;
-  padding: clamp(44px, 8vh, 72px) 0;
-}
-.pl-pkg > .wrap {
-  position: relative;
-  z-index: 1;
-}
-.pl-pkg-stage {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 26px;
+  padding: clamp(52px, 8vh, 92px) 0;
 }
 
-/* identity + illustration */
-.pl-pkg-aside {
+/* identity header (dominant) */
+.pl-pkg-head {
+  max-width: 720px;
+  margin-bottom: clamp(24px, 4vh, 40px);
+}
+.pl-pkg-eyebrow {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.pl-pkg-no {
+  font-family: var(--disp);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--gold2);
+}
+.pl-pkg-no::after {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  margin-left: 14px;
+  background: var(--line);
+  vertical-align: middle;
 }
 .pl-pkg-name {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(28px, 3.2vw, 44px);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin: 12px 0 0;
+  font-size: clamp(31px, 4.8vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0;
 }
 .pl-pkg-blurb {
-  margin: 14px 0 0;
-  max-width: 46ch;
-  font-size: 14.5px;
+  margin: 15px 0 0;
+  max-width: 54ch;
+  font-size: clamp(13.5px, 1.3vw, 15.5px);
   line-height: 1.6;
+  color: var(--ink2);
 }
 
-/* gold line-art emblem over a large faded package number */
+/* body: a balanced pair of panels — illustration + offer */
+.pl-pkg-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(18px, 2.6vw, 34px);
+  align-items: stretch;
+}
 .pl-pkg-art-wrap {
   position: relative;
-  margin-top: clamp(16px, 3vh, 32px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 196px;
-}
-.pl-pkg-num {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-  font-family: var(--disp);
-  font-size: clamp(130px, 18vw, 250px);
-  line-height: 1;
-  color: var(--gold);
-  opacity: 0.06;
-  pointer-events: none;
-  user-select: none;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-height: 186px;
+  padding: 26px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: radial-gradient(circle at 50% 42%, rgba(200, 169, 106, 0.09), transparent 66%),
+    var(--paper2);
+  box-shadow: var(--sh);
+  overflow: hidden;
 }
 .pl-art {
   position: relative;
   z-index: 1;
   display: block;
-  width: clamp(162px, 16vw, 224px);
+  width: clamp(150px, 42vw, 200px);
   color: var(--gold2);
-  filter: drop-shadow(0 0 24px rgba(200, 169, 106, 0.14));
+  filter: drop-shadow(0 0 26px rgba(200, 169, 106, 0.16));
 }
 .pl-art svg { width: 100%; height: auto; overflow: visible; }
+/* large faint package number cropped into the panel corner (editorial texture) */
+.pl-art-no {
+  position: absolute;
+  right: -1%;
+  bottom: -14%;
+  z-index: 0;
+  font-family: var(--disp);
+  font-size: clamp(120px, 24vw, 220px);
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+}
 .pl-art-spin { transform-box: fill-box; transform-origin: center; animation: plSpin 16s linear infinite; }
 .pl-art-float { animation: plArtFloat 5s ease-in-out infinite; }
 .pl-art-print { animation: plArtFloat 4.4s ease-in-out infinite; }
@@ -3999,21 +4024,19 @@ header nav a.lnk:hover .roll span {
   .pl-hero-fan { min-height: 360px; }
 
   .pl-pkg {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 144px 0 40px; /* clears the fixed header + sticky chips */
+    padding: clamp(78px, 10vh, 116px) 0;
+    scroll-margin-top: 150px; /* anchor nav clears the fixed header + sticky chips */
   }
-  .pl-pkg > .wrap { width: 100%; }
-  .pl-pkg-stage {
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(36px, 4.5vw, 64px);
-    align-items: center;
+  .pl-pkg-head { margin-bottom: clamp(26px, 3.6vh, 44px); }
+  .pl-pkg-body {
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: clamp(28px, 3vw, 48px);
+    align-items: stretch;
   }
   .pl-pkg-offer { gap: 14px; }
-  .pl-pkg--alt .pl-pkg-aside { order: 2; }
-  .pl-pkg--alt .pl-pkg-offer { order: 1; }
-  .pl-pkg-art-wrap { min-height: 240px; }
+  .pl-pkg--alt .pl-pkg-art-wrap { order: 2; }
+  .pl-pkg-art-wrap { min-height: 0; padding: clamp(30px, 3.2vw, 48px); }
+  .pl-art { width: clamp(208px, 17vw, 284px); }
   /* prices in two columns so the offer card fits one screen */
   .pl-tiers { grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
   /* "Yang kamu dapat" is shown inline on desktop: force the disclosure open and

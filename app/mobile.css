@@ -691,15 +691,14 @@ picture.rsp {
    viewport without endless scrolling.
    ========================================================================== */
 @media (max-width: 768px) {
-  .pl-pkg { padding: clamp(22px, 4vh, 36px) 0; }
-  .pl-pkg-stage { gap: 12px; }
-  .pl-pkg-name { font-size: clamp(24px, 6.6vw, 30px); }
-  .pl-pkg-blurb { font-size: 13px; line-height: 1.5; margin-top: 8px; }
+  .pl-pkg { padding: clamp(30px, 5vh, 48px) 0; }
+  .pl-pkg-head { margin-bottom: 18px; }
+  .pl-pkg-name { font-size: clamp(26px, 7vw, 34px); }
+  .pl-pkg-blurb { font-size: 13.5px; line-height: 1.55; margin-top: 10px; }
 
-  /* compact illustration so the package still fits one phone screen */
-  .pl-pkg-art-wrap { margin-top: 8px; min-height: 138px; }
-  .pl-art { width: 132px; }
-  .pl-pkg-num { font-size: 132px; opacity: 0.05; }
+  /* compact illustration panel so the package still fits one phone screen */
+  .pl-pkg-art-wrap { min-height: 150px; padding: 18px; }
+  .pl-art { width: 124px; }
 
   .pl-pkg-offer { gap: 11px; padding: 16px; }
   .pl-tier { padding: 6px 0; }
