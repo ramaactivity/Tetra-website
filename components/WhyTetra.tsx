@@ -232,6 +232,14 @@ export default function WhyTetra() {
               </article>
             ))}
           </div>
+
+          {/* Mobile-only carousel dots (hidden on desktop via CSS). MotionRoot
+              wires active-state tracking + click-to-scroll on touch. */}
+          <div className="why-dots" id="whyDots" aria-hidden>
+            {REASONS.map((r, i) => (
+              <span key={r.no} className={i === 0 ? "on" : undefined} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

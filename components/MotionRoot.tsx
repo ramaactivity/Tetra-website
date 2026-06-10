@@ -120,27 +120,34 @@ export default function MotionRoot() {
       });
       cleanups.push(() => navHandlers.forEach(([a, h]) => a.removeEventListener("click", h)));
 
-      /* ---- scroll reveals ---- */
-      document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-        restores.push({ el, html: el.innerHTML });
-        const w = splitWords(el);
-        gsap.to(w, {
-          y: 0,
-          duration: 0.9,
-          stagger: 0.04,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 82%" },
+      /* ---- scroll reveals ----
+         Skipped on touch: mobile.css already force-shows [data-rv]/[data-split]
+         (opacity:1/transform:none !important), so running these tweens on a phone
+         adds nothing visible while leaving GPU transform layers that iOS Safari
+         can render at a stale position (a section title "stuck" under the
+         header). Desktop keeps the reveal. */
+      if (!touch) {
+        document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+          restores.push({ el, html: el.innerHTML });
+          const w = splitWords(el);
+          gsap.to(w, {
+            y: 0,
+            duration: 0.9,
+            stagger: 0.04,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 82%" },
+          });
         });
-      });
-      gsap.utils.toArray<HTMLElement>("[data-rv]").forEach((el) => {
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 90%" },
+        gsap.utils.toArray<HTMLElement>("[data-rv]").forEach((el) => {
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 90%" },
+          });
         });
-      });
+      }
 
       /* ---- hero scrubs (scroll-tied, start immediately) ---- */
       gsap.to("#bgword", {
@@ -208,6 +215,9 @@ export default function MotionRoot() {
 
       /* ---- WHY pinned 2-col reveal (widgets swap one at a time) ---- */
       whyStory();
+
+      /* ---- WHY mobile carousel: track the active dot + click-to-scroll ---- */
+      whyCarousel();
 
       /* ---- process timeline ---- */
       gsap.to("#stepProg", {
@@ -543,6 +553,43 @@ export default function MotionRoot() {
             scrollTrigger: { trigger: ".why", start: "top top", end: holdPx, scrub: true, invalidateOnRefresh: true },
           }
         );
+      }
+
+      /* ===== WHY mobile carousel — active-dot tracking + click-to-scroll =====
+         On mobile the deck is a horizontal scroll-snap carousel (see mobile.css).
+         Light up the dot for the most-visible card, and let dots scroll to a
+         card. No-op on desktop (the deck isn't a scroller there). */
+      function whyCarousel() {
+        if (window.innerWidth > 768 || !("IntersectionObserver" in window)) return;
+        const deck = document.getElementById("wdeck");
+        const dotsWrap = document.getElementById("whyDots");
+        if (!deck || !dotsWrap) return;
+        const cards = Array.from(deck.querySelectorAll<HTMLElement>(".rcard"));
+        const dots = Array.from(dotsWrap.querySelectorAll<HTMLElement>("span"));
+        if (!cards.length || dots.length !== cards.length) return;
+        const setActive = (i: number) =>
+          dots.forEach((d, k) => d.classList.toggle("on", k === i));
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting && e.intersectionRatio >= 0.6) {
+                const i = cards.indexOf(e.target as HTMLElement);
+                if (i >= 0) setActive(i);
+              }
+            });
+          },
+          { root: deck, threshold: [0.6] }
+        );
+        cards.forEach((c) => io.observe(c));
+        cleanups.push(() => io.disconnect());
+        const handlers: Array<[HTMLElement, () => void]> = [];
+        dots.forEach((d, i) => {
+          const h = () =>
+            cards[i].scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+          d.addEventListener("click", h);
+          handlers.push([d, h]);
+        });
+        cleanups.push(() => handlers.forEach(([d, h]) => d.removeEventListener("click", h)));
       }
 
       /* ===== pause looping animations in sections that are off-screen ===== */

@@ -35,6 +35,12 @@ picture.rsp {
   display: none;
 }
 
+/* "Kenapa Tetra" carousel dots are mobile-only — hidden by default so DESKTOP
+   (which uses the pinned deck) never shows them. */
+.why-dots {
+  display: none;
+}
+
 
 @media (max-width: 768px) {
   /* ---- design tokens: lighter shadow (cheaper paint + less bulky cards) ---- */
@@ -347,12 +353,36 @@ picture.rsp {
     font-size: 14px;
   }
 
-  /* ---- why deck (static stack on mobile): tighter cards ---- */
+  /* ---- why deck → horizontal swipe CAROUSEL on mobile ----
+     One card shows with a peek of the next; native scroll-snap, no scroll-trap.
+     Breaks out of the .wrap padding so cards run edge-to-edge with a clean peek.
+     (Selector mirrors the desktop-fallback specificity so it wins the cascade.) */
   html.js:not(.reduced) .why {
-    padding: 52px 0;
+    padding: 48px 0;
   }
-  .why-deck {
+  html.js:not(.reduced) .why-deck {
+    display: flex;
+    flex-direction: row;
     gap: 14px;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+    margin: 0 -24px;
+    padding: 10px 24px 12px;
+  }
+  html.js:not(.reduced) .why-deck::-webkit-scrollbar {
+    display: none;
+  }
+  html.js:not(.reduced) .why-deck .rcard {
+    position: static;
+    flex: 0 0 auto;
+    width: 82vw;
+    max-width: 340px;
+    scroll-snap-align: start;
   }
   .rcard {
     border-radius: 18px;
@@ -360,7 +390,7 @@ picture.rsp {
     box-shadow: 0 18px 38px -22px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.16);
   }
   .rc-figure {
-    height: 112px;
+    height: 116px;
   }
   .rc-chip {
     -webkit-backdrop-filter: none;
@@ -369,6 +399,26 @@ picture.rsp {
   }
   .rc-title {
     margin: 14px 8px 6px;
+  }
+  /* carousel position dots (mobile only) */
+  html.js:not(.reduced) .why-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .why-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s, width 0.3s;
+  }
+  .why-dots span.on {
+    width: 20px;
+    border-radius: 4px;
+    background: var(--gold);
   }
 
   /* ---- package manifest: tighter rows ---- */
@@ -591,10 +641,9 @@ picture.rsp {
    Appended last so it wins over earlier pricelist mobile rules.
    ========================================================================== */
 @media (max-width: 768px) {
-  /* contain any horizontal overflow; let grid/flex children shrink */
-  .pl-hero,
-  .pl-pkg,
-  .pl-screen { overflow: hidden; }
+  /* contain horizontal overflow without heavy clip layers (iOS ghosting); the
+     fan is sized to fit, so a single horizontal clip on the hero is enough */
+  .pl-hero { overflow-x: clip; }
   .pl-hero-grid { grid-template-columns: minmax(0, 1fr); }
   .pl-hero-copy,
   .pl-hero-fan,
