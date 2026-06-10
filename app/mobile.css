@@ -708,3 +708,18 @@ picture.rsp {
      mis-repaints */
   .pl-chips-wrap { position: static; }
 }
+
+/* ============================================================================
+   PRICELIST PAGE — iOS compositing-layer reduction.
+   The top "ghost" (a frozen copy of content that scrolled behind the fixed
+   header) survives even with opaque bars. Cause: too many GPU-composited
+   layers on a long page (a full-screen fixed .vignette overlay sitting ON TOP
+   of everything + many transform:rotate photo cards) tips iOS Safari into a
+   buggy compositing mode that fails to repaint the band under the header.
+   Cut the layer count on mobile: kill the full-screen overlay and the
+   decorative photo tilts (purely cosmetic). Desktop keeps everything.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .vignette { display: none; }
+  .pl-photo-card { transform: none !important; }
+}
