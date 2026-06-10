@@ -676,3 +676,28 @@ picture.rsp {
     backdrop-filter: none;
   }
 }
+
+/* ============================================================================
+   PRICELIST PAGE — iOS Safari compositing fix.
+   A long page with many infinitely-animating GPU layers (sparkles, sheen,
+   icon loops) + a fixed header + a sticky bar makes iOS leave stale paints
+   ("ghost" titles/sparkles frozen under the header). Kill the ambient loops on
+   mobile (consistent with the site's "disable expensive mobile paints" policy)
+   and drop the sticky chips layer. Desktop keeps everything.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pl-spark { display: none !important; }
+  .pl-pkg-icon .spin,
+  .pl-pkg-icon .flash,
+  .pl-pkg-icon .sway,
+  .pl-pkg-icon .beam,
+  .pl-keychain-ico .sway2 { animation: none !important; }
+  .pl-pkg-icon .flash { opacity: 1; }
+  .pl-pkg-icon .beam { opacity: 0.28; }
+  .pl-backdrop-swatch::after { display: none !important; }
+
+  /* non-sticky chips on mobile: the bottom action bar already keeps the CTAs in
+     reach, and removing the sticky layer removes a compositing boundary iOS
+     mis-repaints */
+  .pl-chips-wrap { position: static; }
+}
