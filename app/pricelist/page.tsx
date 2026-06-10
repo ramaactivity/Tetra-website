@@ -95,12 +95,12 @@ export default function PricelistPage() {
       {/* ===== Add-ons: keychain + extra services ===== */}
       <section className="pl-screen" id="tambahan">
         <div className="wrap">
-          <header className="pl-screen-head" data-rv>
+          <div className="pl-screen-head" data-rv>
             <span className="eyebrow">Add-on</span>
             <h2 className="pl-screen-title">
               Bikin lebih <span className="it">seru</span>.
             </h2>
-          </header>
+          </div>
           <div className="pl-addon-grid">
             <article className="pl-keychain-card" data-rv>
               <span className="pl-keychain-ico" aria-hidden>
@@ -137,12 +137,12 @@ export default function PricelistPage() {
       {/* ===== Format & backdrop ===== */}
       <section className="pl-screen" id="pilihan">
         <div className="wrap">
-          <header className="pl-screen-head" data-rv>
+          <div className="pl-screen-head" data-rv>
             <span className="eyebrow">Format &amp; Backdrop</span>
             <h2 className="pl-screen-title">
               Pilihan <span className="it">cetak</span>.
             </h2>
-          </header>
+          </div>
 
           <div className="pl-layouts" data-rv>
             {LAYOUTS.map((l) => (
@@ -185,12 +185,12 @@ export default function PricelistPage() {
       {/* ===== Terms ===== */}
       <section className="pl-screen" id="ketentuan">
         <div className="wrap">
-          <header className="pl-screen-head" data-rv>
+          <div className="pl-screen-head" data-rv>
             <span className="eyebrow">Sebelum Booking</span>
             <h2 className="pl-screen-title">
               Ketentuan <span className="it">singkat</span>.
             </h2>
-          </header>
+          </div>
           <div className="pl-terms-grid">
             <div className="pl-terms" data-rv>
               <h3 className="pl-includes-title">Ketentuan Booking</h3>

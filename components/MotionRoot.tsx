@@ -120,34 +120,27 @@ export default function MotionRoot() {
       });
       cleanups.push(() => navHandlers.forEach(([a, h]) => a.removeEventListener("click", h)));
 
-      /* ---- scroll reveals ----
-         Skipped on touch: mobile.css already force-shows [data-rv]/[data-split]
-         (opacity:1/transform:none !important), so running these tweens on a phone
-         adds nothing visible while leaving GPU transform layers that iOS Safari
-         can render at a stale position (a section title "stuck" under the
-         header). Desktop keeps the reveal. */
-      if (!touch) {
-        document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-          restores.push({ el, html: el.innerHTML });
-          const w = splitWords(el);
-          gsap.to(w, {
-            y: 0,
-            duration: 0.9,
-            stagger: 0.04,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 82%" },
-          });
+      /* ---- scroll reveals ---- */
+      document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+        restores.push({ el, html: el.innerHTML });
+        const w = splitWords(el);
+        gsap.to(w, {
+          y: 0,
+          duration: 0.9,
+          stagger: 0.04,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 82%" },
         });
-        gsap.utils.toArray<HTMLElement>("[data-rv]").forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%" },
-          });
+      });
+      gsap.utils.toArray<HTMLElement>("[data-rv]").forEach((el) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 90%" },
         });
-      }
+      });
 
       /* ---- hero scrubs (scroll-tied, start immediately) ---- */
       gsap.to("#bgword", {
