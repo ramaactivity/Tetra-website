@@ -1,5 +1,5 @@
 import { waLink, waMessage } from "@/lib/site";
-import { PDF_URL } from "@/lib/pricelist";
+import { PDF_URL, PDF_NAME } from "@/lib/pricelist";
 
 const WA = waLink(
   waMessage("Halo Mintet, saya mau tanya & booking dari pricelist Tetra Photobooth.")
@@ -10,12 +10,7 @@ const WA = waLink(
 export default function StickyActions() {
   return (
     <div className="pl-sticky" role="group" aria-label="Aksi cepat">
-      <a
-        className="pl-sticky-btn ghost"
-        href={PDF_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="pl-sticky-btn ghost" href={PDF_URL} download={PDF_NAME}>
         Download PDF
       </a>
       <a

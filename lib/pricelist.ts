@@ -2,8 +2,10 @@
 // Prices/terms transcribed from the official 2026 PDF (reference only).
 // Editing a price here updates the whole page; the JSX is a thin renderer.
 
-/** Full-size original PDF (hosted on Drive; admin shares the /pricelist URL via WA). */
-export const PDF_URL = "https://bit.ly/TETRAPL2026";
+/** Full-size original PDF — served from our own site (public/), not Drive.
+ *  PDF_NAME is the friendly filename used for the browser download. */
+export const PDF_URL = "/pricelist-tetra-photobooth-2026.pdf";
+export const PDF_NAME = "Pricelist Tetra Photobooth 2026.pdf";
 
 /** Indonesian Rupiah, dot-grouped, SSR-deterministic (no Intl locale dependency). */
 export const fmtIDR = (n: number): string =>

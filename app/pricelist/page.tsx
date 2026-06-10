@@ -15,6 +15,7 @@ import {
   BOOKING_TERMS,
   TECH_TERMS,
   PDF_URL,
+  PDF_NAME,
   fmtIDR,
 } from "@/lib/pricelist";
 
@@ -53,7 +54,7 @@ export default function PricelistPage() {
               <a className="btn fill" href={WA_BOOK} target="_blank" rel="noopener noreferrer">
                 Booking via WhatsApp
               </a>
-              <a className="btn" href={PDF_URL} target="_blank" rel="noopener noreferrer">
+              <a className="btn" href={PDF_URL} download={PDF_NAME}>
                 Download PDF
               </a>
             </div>
@@ -223,7 +224,7 @@ export default function PricelistPage() {
               <h2 className="pl-download-title">Mau simpan versi lengkapnya?</h2>
               <p className="lead">Unduh pricelist resmi 2026 dalam format PDF full-size.</p>
             </div>
-            <a className="btn fill" href={PDF_URL} target="_blank" rel="noopener noreferrer">
+            <a className="btn fill" href={PDF_URL} download={PDF_NAME}>
               Download PDF
             </a>
           </div>
