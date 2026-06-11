@@ -250,14 +250,49 @@ export const KEYCHAIN = {
     "Experience seru membuat gantungan kunci. Booth khusus keychain, frame akrilik variatif, pilihan gantungan & aksesoris, didukung crew ramah dan profesional.",
 };
 
-/** Representative photo per package (editorial accent). Files live in /public/images. */
-export const PKG_PHOTO: Record<string, { src: string; alt: string }> = {
-  unlimited: { src: "/images/g-wed1.jpg", alt: "Cetak photobooth pernikahan" },
-  spin360: { src: "/images/g-bday1.jpg", alt: "Keseruan 360° spin video booth" },
-  "magazine-plus": { src: "/images/g-wed2.jpg", alt: "Magazine box booth pernikahan" },
-  "magazine-only": { src: "/images/g-corp2.jpg", alt: "Instalasi magazine box editorial" },
-  photostage: { src: "/images/g-grad1.jpg", alt: "Photo stage di acara" },
-  "photostage-plus": { src: "/images/g-grad2.jpg", alt: "Photo stage dengan cetak instan" },
+/** Real prints per package — the brand's hero asset (white prints glowing on
+ *  the dark paper) instead of line-art. `main` is the framed print, `strip` a
+ *  2R photostrip tucked behind it; `caption` is written on the print's bottom
+ *  margin. Files live in /public/images (each has a -sm.jpg variant). */
+export type PkgPrint = { main: string; strip: string; alt: string; caption: string };
+
+export const PKG_PRINTS: Record<string, PkgPrint> = {
+  unlimited: {
+    main: "/images/g-wed1.jpg",
+    strip: "/images/g-strip1.jpg",
+    alt: "Cetak photobooth pernikahan",
+    caption: "Cetak 4R · frame custom",
+  },
+  spin360: {
+    main: "/images/g-bday1.jpg",
+    strip: "/images/g-strip2.jpg",
+    alt: "Keseruan 360° spin video booth",
+    caption: "Momen 360° spin",
+  },
+  "magazine-plus": {
+    main: "/images/g-wed2.jpg",
+    strip: "/images/g-strip3.jpg",
+    alt: "Magazine box booth pernikahan",
+    caption: "Magazine box booth",
+  },
+  "magazine-only": {
+    main: "/images/g-corp2.jpg",
+    strip: "/images/g-strip1.jpg",
+    alt: "Instalasi magazine box editorial",
+    caption: "Instalasi magazine box",
+  },
+  photostage: {
+    main: "/images/g-grad1.jpg",
+    strip: "/images/g-strip2.jpg",
+    alt: "Photo stage di acara wisuda",
+    caption: "Photo stage · 4R layout",
+  },
+  "photostage-plus": {
+    main: "/images/g-grad2.jpg",
+    strip: "/images/g-strip3.jpg",
+    alt: "Photo stage dengan cetak instan",
+    caption: "Stage + cetak instan",
+  },
 };
 
 export type Layout = {

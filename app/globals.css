@@ -3552,118 +3552,263 @@ header nav a.lnk:hover .roll span {
   background: rgba(200, 169, 106, 0.06);
 }
 
-/* ============================ PACKAGE ===================================== */
+/* ============================ PACKAGE =====================================
+   "Tarif" spread — no panels, no nested cards. Each package is an editorial
+   spread laid on the dark paper: numbered identity, real prints staged like
+   physical photographs (the brand's hero asset), and an interactive tariff
+   (duration pills → one large price). Print columns alternate sides.
+   ========================================================================== */
 .pl-pkg {
   position: relative;
-  padding: clamp(52px, 8vh, 92px) 0;
+  padding: clamp(56px, 9vh, 104px) 0;
+  overflow: clip; /* lets the ghost numeral bleed to the viewport edge */
+}
+.pl-pkg + .pl-pkg {
+  border-top: 1px solid var(--line);
 }
 
-/* identity header (dominant) */
-.pl-pkg-head {
-  max-width: 720px;
-  margin-bottom: clamp(24px, 4vh, 40px);
+/* grid: identity / prints / offer — single column on phones, prints take a
+   full side column on desktop (areas swap on --alt) */
+.pl-pkg-grid {
+  display: grid;
+  grid-template-areas: "head" "art" "offer";
+  grid-template-columns: minmax(0, 1fr);
 }
-.pl-pkg-eyebrow {
+.pl-pkg-head { grid-area: head; }
+.pl-prints { grid-area: art; }
+.pl-offer { grid-area: offer; }
+
+/* identity */
+.pl-pkg-head {
+  max-width: 640px;
+}
+.pl-pkg-kicker {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 .pl-pkg-no {
   font-family: var(--disp);
-  font-size: 15px;
-  letter-spacing: 0.12em;
+  font-size: clamp(15px, 1.4vw, 18px);
+  letter-spacing: 0.14em;
   color: var(--gold2);
 }
-.pl-pkg-no::after {
+.pl-pkg-no i {
+  font-style: normal;
+  font-size: 0.78em;
+  color: var(--ink2);
+  opacity: 0.6;
+}
+.pl-pkg-kicker .eyebrow::before {
   content: "";
   display: inline-block;
-  width: 26px;
+  width: 30px;
   height: 1px;
-  margin-left: 14px;
-  background: var(--line);
+  margin-right: 16px;
+  background: rgba(200, 169, 106, 0.45);
   vertical-align: middle;
 }
 .pl-pkg-name {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(31px, 4.8vw, 56px);
+  font-size: clamp(34px, 4.6vw, 62px);
   line-height: 1.02;
   letter-spacing: -0.015em;
   margin: 0;
 }
 .pl-pkg-blurb {
-  margin: 15px 0 0;
-  max-width: 54ch;
-  font-size: clamp(13.5px, 1.3vw, 15.5px);
-  line-height: 1.6;
+  margin: 16px 0 0;
+  max-width: 50ch;
+  font-size: clamp(14px, 1.25vw, 15.5px);
+  font-weight: 300;
+  line-height: 1.65;
   color: var(--ink2);
 }
 
-/* body: a balanced pair of panels — illustration + offer */
-.pl-pkg-body {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(18px, 2.6vw, 34px);
-  align-items: stretch;
-}
-.pl-pkg-art-wrap {
+/* prints: a white-framed photo with caption + 2R strip behind, viewfinder
+   corner ticks, ghost numeral bleeding off the section edge */
+.pl-prints {
   position: relative;
-  margin: 0;
+  width: 100%;
+  max-width: 440px;
+  margin: clamp(26px, 4vh, 40px) auto 0;
   display: grid;
   place-items: center;
-  min-height: 186px;
-  padding: 26px;
-  border-radius: 20px;
-  border: 1px solid var(--line);
-  background: radial-gradient(circle at 50% 42%, rgba(200, 169, 106, 0.09), transparent 66%),
-    var(--paper2);
-  box-shadow: var(--sh);
-  overflow: hidden;
+  padding: clamp(22px, 3vw, 36px) 0;
 }
-.pl-art {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: clamp(150px, 42vw, 200px);
-  color: var(--gold2);
-  filter: drop-shadow(0 0 26px rgba(200, 169, 106, 0.16));
-}
-.pl-art svg { width: 100%; height: auto; overflow: visible; }
-/* large faint package number cropped into the panel corner (editorial texture) */
-.pl-art-no {
+.pl-prints::before,
+.pl-prints::after {
+  content: "";
   position: absolute;
-  right: -1%;
-  bottom: -14%;
   z-index: 0;
+  width: 28px;
+  height: 28px;
+  border-style: solid;
+  border-color: rgba(200, 169, 106, 0.5);
+}
+.pl-prints::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.pl-prints::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+.pl-prints-no {
+  position: absolute;
+  z-index: 0;
+  right: -10%;
+  top: 50%;
+  transform: translateY(-52%);
   font-family: var(--disp);
-  font-size: clamp(120px, 24vw, 220px);
+  font-size: clamp(170px, 36vw, 300px);
   line-height: 1;
   color: var(--gold);
-  opacity: 0.05;
+  opacity: 0.055;
   pointer-events: none;
   user-select: none;
 }
-.pl-art-spin { transform-box: fill-box; transform-origin: center; animation: plSpin 16s linear infinite; }
-.pl-art-float { animation: plArtFloat 5s ease-in-out infinite; }
-.pl-art-print { animation: plArtFloat 4.4s ease-in-out infinite; }
-.pl-art-beam { animation: plArtBeam 3.6s ease-in-out infinite; }
-.pl-art-spark { transform-box: fill-box; transform-origin: center; animation: plArtTwinkle 4.2s ease-in-out infinite; }
-@keyframes plArtFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-@keyframes plArtBeam { 0%, 100% { opacity: 0.08; } 50% { opacity: 0.26; } }
-@keyframes plArtTwinkle { 0%, 100% { opacity: 0.2; transform: scale(0.6); } 50% { opacity: 1; transform: scale(1); } }
-
-/* offer surface (single card: prices · what-you-get · cta) */
-.pl-pkg-offer {
-  background: var(--paper2);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: clamp(20px, 2.2vw, 30px);
+.pl-pkg--alt .pl-prints-no { right: auto; left: -10%; }
+.pl-print {
+  box-sizing: border-box;
+  background: var(--card);
+  border-radius: 4px;
   box-shadow: var(--sh);
+}
+.pl-print picture {
+  display: block;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.pl-print img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pl-print--main {
+  position: relative;
+  z-index: 2;
+  width: min(62%, 268px);
+  padding: 8px 8px 40px;
+  transform: rotate(2.2deg);
+}
+.pl-print--main picture { aspect-ratio: 4 / 5; }
+.pl-print-cap {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 11px;
+  text-align: center;
+  font-family: var(--disp);
+  font-style: italic;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: #776b5b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pl-print--strip {
+  position: absolute;
+  z-index: 1;
+  left: 4%;
+  top: 9%;
+  width: clamp(72px, 19%, 94px);
+  padding: 5px;
+  transform: rotate(-8deg);
+}
+.pl-print--strip picture { aspect-ratio: 1 / 2.9; }
+.pl-pkg--alt .pl-print--main { transform: rotate(-2.2deg); }
+.pl-pkg--alt .pl-print--strip {
+  left: auto;
+  right: 4%;
+  transform: rotate(8deg);
+}
+
+/* the tariff: duration pills → one large answering price */
+.pl-offer {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: clamp(16px, 2.4vh, 22px);
+  margin-top: clamp(22px, 3.5vh, 36px);
+  min-width: 0;
 }
+.pl-offer-label {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.pl-durs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pl-dur {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: none;
+  color: var(--ink2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.pl-dur:hover {
+  color: var(--ink);
+  border-color: rgba(200, 169, 106, 0.5);
+}
+.pl-dur.on {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+.pl-price {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.pl-price-num {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--disp);
+  font-size: clamp(40px, 4.6vw, 58px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--gold2);
+  animation: plPriceIn 0.55s var(--ease-out-expo);
+}
+.pl-price-rp {
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1;
+  margin-top: 7px;
+  letter-spacing: 0.12em;
+  color: var(--ink2);
+}
+.pl-price-for {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink2);
+}
+@keyframes plPriceIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.pl-extend {
+  margin: -8px 0 0;
+  font-size: 12.5px;
+  font-weight: 300;
+  color: var(--ink2);
+}
+.pl-extend b {
+  font-family: var(--disp);
+  font-weight: 400;
+  color: var(--gold2);
+}
+
+/* duration ↔ price rows (still used by the add-ons table) */
 .pl-tiers {
   list-style: none;
   margin: 0;
@@ -3749,8 +3894,9 @@ header nav a.lnk:hover .roll span {
   display: flex;
   gap: 9px;
   align-items: flex-start;
-  font-size: 12.5px;
-  line-height: 1.4;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.45;
   color: var(--ink);
 }
 .pl-feat-tick {
@@ -3815,17 +3961,7 @@ header nav a.lnk:hover .roll span {
   background: var(--gold2);
   opacity: 0.6;
 }
-.pl-pkg-cta { align-self: flex-start; }
-
-/* package icon motions */
-.pl-pkg-icon .spin { transform-origin: 12px 12px; animation: plSpin 9s linear infinite; }
-@keyframes plSpin { to { transform: rotate(360deg); } }
-.pl-pkg-icon .flash { animation: plFlash 2.6s ease-in-out infinite; }
-@keyframes plFlash { 0%, 70%, 100% { opacity: 0.15; } 82% { opacity: 1; } }
-.pl-pkg-icon .sway { transform-origin: 12px 6px; animation: plSway 5s ease-in-out infinite; }
-@keyframes plSway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
-.pl-pkg-icon .beam { transform-origin: 12px 14px; animation: plBeam 3.4s ease-in-out infinite; }
-@keyframes plBeam { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.34; } }
+.pl-pkg-cta { align-self: flex-start; margin-top: 4px; }
 
 /* ============================ ADD-ONS ==================================== */
 .pl-addon-grid {
@@ -4024,20 +4160,38 @@ header nav a.lnk:hover .roll span {
   .pl-hero-fan { min-height: 360px; }
 
   .pl-pkg {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
     padding: clamp(78px, 10vh, 116px) 0;
     scroll-margin-top: 150px; /* anchor nav clears the fixed header + sticky chips */
   }
-  .pl-pkg-head { margin-bottom: clamp(26px, 3.6vh, 44px); }
-  .pl-pkg-body {
-    grid-template-columns: 0.82fr 1.18fr;
-    gap: clamp(28px, 3vw, 48px);
-    align-items: stretch;
+  .pl-pkg > .wrap { width: 100%; }
+  /* prints take a full side column; identity + tariff stack on the other */
+  .pl-pkg-grid {
+    grid-template-areas:
+      "head art"
+      "offer art";
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-rows: auto auto;
+    column-gap: clamp(48px, 6vw, 110px);
+    align-content: center;
+    align-items: center;
   }
-  .pl-pkg-offer { gap: 14px; }
-  .pl-pkg--alt .pl-pkg-art-wrap { order: 2; }
-  .pl-pkg-art-wrap { min-height: 0; padding: clamp(30px, 3.2vw, 48px); }
-  .pl-art { width: clamp(208px, 17vw, 284px); }
-  /* prices in two columns so the offer card fits one screen */
+  .pl-pkg--alt .pl-pkg-grid {
+    grid-template-areas:
+      "art head"
+      "art offer";
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  }
+  .pl-pkg-head { align-self: end; }
+  .pl-offer { align-self: start; }
+  .pl-prints {
+    margin: 0 auto;
+    max-width: clamp(380px, 32vw, 470px);
+  }
+  .pl-print--main { width: min(64%, 300px); }
+  /* add-on price rows split into two columns */
   .pl-tiers { grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
   /* "Yang kamu dapat" is shown inline on desktop: force the disclosure open and
      drop the tap affordance (room to show everything) */
@@ -4069,15 +4223,9 @@ header nav a.lnk:hover .roll span {
 @media (prefers-reduced-motion: reduce) {
   .pl-spark,
   .pl-keychain-ico .sway2,
-  .pl-art-spin,
-  .pl-art-float,
-  .pl-art-print,
-  .pl-art-beam,
-  .pl-art-spark {
+  .pl-price-num {
     animation: none;
   }
   .pl-spark { opacity: 0; }
-  .pl-art-spark { opacity: 0.7; }
-  .pl-art-beam { opacity: 0.2; }
   .pl-backdrop-swatch::after { display: none; }
 }

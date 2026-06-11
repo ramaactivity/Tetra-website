@@ -90,7 +90,7 @@ export default function PricelistPage() {
 
       {/* ===== Priced packages (one screen each) ===== */}
       {PACKAGES.map((pkg, i) => (
-        <PackageBlock key={pkg.id} pkg={pkg} index={i} />
+        <PackageBlock key={pkg.id} pkg={pkg} index={i} total={PACKAGES.length} />
       ))}
 
       {/* ===== Add-ons: keychain + extra services ===== */}

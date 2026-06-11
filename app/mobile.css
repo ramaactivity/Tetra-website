@@ -587,8 +587,7 @@ picture.rsp {
     margin-top: 2px;
   }
 
-  /* package illustration block */
-  .pl-pkg { padding: clamp(40px, 7vh, 60px) 0; }
+  /* package CTA spans the row on a phone */
   .pl-pkg-cta { align-self: stretch; text-align: center; justify-content: center; }
 
   /* keychain illustration smaller */
@@ -644,8 +643,8 @@ picture.rsp {
   .pl-hero-grid { grid-template-columns: minmax(0, 1fr); }
   .pl-hero-copy,
   .pl-hero-fan,
-  .pl-pkg-aside,
-  .pl-pkg-offer { min-width: 0; }
+  .pl-prints,
+  .pl-offer { min-width: 0; }
 
   /* hero type fits a 390px screen */
   .pl-hero { padding-top: clamp(104px, 14vh, 140px); }
@@ -684,23 +683,30 @@ picture.rsp {
 }
 
 /* ============================================================================
-   PRICELIST mobile — fit each package in one screen.
-   Prices stay single-column (full width, legible), "Yang kamu dapat" collapses
-   behind its toggle (tap to expand), the accent photo shrinks, and the rhythm
-   tightens. Together the identity + photo + prices + CTA land within a phone
-   viewport without endless scrolling.
+   PRICELIST mobile — the "Tarif" spread on a phone.
+   Identity → prints → tariff stack naturally; prints shrink but stay physical
+   (white frame, caption, strip behind), the big price stays the focal point,
+   and "Yang kamu dapat" collapses behind its toggle.
    ========================================================================== */
 @media (max-width: 768px) {
-  .pl-pkg { padding: clamp(30px, 5vh, 48px) 0; }
-  .pl-pkg-head { margin-bottom: 18px; }
-  .pl-pkg-name { font-size: clamp(26px, 7vw, 34px); }
-  .pl-pkg-blurb { font-size: 13.5px; line-height: 1.55; margin-top: 10px; }
+  .pl-pkg { padding: clamp(36px, 6vh, 56px) 0; }
+  .pl-pkg-kicker { margin-bottom: 14px; }
+  .pl-pkg-name { font-size: clamp(30px, 8.4vw, 38px); }
+  .pl-pkg-blurb { font-size: 13.5px; line-height: 1.6; margin-top: 12px; }
 
-  /* compact illustration panel so the package still fits one phone screen */
-  .pl-pkg-art-wrap { min-height: 150px; padding: 18px; }
-  .pl-art { width: 124px; }
+  .pl-prints {
+    max-width: 330px;
+    margin-top: 22px;
+    padding: 16px 0;
+  }
+  .pl-print--main { width: min(60%, 230px); padding: 7px 7px 34px; }
+  .pl-print-cap { font-size: 11.5px; bottom: 9px; }
+  .pl-prints-no { font-size: clamp(150px, 42vw, 195px); right: -6%; }
+  .pl-pkg--alt .pl-prints-no { left: -6%; }
 
-  .pl-pkg-offer { gap: 11px; padding: 16px; }
+  .pl-offer { margin-top: 20px; gap: 15px; }
+  .pl-dur { padding: 8px 13px; font-size: 11.5px; }
+  .pl-price-num { font-size: clamp(38px, 11vw, 46px); }
   .pl-tier { padding: 6px 0; }
 
   /* keep the disclosure toggle comfortably tappable */
