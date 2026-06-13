@@ -1361,11 +1361,13 @@ header.solid {
 .gmarq-track {
   display: flex;
   width: max-content;
-  animation: gmarqA 56s linear infinite;
+  /* duration scales with item count so scroll speed stays constant
+     (was 56s for 10 items; now ~26 items → 145s for the same px/sec) */
+  animation: gmarqA 145s linear infinite;
   will-change: transform;
 }
 .gmarq.rev .gmarq-track {
-  animation: gmarqB 56s linear infinite;
+  animation: gmarqB 145s linear infinite;
 }
 .gmarq:hover .gmarq-track {
   animation-play-state: paused;
