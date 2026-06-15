@@ -275,9 +275,19 @@ export default function MotionRoot() {
         const ch = splitChars(ll);
         const markImg = loaderEl.querySelector<HTMLElement>("#ldmark img");
         const sheen = document.getElementById("ldsheen");
-        // autofocus blur driver (via CSS var so the rack is buttery, not janky)
-        const focus = { b: 18 };
-        const setBlur = () => markImg && markImg.style.setProperty("--b", `${focus.b}px`);
+        // autofocus blur driver (via CSS var so the rack is buttery, not janky).
+        // Value is rounded to 0.1px so the browser re-rasterizes the blurred image
+        // far less often than a raw float would — the single biggest win against
+        // the focus-rack feeling choppy on a busy main thread.
+        const focus = { b: 13 };
+        let lastBlur = -1;
+        const setBlur = () => {
+          if (!markImg) return;
+          const v = Math.round(focus.b * 10) / 10;
+          if (v === lastBlur) return;
+          lastBlur = v;
+          markImg.style.setProperty("--b", `${v}px`);
+        };
         setBlur();
         // gold glint driver — only the gradient moves; its logo-shaped mask stays put
         const glint = { p: 150 };
@@ -291,7 +301,13 @@ export default function MotionRoot() {
           runHero();
         };
 
-        gsap.set("#ldmark img", { scale: 1.09, opacity: 0, transformOrigin: "50% 50%" });
+        gsap.set("#ldmark img", {
+          scale: 1.09,
+          opacity: 0,
+          transformOrigin: "50% 50%",
+          force3D: true,
+          willChange: "filter, transform",
+        });
         gsap.set("#ldframe", { scale: 1.12, opacity: 0 });
         gsap.set("#ldreticle", { scale: 1.5, opacity: 0 });
         gsap.set("#ldreticle2", { scale: 1.62, opacity: 0, rotation: -12 });
@@ -319,22 +335,23 @@ export default function MotionRoot() {
           .to("#ldreticle", { scale: 1.02, duration: 1.05, ease: "power2.inOut" }, 0.6)
           // outer ring counter-rotates inward as the camera hunts
           .to("#ldreticle2", { scale: 1.0, rotation: 0, duration: 1.05, ease: "power2.inOut" }, 0.6)
-          // ---- FOCUS LOCK: snap crisp, frame settles, rings blink out, bloom pulses ----
-          .to(focus, { b: 0, duration: 0.45, ease: "power3.out", onUpdate: setBlur }, 1.65)
-          .to("#ldframe", { scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 1.65)
-          .to("#ldreticle", { scale: 0.92, opacity: 0, duration: 0.4, ease: "power2.out" }, 1.65)
-          .to("#ldreticle2", { scale: 0.86, opacity: 0, duration: 0.45, ease: "power2.out" }, 1.65)
-          // tetra tick marks snap in to confirm the lock
+          // ---- FOCUS LOCK: ease crisp, frame settles, rings glide out, bloom pulses.
+          // No bouncy overshoots here — a single soft settle reads as smooth, not snappy.
+          .to(focus, { b: 0, duration: 0.55, ease: "power2.out", onUpdate: setBlur }, 1.65)
+          .to("#ldframe", { scale: 1, duration: 0.6, ease: "power3.out" }, 1.65)
+          .to("#ldreticle", { scale: 0.9, opacity: 0, duration: 0.55, ease: "power2.out" }, 1.65)
+          .to("#ldreticle2", { scale: 0.84, opacity: 0, duration: 0.6, ease: "power2.out" }, 1.65)
+          // tetra tick marks fade in to confirm the lock, then drift out
           .fromTo(
             ".ld-tick",
-            { opacity: 0, scale: 1.6 },
-            { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(3)", transformOrigin: "50% 50%" },
-            1.68
+            { opacity: 0, scale: 1.5 },
+            { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)", transformOrigin: "50% 50%" },
+            1.72
           )
-          .to(".ld-tick", { opacity: 0, duration: 0.5, ease: "power2.in" }, 2.25)
+          .to(".ld-tick", { opacity: 0, duration: 0.6, ease: "power2.in" }, 2.3)
           // focus-lock bloom: a soft gold ring pulses outward, once
-          .set("#ldbloom", { scale: 0.55, opacity: 0.9 }, 1.66)
-          .to("#ldbloom", { scale: 2.1, opacity: 0, duration: 0.85, ease: "power2.out" }, 1.66)
+          .set("#ldbloom", { scale: 0.55, opacity: 0.85 }, 1.66)
+          .to("#ldbloom", { scale: 2.1, opacity: 0, duration: 1.0, ease: "power2.out" }, 1.66)
           // gold glint catches the letters on lock (masked to the glyphs)
           .set(sheen, { opacity: 1 }, 1.72)
           .to(

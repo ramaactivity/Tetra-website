@@ -203,25 +203,78 @@ body.touch .cur {
   justify-content: center;
   overflow: hidden;
 }
-/* breathing gold atmosphere behind the mark (ties to the hero gradient loop) */
+/* breathing gold atmosphere behind the mark — a soft spotlight that drifts and
+   swells, layered with a deep falloff so the centre glows out of true black. */
 .ld-atmos {
   position: absolute;
   inset: -20%;
   pointer-events: none;
-  background: radial-gradient(38% 36% at 50% 45%, rgba(226, 200, 140, 0.17), transparent 60%),
-    radial-gradient(72% 60% at 50% 122%, rgba(156, 119, 51, 0.13), transparent 56%);
-  filter: blur(10px);
-  animation: ldAtmos 6s ease-in-out infinite alternate;
+  background: radial-gradient(42% 40% at 50% 46%, rgba(232, 209, 156, 0.2), transparent 62%),
+    radial-gradient(70% 58% at 50% 120%, rgba(156, 119, 51, 0.14), transparent 58%);
+  filter: blur(12px);
+  will-change: transform, opacity;
+  animation: ldAtmos 7s ease-in-out infinite alternate;
 }
 @keyframes ldAtmos {
   from {
-    opacity: 0.65;
-    transform: scale(1);
+    opacity: 0.6;
+    transform: scale(1) translate3d(-1.2%, 0.6%, 0);
   }
   to {
     opacity: 1;
-    transform: scale(1.08);
+    transform: scale(1.1) translate3d(1.2%, -0.6%, 0);
   }
+}
+/* slow-rotating gold aura — gives the dark field depth and life without ever
+   reading as "busy" (very low opacity, heavily blurred, GPU-composited). */
+.ld-aura {
+  position: absolute;
+  inset: -45%;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(226, 200, 140, 0.1) 55deg,
+    transparent 130deg,
+    transparent 210deg,
+    rgba(156, 119, 51, 0.09) 290deg,
+    transparent 360deg
+  );
+  filter: blur(48px);
+  opacity: 0.75;
+  will-change: transform;
+  animation: ldAura 26s linear infinite;
+}
+@keyframes ldAura {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* fine film grain — a static SVG-noise texture that gives the whole screen a
+   cinematic, photographed quality instead of a flat digital fill. */
+.ld-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: ldGrain 0.7s steps(4) infinite;
+}
+@keyframes ldGrain {
+  0%   { transform: translate3d(0, 0, 0); }
+  25%  { transform: translate3d(-3%, 2%, 0); }
+  50%  { transform: translate3d(2%, -3%, 0); }
+  75%  { transform: translate3d(-2%, -2%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+/* vignette — darkens the edges so the eye falls to the wordmark at centre. */
+.ld-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(125% 105% at 50% 46%, transparent 52%, rgba(0, 0, 0, 0.5) 100%);
 }
 /* drifting light motes — dust caught in the studio beam, for atmosphere */
 .ld-motes {
@@ -233,27 +286,29 @@ body.touch .cur {
 }
 .ld-motes span {
   position: absolute;
+  bottom: -6px;
   width: 3px;
   height: 3px;
   border-radius: 50%;
   background: rgba(232, 209, 156, 0.6);
   box-shadow: 0 0 6px 1px rgba(226, 200, 140, 0.45);
   opacity: 0;
-  animation: ldMote 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  animation: ldMote 11s linear infinite;
 }
-.ld-motes span:nth-child(1)  { left: 18%; bottom: -6px; animation-delay: 0s;    transform: scale(0.8); }
-.ld-motes span:nth-child(2)  { left: 32%; bottom: -6px; animation-delay: 1.4s;  transform: scale(1.2); }
-.ld-motes span:nth-child(3)  { left: 44%; bottom: -6px; animation-delay: 3.1s;  transform: scale(0.6); }
-.ld-motes span:nth-child(4)  { left: 56%; bottom: -6px; animation-delay: 0.7s;  transform: scale(1); }
-.ld-motes span:nth-child(5)  { left: 64%; bottom: -6px; animation-delay: 4.2s;  transform: scale(0.9); }
-.ld-motes span:nth-child(6)  { left: 73%; bottom: -6px; animation-delay: 2.2s;  transform: scale(0.7); }
-.ld-motes span:nth-child(7)  { left: 84%; bottom: -6px; animation-delay: 5.1s;  transform: scale(1.1); }
-.ld-motes span:nth-child(8)  { left: 26%; bottom: -6px; animation-delay: 6.3s;  transform: scale(0.8); }
+.ld-motes span:nth-child(1)  { left: 18%; --s: 0.8;  --dx: 14px; animation-delay: 0s;    animation-duration: 12s; }
+.ld-motes span:nth-child(2)  { left: 32%; --s: 1.2;  --dx: -18px; animation-delay: 1.4s; animation-duration: 13.5s; }
+.ld-motes span:nth-child(3)  { left: 44%; --s: 0.6;  --dx: 10px; animation-delay: 3.1s;  animation-duration: 10s; }
+.ld-motes span:nth-child(4)  { left: 56%; --s: 1;    --dx: -12px; animation-delay: 0.7s; animation-duration: 14s; }
+.ld-motes span:nth-child(5)  { left: 64%; --s: 0.9;  --dx: 20px; animation-delay: 4.2s;  animation-duration: 11.5s; }
+.ld-motes span:nth-child(6)  { left: 73%; --s: 0.7;  --dx: -8px; animation-delay: 2.2s;  animation-duration: 12.5s; }
+.ld-motes span:nth-child(7)  { left: 84%; --s: 1.1;  --dx: 16px; animation-delay: 5.1s;  animation-duration: 10.5s; }
+.ld-motes span:nth-child(8)  { left: 26%; --s: 0.8;  --dx: -14px; animation-delay: 6.3s; animation-duration: 13s; }
 @keyframes ldMote {
-  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
-  12%  { opacity: 0.9; }
-  85%  { opacity: 0.5; }
-  100% { opacity: 0; transform: translateY(-78vh) scale(1.15); }
+  0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(var(--s, 1)); }
+  10%  { opacity: 0.85; }
+  85%  { opacity: 0.45; }
+  100% { opacity: 0; transform: translate3d(var(--dx, 0), -82vh, 0) scale(calc(var(--s, 1) * 1.25)); }
 }
 /* viewfinder frame — scaled by GSAP to mimic an autofocus "hunt" then lock */
 .ld-frame {

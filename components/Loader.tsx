@@ -14,6 +14,9 @@ export default function Loader() {
     <>
       <div id="loader">
         <div className="ld-atmos" aria-hidden />
+        <div className="ld-aura" aria-hidden />
+        <div className="ld-grain" aria-hidden />
+        <div className="ld-vignette" aria-hidden />
         <div className="ld-motes" aria-hidden>
           <span />
           <span />
