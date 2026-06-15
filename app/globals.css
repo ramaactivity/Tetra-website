@@ -223,6 +223,38 @@ body.touch .cur {
     transform: scale(1.08);
   }
 }
+/* drifting light motes — dust caught in the studio beam, for atmosphere */
+.ld-motes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ld-motes span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(232, 209, 156, 0.6);
+  box-shadow: 0 0 6px 1px rgba(226, 200, 140, 0.45);
+  opacity: 0;
+  animation: ldMote 9s ease-in-out infinite;
+}
+.ld-motes span:nth-child(1)  { left: 18%; bottom: -6px; animation-delay: 0s;    transform: scale(0.8); }
+.ld-motes span:nth-child(2)  { left: 32%; bottom: -6px; animation-delay: 1.4s;  transform: scale(1.2); }
+.ld-motes span:nth-child(3)  { left: 44%; bottom: -6px; animation-delay: 3.1s;  transform: scale(0.6); }
+.ld-motes span:nth-child(4)  { left: 56%; bottom: -6px; animation-delay: 0.7s;  transform: scale(1); }
+.ld-motes span:nth-child(5)  { left: 64%; bottom: -6px; animation-delay: 4.2s;  transform: scale(0.9); }
+.ld-motes span:nth-child(6)  { left: 73%; bottom: -6px; animation-delay: 2.2s;  transform: scale(0.7); }
+.ld-motes span:nth-child(7)  { left: 84%; bottom: -6px; animation-delay: 5.1s;  transform: scale(1.1); }
+.ld-motes span:nth-child(8)  { left: 26%; bottom: -6px; animation-delay: 6.3s;  transform: scale(0.8); }
+@keyframes ldMote {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  12%  { opacity: 0.9; }
+  85%  { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-78vh) scale(1.15); }
+}
 /* viewfinder frame — scaled by GSAP to mimic an autofocus "hunt" then lock */
 .ld-frame {
   position: absolute;
@@ -240,17 +272,69 @@ body.touch .cur {
   opacity: 0;
   pointer-events: none;
 }
-/* focus reticle — a thin ring that contracts onto the mark as it locks */
-.ld-reticle {
+/* focus group — a fixed square locked to the screen's exact centre, which is
+   also where the mark sits (the tagline is taken out of the flex flow below).
+   Everything inside is centred on the logo. */
+.ld-focus {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(220px, 34vw, 360px);
-  height: clamp(220px, 34vw, 360px);
-  margin: calc(clamp(220px, 34vw, 360px) / -2) 0 0 calc(clamp(220px, 34vw, 360px) / -2);
-  border: 1px solid rgba(226, 200, 140, 0.32);
+  width: clamp(232px, 36vw, 384px);
+  height: clamp(232px, 36vw, 384px);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+/* twin focus rings — contract onto the mark as the camera locks */
+.ld-ring {
+  position: absolute;
   border-radius: 50%;
   opacity: 0;
+  transform-origin: 50% 50%;
+}
+.ld-ring.r1 {
+  inset: 12%;
+  border: 1px solid rgba(226, 200, 140, 0.38);
+  box-shadow: 0 0 24px rgba(226, 200, 140, 0.12), inset 0 0 18px rgba(226, 200, 140, 0.08);
+}
+.ld-ring.r2 {
+  inset: 0;
+  border: 1px solid rgba(200, 169, 106, 0.18);
+}
+/* tetra tick marks — four AF crop ticks at N/E/S/W just inside the outer ring */
+.ld-tick {
+  position: absolute;
+  background: rgba(226, 200, 140, 0.7);
+  opacity: 0;
+}
+.ld-tick.t,
+.ld-tick.b {
+  left: 50%;
+  width: 1px;
+  height: 12px;
+  margin-left: -0.5px;
+}
+.ld-tick.l,
+.ld-tick.r {
+  top: 50%;
+  height: 1px;
+  width: 12px;
+  margin-top: -0.5px;
+}
+.ld-tick.t { top: 4%; }
+.ld-tick.b { bottom: 4%; }
+.ld-tick.l { left: 4%; }
+.ld-tick.r { right: 4%; }
+/* focus-lock bloom — a soft gold ring that pulses outward the instant the
+   mark snaps sharp (GSAP scales it up + fades it once). */
+.ld-bloom {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(232, 209, 156, 0.9);
+  box-shadow: 0 0 40px 8px rgba(226, 200, 140, 0.35);
+  opacity: 0;
+  transform-origin: 50% 50%;
 }
 .ld-corner.tl {
   top: clamp(22px, 4vw, 44px);
@@ -282,7 +366,6 @@ body.touch .cur {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 3vh, 28px);
 }
 .ld-mark {
   position: relative;
@@ -323,7 +406,16 @@ body.touch .cur {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
+/* tagline sits ABSOLUTELY beneath the mark so it doesn't shift the logo off the
+   screen's centre (the logo must stay dead-centre inside the focus rings). */
 #loader .ll {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: clamp(22px, 3.2vh, 34px);
+  width: max-content;
+  max-width: 90vw;
   font-family: var(--disp);
   font-style: italic;
   font-size: clamp(16px, 2.6vw, 24px);

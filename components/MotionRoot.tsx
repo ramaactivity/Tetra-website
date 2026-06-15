@@ -294,6 +294,9 @@ export default function MotionRoot() {
         gsap.set("#ldmark img", { scale: 1.09, opacity: 0, transformOrigin: "50% 50%" });
         gsap.set("#ldframe", { scale: 1.12, opacity: 0 });
         gsap.set("#ldreticle", { scale: 1.5, opacity: 0 });
+        gsap.set("#ldreticle2", { scale: 1.62, opacity: 0, rotation: -12 });
+        gsap.set(".ld-tick", { opacity: 0 });
+        gsap.set("#ldbloom", { scale: 0.55, opacity: 0 });
 
         gsap
           .timeline({ onComplete: () => ScrollTrigger.refresh() })
@@ -305,6 +308,7 @@ export default function MotionRoot() {
             { opacity: 1, duration: 0.5, stagger: 0.06, ease: "power2.out" },
             0.05
           )
+          .to("#ldreticle2", { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.05)
           .to("#ldreticle", { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1)
           // mark emerges, out of focus
           .to("#ldmark img", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.4)
@@ -313,10 +317,24 @@ export default function MotionRoot() {
           .to("#ldmark img", { scale: 1.0, duration: 1.05, ease: "power2.inOut" }, 0.6)
           .to("#ldframe", { scale: 0.965, duration: 1.05, ease: "power2.inOut" }, 0.6)
           .to("#ldreticle", { scale: 1.02, duration: 1.05, ease: "power2.inOut" }, 0.6)
-          // ---- FOCUS LOCK: snap crisp, frame settles, reticle blinks out ----
+          // outer ring counter-rotates inward as the camera hunts
+          .to("#ldreticle2", { scale: 1.0, rotation: 0, duration: 1.05, ease: "power2.inOut" }, 0.6)
+          // ---- FOCUS LOCK: snap crisp, frame settles, rings blink out, bloom pulses ----
           .to(focus, { b: 0, duration: 0.45, ease: "power3.out", onUpdate: setBlur }, 1.65)
           .to("#ldframe", { scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 1.65)
           .to("#ldreticle", { scale: 0.92, opacity: 0, duration: 0.4, ease: "power2.out" }, 1.65)
+          .to("#ldreticle2", { scale: 0.86, opacity: 0, duration: 0.45, ease: "power2.out" }, 1.65)
+          // tetra tick marks snap in to confirm the lock
+          .fromTo(
+            ".ld-tick",
+            { opacity: 0, scale: 1.6 },
+            { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(3)", transformOrigin: "50% 50%" },
+            1.68
+          )
+          .to(".ld-tick", { opacity: 0, duration: 0.5, ease: "power2.in" }, 2.25)
+          // focus-lock bloom: a soft gold ring pulses outward, once
+          .set("#ldbloom", { scale: 0.55, opacity: 0.9 }, 1.66)
+          .to("#ldbloom", { scale: 2.1, opacity: 0, duration: 0.85, ease: "power2.out" }, 1.66)
           // gold glint catches the letters on lock (masked to the glyphs)
           .set(sheen, { opacity: 1 }, 1.72)
           .to(
