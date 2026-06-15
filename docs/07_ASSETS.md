@@ -31,6 +31,34 @@ Full brand logo set (not bundled here, available on Rama's side) includes black/
 `tetra-wordmark`, `photobooth-wordmark`, `tetra-lockup`, `tetra-lockup-pill`. Brand type DNA:
 contrast serif **"tetra."** + wide-tracked geometric sans caps **"PHOTOBOOTH"**, monochrome.
 
+## Client logos (trusted-by strip)
+
+Live in `public/images/logos/`, lowercase-slug filenames (`pertamina.svg`, `mandiri.svg`, …).
+Rendered by `components/TrustedBy.tsx`, styled by `.mq-logo` in `app/globals.css`.
+
+**Flat-white rule (the "konsep sebelumnya"):** source artwork is used *as-is* — full-colour
+SVG or PNG, official trademark. The colour is removed in CSS, never in the file:
+`filter: brightness(0) invert(1)` collapses any logo to a flat white silhouette, then
+`opacity: .55` gives the muted "putih agak abu" tone (→ `1` on hover). This keeps the whole
+strip one cohesive monochrome wall regardless of each logo's native colours. So a new logo
+only needs to be a clean, tightly-cropped vector/transparent-PNG — no recolouring required.
+
+- **Order = biggest first.** National / SOE / global names lead (Pertamina → Mandiri →
+  Pelindo → Danantara → SeaBank → Indocement → BAZNAS …), smaller venues/partners trail.
+- **`tall: true`** in the `CLIENTS` array = emblem-over-wordmark lockups (e.g. the BAZNAS
+  Garuda crest) that need extra height so stacked text stays legible.
+- **Fallback:** a client with no `logo` renders as a flat-white wordmark (same muted tone),
+  so the strip stays complete and each official file drops straight in when supplied.
+
+**Badge-style marks don't flatten well.** A logo that's a filled circular/shield badge
+(e.g. Indocement's Tiga Roda) collapses to a featureless white disc under `brightness(0)`,
+because the filter erases the internal colour boundaries. Prefer a horizontal / wordmark-only
+vector for these; otherwise leave them as the text fallback.
+
+Bundled (verified official): `pertamina` `mandiri` `pelindo` `danantara` `seabank` `baznas`.
+Text fallback for now (awaiting clean horizontal/wordmark artwork): Indocement, United Tractors,
+JW Marriott, Kemenag DKI, Ancol, Implora.
+
 ## Fonts (Google Fonts → use `next/font`)
 - **Marcellus** — weight 400 (display/headlines; italic emphasis treatment).
 - **Outfit** — weights 200, 300, 400, 500 (body/UI).
