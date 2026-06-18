@@ -5,14 +5,14 @@ export const WA_NUMBER =
   process.env.NEXT_PUBLIC_WA_NUMBER ?? "6285213526630"; // 0852-1352-6630 → international
 
 // Pre-filled WhatsApp handoff. The intro varies by where the visitor tapped
-// (paket / galeri / generic); the fill-in template stays identical so the admin
-// (Mintet) always gets the same three fields back.
+// (paket / galeri / generic); the "Detail acara" form stays identical so the
+// auto-reply bot always gets the same three fields back in the same shape.
 const WA_FORM =
-  "\n\nBoleh info lebih lanjut untuk\nJenis acara:\nTanggal:\nLokasi:\n\nTerima kasih";
+  "\n\nDetail acara:\n• Jenis acara   :\n• Tanggal acara :\n• Lokasi/venue  :\n\nTerima kasih, ditunggu infonya ya! 🙌";
 
 /** Build the pre-filled chat body from a context-specific opening line. */
 export function waMessage(
-  intro: string = "Halo Mintet, saya lihat info paket Tetra Photobooth di website."
+  intro: string = "Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan tertarik sama paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
 ): string {
   return intro + WA_FORM;
 }

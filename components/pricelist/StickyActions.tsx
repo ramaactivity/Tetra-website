@@ -2,7 +2,9 @@ import { waLink, waMessage } from "@/lib/site";
 import { PDF_URL, PDF_NAME } from "@/lib/pricelist";
 
 const WA = waLink(
-  waMessage("Halo Mintet, saya mau tanya & booking dari pricelist Tetra Photobooth.")
+  waMessage(
+    "Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
+  )
 );
 
 // Mobile-only bottom action bar — the always-visible conversion path.
