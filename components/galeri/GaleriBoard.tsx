@@ -27,28 +27,22 @@ const CAT_LABEL: Record<GalleryCategory, string> = {
 type Filter = "all" | GalleryCategory;
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
-// Per-lane character: gentle ambient drift speed/direction + a parallax depth
-// (back lanes react less to scroll & cursor). Cycled across however many lanes.
-const LANE_DNA = [
-  { dir: 1, speed: 15, depth: 1.0 },
-  { dir: -1, speed: 23, depth: 0.72 },
-  { dir: 1, speed: 19, depth: 1.2 },
-  { dir: -1, speed: 13, depth: 0.58 },
-];
+// Per-lane base loop duration (seconds) + parallax depth. The CSS keyframe does
+// the actual infinite flow; JS only scales playbackRate from scroll velocity.
+const LANE_DUR = [46, 62, 52, 70];
+const LANE_DEPTH = [1.0, 0.66, 1.22, 0.54];
 
-type LaneState = { pos: number; H: number; x: number };
-
-// Distribute the filtered set round-robin into N lanes, then repeat each lane's
-// items until it's tall enough to loop seamlessly (small categories still fill).
+// Round-robin the filtered set into N lanes, then repeat each lane until it's
+// tall enough to loop seamlessly (small categories still fill the column).
 function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
   const out: GalleryItem[][] = Array.from({ length: lanes }, () => []);
   list.forEach((g, i) => out[i % lanes].push(g));
-  const MIN = 5;
+  const MIN = 6;
   return out.map((items, li) => {
     let base = items.length ? items : list.slice();
     if (base.length) {
       const off = li % base.length;
-      base = base.slice(off).concat(base.slice(0, off)); // phase-shift for variety
+      base = base.slice(off).concat(base.slice(0, off));
     }
     const filled: GalleryItem[] = [];
     while (base.length && filled.length < MIN) filled.push(...base);
@@ -79,49 +73,36 @@ export default function GaleriBoard() {
   }, []);
   const lanes = useMemo(() => buildLanes(list, laneCount), [list, laneCount]);
 
-  /* ---- the infinite stream engine ---- */
+  /* ---- the stream engine ----
+     Motion is pure CSS (guaranteed to flow). Scroll velocity scales every
+     lane's playbackRate so scrolling visibly drives the stream; hovering a
+     print eases the whole stream toward a stop so you can dwell on it. */
   const streamRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const laneRefs = useRef<(HTMLDivElement | null)[]>([]);
   const trackRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const statesRef = useRef<LaneState[]>([]);
   const mouse = useRef({ nx: 0, ny: 0 });
   const hovering = useRef(false);
-  const visible = useRef(true);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (isReduced()) return; // CSS collapses the stream to a static column gallery
-    const tracks = trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
-    if (!tracks.length) return;
+    if (isReduced()) return; // CSS collapses to a static column gallery
+    const tracks = () =>
+      trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
 
-    // Seed H with a viewport-based floor so the loop never spins fast in the
-    // brief window before images decode (the ResizeObserver corrects it after).
-    const floor = window.innerHeight * 1.5;
-    const states: LaneState[] = tracks.map((t, i) => {
-      const H = Math.max(t.scrollHeight / 2, floor);
-      return { pos: (H / tracks.length) * i, H, x: 0 };
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), {
+      rootMargin: "150px",
     });
-    statesRef.current = states;
-
-    // Tracks grow as images decode → keep H honest without per-frame reflow.
-    const ro = new ResizeObserver((entries) => {
-      for (const e of entries) {
-        const idx = tracks.indexOf(e.target as HTMLDivElement);
-        if (idx >= 0) states[idx].H = (e.contentRect.height || 2) / 2 || 1;
-      }
-    });
-    tracks.forEach((t) => ro.observe(t));
-
-    const io = new IntersectionObserver(
-      ([e]) => (visible.current = e.isIntersecting),
-      { rootMargin: "120px" }
-    );
     if (streamRef.current) io.observe(streamRef.current);
 
     const getScroll = () => getLenis()?.scroll ?? window.scrollY;
+    let raf = 0;
     let last = performance.now();
     let lastScroll = getScroll();
-    let flow = 0;
+    let vel = 0;
+    let mul = 1;
     let scrolledFlag = false;
-    let raf = 0;
 
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -129,29 +110,22 @@ export default function GaleriBoard() {
       const sc = getScroll();
       const inst = (sc - lastScroll) / Math.max(dt, 0.0001);
       lastScroll = sc;
-      flow += (inst - flow) * 0.12; // smoothed scroll velocity (px/s)
-      const f = Math.max(-2600, Math.min(2600, flow));
+      vel += (inst - vel) * 0.15;
 
-      if (!scrolledFlag && Math.abs(f) > 60) {
+      if (!scrolledFlag && Math.abs(vel) > 80) {
         scrolledFlag = true;
         streamRef.current?.classList.add("scrolled");
       }
 
-      if (visible.current) {
-        const damp = hovering.current ? 0.05 : 1;
-        for (let i = 0; i < states.length; i++) {
-          const dna = LANE_DNA[i % LANE_DNA.length];
-          const s = states[i];
-          // ambient drift + scroll-driven travel (parallax by depth)
-          const v = (dna.dir * dna.speed + f * 0.2 * dna.depth) * damp;
-          s.pos += v * dt;
-          const H = s.H || 1;
-          let y = s.pos % H;
-          if (y < 0) y += H;
-          const targetX = mouse.current.nx * (10 + dna.depth * 18) * (i % 2 ? -1 : 1);
-          s.x += (targetX - s.x) * 0.06;
-          const el = tracks[i];
-          if (el) el.style.transform = `translate3d(${s.x.toFixed(2)}px, ${(-y).toFixed(2)}px, 0)`;
+      // hovering → ease toward a near-stop; otherwise base speed + scroll boost
+      const target = hovering.current ? 0.04 : Math.min(7, 1 + Math.abs(vel) * 0.0032);
+      mul += (target - mul) * 0.09;
+      const m = Math.max(0, mul);
+
+      if (visible) {
+        for (const t of tracks()) {
+          const anims = t.getAnimations();
+          for (const a of anims) a.playbackRate = m;
         }
       }
       raf = requestAnimationFrame(frame);
@@ -160,18 +134,39 @@ export default function GaleriBoard() {
 
     return () => {
       cancelAnimationFrame(raf);
-      ro.disconnect();
       io.disconnect();
     };
   }, [lanes]);
 
+  // cursor parallax — shift each lane wrapper by depth (separate element from
+  // the animated track, so the two transforms never fight)
+  const applyParallax = useCallback(() => {
+    const { nx, ny } = mouse.current;
+    laneRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const depth = LANE_DEPTH[i % LANE_DEPTH.length];
+      const dir = i % 2 ? -1 : 1;
+      el.style.transform = `translate3d(${(nx * 26 * depth * dir).toFixed(1)}px, ${(ny * 16 * depth).toFixed(1)}px, 0)`;
+    });
+  }, []);
   const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
     mouse.current.nx = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.current.ny = (e.clientY / window.innerHeight) * 2 - 1;
+    applyParallax();
   };
   const onLeave = () => {
     mouse.current.nx = 0;
     mouse.current.ny = 0;
+    applyParallax();
+  };
+
+  const enterCard = () => {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
+    hovering.current = true;
+  };
+  const leaveCard = () => {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
+    leaveTimer.current = setTimeout(() => (hovering.current = false), 70);
   };
 
   /* ---- lightbox (detail view) ---- */
@@ -366,12 +361,19 @@ export default function GaleriBoard() {
             selamanya
           </div>
 
-          {/* key=cat+laneCount remounts the lanes when the set or column count changes */}
-          <div className="gx-stage" key={`${cat}-${laneCount}`}>
+          <div className="gx-stage" ref={stageRef} key={`${cat}-${laneCount}`}>
             {lanes.map((laneItems, li) => (
-              <div className="gx-lane" key={li}>
+              <div
+                className="gx-lane"
+                key={li}
+                ref={(el) => {
+                  laneRefs.current[li] = el;
+                }}
+              >
                 <div
                   className="gx-track"
+                  data-dir={li % 2 ? "down" : "up"}
+                  style={{ ["--dur" as string]: `${LANE_DUR[li % LANE_DUR.length]}s` }}
                   ref={(el) => {
                     trackRefs.current[li] = el;
                   }}
@@ -385,8 +387,8 @@ export default function GaleriBoard() {
                         tabIndex={dup ? -1 : 0}
                         aria-hidden={dup ? true : undefined}
                         aria-label={`Lihat ${g.title} — ${g.sub}`}
-                        onMouseEnter={() => (hovering.current = true)}
-                        onMouseLeave={() => (hovering.current = false)}
+                        onMouseEnter={enterCard}
+                        onMouseLeave={leaveCard}
                         onClick={() => openItem(g)}
                       >
                         <img src={smSrc(g.src)} alt={g.title} draggable={false} decoding="async" />
@@ -423,7 +425,7 @@ export default function GaleriBoard() {
 
           <div className="gx-hint" aria-hidden>
             <span className="ln" />
-            Gulir untuk menyusuri · arahkan untuk berhenti
+            Gulir untuk mempercepat · arahkan untuk berhenti
             <span className="ln r" />
           </div>
         </div>
