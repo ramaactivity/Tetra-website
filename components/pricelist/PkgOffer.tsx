@@ -19,7 +19,7 @@ export default function PkgOffer({ pkg }: { pkg: Pkg }) {
 
   const wa = waLink(
     waMessage(
-      `Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan tertarik dengan paket ${pkg.name} (${tier.label}).\nBoleh dibantu cek ketersediaan & detailnya buat acara saya?`
+      `Halo Tetra Photobooth!\n\nSaya dari website Tetra dan tertarik dengan paket ${pkg.name} (${tier.label}).\nBoleh dibantu cek ketersediaan & detailnya buat acara saya?`
     )
   );
 

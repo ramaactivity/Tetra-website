@@ -7,12 +7,15 @@ export const WA_NUMBER =
 // Pre-filled WhatsApp handoff. The intro varies by where the visitor tapped
 // (paket / galeri / generic); the "Detail acara" form stays identical so the
 // auto-reply bot always gets the same three fields back in the same shape.
+// NOTE: no emoji here — emoji passed through the wa.me deep link gets mangled
+// into U+FFFD on handoff to the WhatsApp app. Bot replies (sent server-side)
+// can still use emoji; this prefilled text must stay plain.
 const WA_FORM =
-  "\n\nDetail acara:\n• Jenis acara   :\n• Tanggal acara :\n• Lokasi/venue  :\n\nTerima kasih, ditunggu infonya ya! 🙌";
+  "\n\nDetail acara:\n• Jenis acara   :\n• Tanggal acara :\n• Lokasi/venue  :\n\nTerima kasih, ditunggu infonya ya!";
 
 /** Build the pre-filled chat body from a context-specific opening line. */
 export function waMessage(
-  intro: string = "Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan tertarik sama paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
+  intro: string = "Halo Tetra Photobooth!\n\nSaya dari website Tetra dan tertarik sama paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
 ): string {
   return intro + WA_FORM;
 }

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 const WA_BOOK = waLink(
   waMessage(
-    "Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
+    "Halo Tetra Photobooth!\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
   )
 );
 

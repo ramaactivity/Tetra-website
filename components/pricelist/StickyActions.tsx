@@ -3,7 +3,7 @@ import { PDF_URL, PDF_NAME } from "@/lib/pricelist";
 
 const WA = waLink(
   waMessage(
-    "Halo Tetra Photobooth! 👋\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
+    "Halo Tetra Photobooth!\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
   )
 );
 
