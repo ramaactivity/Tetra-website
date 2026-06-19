@@ -568,7 +568,8 @@ export default function MotionRoot() {
           trigger: ".why",
           start: "top top",
           end: holdPx,
-          scrub: 1,
+          // higher scrub = the deck glides with the scroll instead of snapping
+          scrub: 1.5,
           invalidateOnRefresh: true,
           animation: tl,
         });
@@ -578,7 +579,7 @@ export default function MotionRoot() {
           {
             scaleX: 1,
             ease: "none",
-            scrollTrigger: { trigger: ".why", start: "top top", end: holdPx, scrub: true, invalidateOnRefresh: true },
+            scrollTrigger: { trigger: ".why", start: "top top", end: holdPx, scrub: 1.2, invalidateOnRefresh: true },
           }
         );
       }
