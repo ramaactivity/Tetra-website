@@ -4474,6 +4474,18 @@ header nav a.lnk:hover .roll span {
   height: 100vh;
   overflow: hidden;
 }
+/* Touch: no GSAP pin/scrub (it stutters on native scroll). Instead a smooth,
+   compositor-driven CSS sticky band that dwells while the lanes drift, then
+   releases. The JS engine matches this (skips the pin on coarse pointers). */
+@media (pointer: coarse) {
+  .gx-stream {
+    height: 220vh;
+  }
+  .gx-stream-sticky {
+    position: sticky;
+    top: 0;
+  }
+}
 .gx-stage {
   position: absolute;
   inset: 0;

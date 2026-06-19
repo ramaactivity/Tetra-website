@@ -161,26 +161,33 @@ export default function GaleriBoard() {
     });
     io.observe(stream);
 
-    const st = ScrollTrigger.create({
-      trigger: stream,
-      start: "top top",
-      end: () => "+=" + Math.round(window.innerHeight * 3.2),
-      pin: sticky,
-      pinSpacing: true,
-      scrub: 1.1,
-      // higher than the Format section's pin (default 0) so this pin (higher on
-      // the page) is measured first — otherwise their pin-spacers overlap and
-      // the Format section pins on top of the still-pinned gallery (mobile).
-      refreshPriority: 1,
-      invalidateOnRefresh: true,
-      onRefresh: () => {
-        H = heightOf();
-      },
-      onUpdate: (self) => {
-        progress = self.progress;
-        if (progress > 0.015) stream.classList.add("scrolled");
-      },
-    });
+    // Touch devices use NATIVE scroll (no Lenis). GSAP pin + scrub on top of
+    // native scroll stutters badly on phones, so there we DON'T pin/scrub — the
+    // gallery is just a 100vh band that drifts (ambient) while the page scrolls
+    // past it smoothly. Desktop keeps the scroll-scrubbed "fly through" pin.
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    const st = touch
+      ? null
+      : ScrollTrigger.create({
+          trigger: stream,
+          start: "top top",
+          end: () => "+=" + Math.round(window.innerHeight * 3.2),
+          pin: sticky,
+          pinSpacing: true,
+          scrub: 1.1,
+          // higher than the Format section's pin (default 0) so this pin (higher
+          // on the page) is measured first — otherwise their pin-spacers overlap
+          // and the Format section pins on top of the still-pinned gallery.
+          refreshPriority: 1,
+          invalidateOnRefresh: true,
+          onRefresh: () => {
+            H = heightOf();
+          },
+          onUpdate: (self) => {
+            progress = self.progress;
+            if (progress > 0.015) stream.classList.add("scrolled");
+          },
+        });
 
     const tick = (_time: number, deltaTime: number) => {
       if (!visible || document.body.classList.contains("lb-open")) return;
@@ -200,7 +207,7 @@ export default function GaleriBoard() {
       gsap.ticker.remove(tick);
       ro.disconnect();
       io.disconnect();
-      st.kill();
+      st?.kill();
     };
   }, [laneEntries]);
 
