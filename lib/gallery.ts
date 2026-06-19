@@ -26,6 +26,31 @@ export const GALLERY_TABS: GalleryTab[] = [
   { cat: "grad", label: "Wisuda" },
 ];
 
+// The dedicated gallery page filters by PRINT FORMAT (clients ask to see
+// examples of each size), derived from the format token in each caption's `sub`.
+export type GalleryFormat = "4r" | "2r" | "polaroid";
+
+export interface FormatTab {
+  key: "all" | GalleryFormat;
+  label: string;
+}
+
+export const FORMAT_TABS: FormatTab[] = [
+  { key: "all", label: "Semua" },
+  { key: "4r", label: "4R" },
+  { key: "2r", label: "2R" },
+  { key: "polaroid", label: "Polaroid" },
+];
+
+/** Derive the print format from a caption sub (e.g. "Wedding · 4R" → "4r").
+ *  "Polaroid" and "Film" both map to polaroid. */
+export function formatOf(item: GalleryItem): GalleryFormat {
+  const seg = item.sub.split("·").pop()?.trim().toLowerCase() ?? "";
+  if (seg.includes("4r")) return "4r";
+  if (seg.includes("2r")) return "2r";
+  return "polaroid";
+}
+
 export const GALLERY: GalleryItem[] = [
   { i: 0, src: "/images/g-wed1.jpg", title: "Ami & Awal", sub: "Wedding · Polaroid", cat: "wed" },
   { i: 1, src: "/images/g-corp1.jpg", title: "Indocement", sub: "Corporate · 4R", cat: "corp" },

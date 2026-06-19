@@ -4473,8 +4473,6 @@ header nav a.lnk:hover .roll span {
   position: relative;
   height: 100vh;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
 }
 .gx-stage {
   position: absolute;
@@ -4612,24 +4610,135 @@ header nav a.lnk:hover .roll span {
   white-space: nowrap;
 }
 
-/* floating filter controls + the scroll hint, over the stream */
-.gx-controls {
+/* ---- top film-tape + filter, bottom film-tape (crisp designed boundaries) ---- */
+.gx-top {
   position: absolute;
-  /* sit clearly below the fixed header, above the flowing prints */
-  top: clamp(74px, 9vh, 96px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 12;
+  top: clamp(54px, 8vh, 70px);
+  left: 0;
+  right: 0;
+  z-index: 11;
+  pointer-events: none;
+}
+.gx-tape {
+  position: relative;
+  height: clamp(38px, 5vh, 54px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: rgba(18, 14, 10, 0.95);
+  border-top: 1px solid rgba(200, 169, 106, 0.32);
+  border-bottom: 1px solid rgba(200, 169, 106, 0.32);
+  box-shadow: 0 14px 30px -22px rgba(0, 0, 0, 0.9);
+}
+.gx-tape.bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+}
+/* film sprocket holes along both inner edges */
+.gx-tape::before,
+.gx-tape::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, rgba(239, 231, 218, 0.17) 0 11px, transparent 11px 24px);
+}
+.gx-tape::before { top: 5px; }
+.gx-tape::after { bottom: 5px; }
+.gx-tape-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: gxTapeA 46s linear infinite;
+}
+.gx-tape.bottom .gx-tape-track { animation: gxTapeB 46s linear infinite; }
+.gx-tape-group {
+  display: inline-flex;
+  align-items: center;
+}
+.gx-tape-group em {
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(226, 200, 140, 0.85);
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding-right: 16px;
+}
+.gx-tape-group em b {
+  color: var(--gold);
+  font-size: 8px;
+}
+@keyframes gxTapeA { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes gxTapeB { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* filter pills — docked just under the top tape (a clear home, not floating) */
+.gx-controls {
+  position: relative;
+  margin: 14px auto 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
 }
 .gx-controls .gtabs {
   margin-bottom: 0;
   padding: 7px;
   border-radius: 100px;
-  background: rgba(15, 12, 9, 0.86);
-  border: 1px solid rgba(200, 169, 106, 0.22);
+  background: rgba(15, 12, 9, 0.9);
+  border: 1px solid rgba(200, 169, 106, 0.24);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+/* interleaved text tiles — brand voice + format explainers among the prints */
+.gx-textcard {
+  position: relative;
+  width: 100%;
+  margin-bottom: clamp(12px, 1.6vw, 26px);
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  background: linear-gradient(158deg, #221a11, #14100b 70%);
+  border: 1px solid rgba(200, 169, 106, 0.26);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10% 12%;
+  box-shadow: 0 22px 48px -28px rgba(0, 0, 0, 0.78);
+}
+.gx-stage:has(.gx-card:hover) .gx-textcard { opacity: 0.45; }
+.gx-textcard { transition: opacity 0.5s var(--ease-out-quint); }
+.gx-tc-eyebrow {
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.gx-tc-line {
+  font-family: var(--disp);
+  font-size: clamp(17px, 1.7vw, 25px);
+  line-height: 1.2;
+  color: var(--ink);
+}
+.gx-tc-line i {
+  font-style: italic;
+  color: var(--gold2);
+  display: block;
+}
+.gx-tc-mark {
+  margin-top: 16px;
+  color: rgba(200, 169, 106, 0.5);
+  font-size: 12px;
 }
 .gx-hint {
   position: absolute;
@@ -4701,17 +4810,24 @@ html:not(.js) .gx-hint,
 html.reduced .gx-hint,
 html:not(.js) .gx-stream-veil,
 html.reduced .gx-stream-veil { display: none; }
+html:not(.js) .gx-top,
+html.reduced .gx-top {
+  position: static;
+}
+html:not(.js) .gx-tape,
+html.reduced .gx-tape { display: none; }
 html:not(.js) .gx-controls,
 html.reduced .gx-controls {
   position: static;
   transform: none;
   display: flex;
   justify-content: center;
-  margin-bottom: 22px;
+  margin: 0 0 22px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .gx-track { animation: none !important; }
+  .gx-tape-track { animation: none !important; }
   .gx-lane { transform: none !important; }
   .gx-dup { display: none; }
   .gx-card,

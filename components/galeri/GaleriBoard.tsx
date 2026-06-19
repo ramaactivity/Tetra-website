@@ -12,30 +12,62 @@ import {
 import { createPortal } from "react-dom";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
-import { GALLERY, GALLERY_TABS, type GalleryCategory, type GalleryItem } from "@/lib/gallery";
+import {
+  GALLERY,
+  FORMAT_TABS,
+  formatOf,
+  type GalleryFormat,
+  type GalleryItem,
+} from "@/lib/gallery";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
 
-const CAT_LABEL: Record<GalleryCategory, string> = {
-  wed: "Wedding",
-  corp: "Corporate",
-  bday: "Ulang Tahun",
-  grad: "Wisuda",
-};
-
-type Filter = "all" | GalleryCategory;
+type Filter = "all" | GalleryFormat;
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
-// Per-lane character: drift direction, ambient speed (px/s), how many full loops
-// a scroll-through scrubs (the "engine"), and cursor-parallax depth.
+// Per-lane character: drift direction, ambient speed (px/s), loops a scroll
+// scrubs through (the engine), and cursor-parallax depth.
 const LANE_DIR = [1, -1, 1, -1];
 const LANE_AMB = [42, 52, 46, 36];
 const LANE_LOOPS = [3, 2, 3, 2];
 const LANE_DEPTH = [1.0, 0.66, 1.22, 0.54];
 
-// Round-robin the filtered set into N lanes, then repeat each lane until it's
-// tall enough to loop seamlessly (small categories still fill the column).
+// Text tiles interleaved among the prints — varied brand voice (not monotone)
+// plus a per-format explainer so clients learn each size while they browse.
+type TextTile = { eyebrow?: string; a: string; b: string };
+const QUOTES: TextTile[] = [
+  { a: "Satu bingkai,", b: "satu cerita." },
+  { a: "Setiap momen,", b: "kami rekam." },
+  { a: "Memories that", b: "last forever." },
+  { a: "Kenangan yang", b: "abadi." },
+  { a: "Dibawa pulang,", b: "dikenang selamanya." },
+  { a: "Ratusan acara,", b: "satu Tetra." },
+  { eyebrow: "Tetra Photobooth", a: "Momen jadi", b: "kenangan." },
+  { a: "Tiap cetak,", b: "dirancang khusus." },
+];
+const NOTES: Record<GalleryFormat, TextTile> = {
+  "4r": { eyebrow: "Ukuran 4R", a: "Cetak utama,", b: "lembar utuh." },
+  "2r": { eyebrow: "Ukuran 2R", a: "Strip klasik,", b: "dua sisi." },
+  polaroid: { eyebrow: "Polaroid", a: "Bingkai putih", b: "yang ikonik." },
+};
+
+// Repeating film-tape marquee text — varied so it never reads the same twice.
+const TAPE_PHRASES = [
+  "Tetra Photobooth",
+  "Satu Bingkai, Satu Cerita",
+  "Momen",
+  "Memories",
+  "Galeri & Dokumentasi",
+  "Kenangan Yang Abadi",
+  "Tetra",
+  "Setiap Cerita Berharga",
+];
+
+type Entry = { kind: "photo"; item: GalleryItem } | { kind: "text"; tile: TextTile };
+
+// Round-robin the filtered set into N lanes, repeating each lane until tall
+// enough to loop seamlessly (thin formats still fill their column).
 function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
   const out: GalleryItem[][] = Array.from({ length: lanes }, () => []);
   list.forEach((g, i) => out[i % lanes].push(g));
@@ -52,11 +84,33 @@ function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
   });
 }
 
+// Interleave a text tile every few prints; pool + start offset vary per lane so
+// the tiles never line up into a row.
+function buildEntries(photos: GalleryItem[], laneIndex: number, fmt: Filter): Entry[] {
+  const notes = fmt === "all" ? [NOTES["4r"], NOTES["2r"], NOTES.polaroid] : [NOTES[fmt]];
+  const pool: TextTile[] = [];
+  const n = Math.max(QUOTES.length, notes.length);
+  for (let i = 0; i < n; i++) {
+    if (i < notes.length) pool.push(notes[i]);
+    if (i < QUOTES.length) pool.push(QUOTES[(i + laneIndex) % QUOTES.length]);
+  }
+  const out: Entry[] = [];
+  let t = laneIndex;
+  photos.forEach((p, i) => {
+    out.push({ kind: "photo", item: p });
+    if (i % 4 === 3) {
+      out.push({ kind: "text", tile: pool[t % pool.length] });
+      t += 1;
+    }
+  });
+  return out;
+}
+
 export default function GaleriBoard() {
-  const [cat, setCat] = useState<Filter>("all");
+  const [fmt, setFmt] = useState<Filter>("all");
   const list = useMemo(
-    () => (cat === "all" ? GALLERY : GALLERY.filter((g) => g.cat === cat)),
-    [cat]
+    () => (fmt === "all" ? GALLERY : GALLERY.filter((g) => formatOf(g) === fmt)),
+    [fmt]
   );
   const listRef = useRef(list);
   useEffect(() => {
@@ -73,17 +127,15 @@ export default function GaleriBoard() {
     window.addEventListener("resize", calc);
     return () => window.removeEventListener("resize", calc);
   }, []);
-  const lanes = useMemo(() => buildLanes(list, laneCount), [list, laneCount]);
 
-  /* ---- the stream engine ----
-     The section pins and SCROLL SCRUBS each lane through many full loops, so
-     scrolling literally flies you through an endless river of prints (the loop
-     wraps with modulo → no end). A gentle ambient drift keeps it alive at rest;
-     hovering a print freezes the drift so you can dwell on it. Cursor parallax
-     lives on the lane wrapper, a separate element, so transforms never fight. */
+  const laneEntries = useMemo(
+    () => buildLanes(list, laneCount).map((photos, li) => buildEntries(photos, li, fmt)),
+    [list, laneCount, fmt]
+  );
+
+  /* ---- the stream engine: pin + scroll-scrub through endless modulo loops ---- */
   const streamRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
   const laneRefs = useRef<(HTMLDivElement | null)[]>([]);
   const trackRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mouse = useRef({ nx: 0, ny: 0 });
@@ -91,16 +143,16 @@ export default function GaleriBoard() {
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (isReduced()) return; // CSS collapses to a static column gallery
-    const tracks = trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
+    if (isReduced()) return;
+    const tracks = trackRefs.current.slice(0, laneEntries.length).filter(Boolean) as HTMLDivElement[];
     const stream = streamRef.current;
     const sticky = stickyRef.current;
     if (!tracks.length || !stream || !sticky) return;
 
     const heightOf = () =>
-      tracks.map((t) => Math.max(t.scrollHeight / 2, window.innerHeight * 1.4));
+      tracks.map((t) => Math.max(t.scrollHeight / 2, window.innerHeight * 1.2));
     let H = heightOf();
-    const base = tracks.map((_, i) => (H[i] / tracks.length) * i); // stagger phases → never a grid
+    const base = tracks.map((_, i) => (H[i] / tracks.length) * i);
     let progress = 0;
     const wrap = (v: number, m: number) => {
       let y = v % m;
@@ -108,8 +160,6 @@ export default function GaleriBoard() {
       return y;
     };
 
-    // Re-measure lane height as images decode so the modulo wrap stays seamless
-    // (a stale height makes the top/bottom seam jump/choppy).
     const ro = new ResizeObserver(() => {
       H = heightOf();
     });
@@ -132,7 +182,6 @@ export default function GaleriBoard() {
       },
     });
 
-    // gsap.ticker passes deltaTime in MILLISECONDS as the 2nd arg.
     const tick = (_time: number, deltaTime: number) => {
       const dt = Math.min(0.05, (deltaTime || 16) / 1000);
       for (let i = 0; i < tracks.length; i++) {
@@ -151,16 +200,13 @@ export default function GaleriBoard() {
       ro.disconnect();
       st.kill();
     };
-  }, [lanes]);
+  }, [laneEntries]);
 
-  // cursor parallax — shift each lane wrapper by depth (separate element from
-  // the animated track, so the two transforms never fight)
   const applyParallax = useCallback(() => {
     const { nx, ny } = mouse.current;
     laneRefs.current.forEach((el, i) => {
       if (!el) return;
       const depth = LANE_DEPTH[i % LANE_DEPTH.length];
-      // small + same-direction so neighbouring columns can never collide
       el.style.transform = `translate3d(${(nx * 7 * depth).toFixed(1)}px, ${(ny * 9 * depth).toFixed(1)}px, 0)`;
     });
   }, []);
@@ -174,7 +220,6 @@ export default function GaleriBoard() {
     mouse.current.ny = 0;
     applyParallax();
   };
-
   const enterCard = () => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     hovering.current = true;
@@ -184,7 +229,7 @@ export default function GaleriBoard() {
     leaveTimer.current = setTimeout(() => (hovering.current = false), 70);
   };
 
-  /* ---- lightbox (detail view) ---- */
+  /* ---- lightbox (detail view, photos only) ---- */
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -363,10 +408,23 @@ export default function GaleriBoard() {
   }, [open, close, go]);
 
   const pick = (next: Filter) => {
-    if (next === cat) return;
+    if (next === fmt) return;
     if (open) close();
-    setCat(next);
+    setFmt(next);
   };
+
+  const tapeGroup = (
+    <span className="gx-tape-group" aria-hidden>
+      {Array.from({ length: 4 }).map((_, r) =>
+        TAPE_PHRASES.map((p, i) => (
+          <em key={`${r}-${i}`}>
+            {p}
+            <b>✦</b>
+          </em>
+        ))
+      )}
+    </span>
+  );
 
   return (
     <section className="gx-board" aria-label="Arus kenangan Tetra Photobooth">
@@ -376,8 +434,8 @@ export default function GaleriBoard() {
             selamanya
           </div>
 
-          <div className="gx-stage" ref={stageRef} key={`${cat}-${laneCount}`}>
-            {lanes.map((laneItems, li) => (
+          <div className="gx-stage" key={`${fmt}-${laneCount}`}>
+            {laneEntries.map((entries, li) => (
               <div
                 className="gx-lane"
                 key={li}
@@ -392,25 +450,41 @@ export default function GaleriBoard() {
                   }}
                 >
                   {[0, 1].map((dup) =>
-                    laneItems.map((g, k) => (
-                      <button
-                        className={`gx-card${dup ? " gx-dup" : ""}`}
-                        key={`${dup}-${k}`}
-                        type="button"
-                        tabIndex={dup ? -1 : 0}
-                        aria-hidden={dup ? true : undefined}
-                        aria-label={`Lihat ${g.title} — ${g.sub}`}
-                        onMouseEnter={enterCard}
-                        onMouseLeave={leaveCard}
-                        onClick={() => openItem(g)}
-                      >
-                        <img src={smSrc(g.src)} alt={g.title} draggable={false} decoding="async" />
-                        <span className="gx-cap">
-                          <b>{g.title}</b>
-                          <i>{g.sub}</i>
-                        </span>
-                      </button>
-                    ))
+                    entries.map((e, k) =>
+                      e.kind === "photo" ? (
+                        <button
+                          className={`gx-card${dup ? " gx-dup" : ""}`}
+                          key={`${dup}-${k}`}
+                          type="button"
+                          tabIndex={dup ? -1 : 0}
+                          aria-hidden={dup ? true : undefined}
+                          aria-label={`Lihat ${e.item.title} — ${e.item.sub}`}
+                          onMouseEnter={enterCard}
+                          onMouseLeave={leaveCard}
+                          onClick={() => openItem(e.item)}
+                        >
+                          <img src={smSrc(e.item.src)} alt={e.item.title} draggable={false} decoding="async" />
+                          <span className="gx-cap">
+                            <b>{e.item.title}</b>
+                            <i>{e.item.sub}</i>
+                          </span>
+                        </button>
+                      ) : (
+                        <div
+                          className={`gx-textcard${dup ? " gx-dup" : ""}`}
+                          key={`${dup}-${k}`}
+                          aria-hidden={dup ? true : undefined}
+                        >
+                          {e.tile.eyebrow && <span className="gx-tc-eyebrow">{e.tile.eyebrow}</span>}
+                          <span className="gx-tc-line">
+                            {e.tile.a} <i>{e.tile.b}</i>
+                          </span>
+                          <span className="gx-tc-mark" aria-hidden>
+                            ✦
+                          </span>
+                        </div>
+                      )
+                    )
                   )}
                 </div>
               </div>
@@ -419,27 +493,37 @@ export default function GaleriBoard() {
 
           <div className="gx-stream-veil" aria-hidden />
 
-          <div className="gx-controls">
-            <div className="gtabs" role="tablist" aria-label="Saring berdasarkan jenis acara">
-              {GALLERY_TABS.map((t) => (
-                <button
-                  key={t.cat}
-                  type="button"
-                  role="tab"
-                  aria-selected={cat === t.cat}
-                  className={cat === t.cat ? "on" : undefined}
-                  onClick={() => pick(t.cat)}
-                >
-                  {t.label}
-                </button>
-              ))}
+          {/* top film tape + filter, bottom film tape — crisp designed boundaries */}
+          <div className="gx-top">
+            <div className="gx-tape top" aria-hidden>
+              <div className="gx-tape-track">
+                {tapeGroup}
+                {tapeGroup}
+              </div>
+            </div>
+            <div className="gx-controls">
+              <div className="gtabs" role="tablist" aria-label="Saring berdasarkan ukuran cetak">
+                {FORMAT_TABS.map((t) => (
+                  <button
+                    key={t.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={fmt === t.key}
+                    className={fmt === t.key ? "on" : undefined}
+                    onClick={() => pick(t.key)}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="gx-hint" aria-hidden>
-            <span className="ln" />
-            Gulir untuk mempercepat · arahkan untuk berhenti
-            <span className="ln r" />
+          <div className="gx-tape bottom" aria-hidden>
+            <div className="gx-tape-track">
+              {tapeGroup}
+              {tapeGroup}
+            </div>
           </div>
         </div>
       </div>
