@@ -4594,12 +4594,17 @@ header nav a.lnk:hover .roll span {
   background: radial-gradient(120% 78% at 50% 50%, transparent 52%, rgba(15, 12, 9, 0.5) 100%),
     linear-gradient(90deg, rgba(15, 12, 9, 0.5), transparent 16%, transparent 84%, rgba(15, 12, 9, 0.5));
 }
+/* the scroll-drawn homepage ribbon has no valid waypoints on /galeri — its path
+   degenerates into a stray gold diagonal, so hide it on this page only */
+body:has(.gx-board) #ribbon {
+  display: none !important;
+}
 .gx-ghost {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 0; /* behind the prints, not floating over them like a watermark */
   pointer-events: none;
   font-family: var(--disp);
   font-style: italic;
