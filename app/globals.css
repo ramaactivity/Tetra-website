@@ -4860,6 +4860,35 @@ body:has(.gx-board) #ribbon {
     text-align: left;
   }
 }
+/* Mobile: the pinned Format panel must fit one screen, so trim the galeri-only
+   extras (bullets + note) and tighten reservations — the core nm/size/desc
+   still explains each format, with breathing room at the bottom. */
+@media (max-width: 760px) {
+  #format-galeri .fpin {
+    padding-top: 84px;
+  }
+  #format-galeri .fstage {
+    transform: scale(0.82);
+  }
+  #format-galeri .fmt-lead {
+    font-size: 13.5px;
+    margin-top: 10px;
+    max-width: 38ch;
+  }
+  #format-galeri .fcaps {
+    height: auto;
+    min-height: 160px; /* reserves the slot for the absolutely-stacked caps so
+                          the panel stays vertically centred and never clips */
+    margin-top: 18px;
+  }
+  #format-galeri .fcap .fdetail,
+  #format-galeri .fcap .fnote {
+    display: none;
+  }
+  #format-galeri .fcap .ds {
+    margin-bottom: 6px;
+  }
+}
 
 @media (max-width: 560px) {
   /* .gx-stream height is owned by the GSAP pin-spacer — never hard-set it, or
