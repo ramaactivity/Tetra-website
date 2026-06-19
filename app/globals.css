@@ -4808,6 +4808,11 @@ body:has(.gx-board) #ribbon {
 
 /* ---- Format section adopted onto /galeri (richer copy than the homepage).
    Scoped to #format-galeri so the homepage FormatScrolly is untouched. ---- */
+/* solid bg + raised so it can never bleed through / under the pinned gallery */
+#format-galeri {
+  background: var(--paper);
+  z-index: 2;
+}
 #format-galeri .fmt-lead {
   color: var(--ink2);
   margin: 14px 0 0;
@@ -4863,7 +4868,8 @@ body:has(.gx-board) #ribbon {
 }
 
 @media (max-width: 560px) {
-  .gx-stream { height: 220vh; }
+  /* .gx-stream height is owned by the GSAP pin-spacer — never hard-set it, or
+     the pin-spacer gets clipped and the next section overlaps the gallery. */
   .gx-stage { padding: 0 10px; gap: 10px; }
 }
 

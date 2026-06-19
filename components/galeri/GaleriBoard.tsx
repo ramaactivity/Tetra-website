@@ -19,11 +19,12 @@ const isReduced = () =>
 
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
-// Per-lane character: drift direction, ambient speed (px/s), loops a scroll
-// scrubs through (the engine), and cursor-parallax depth.
+// Per-lane character: drift direction, gentle ambient speed (px/s), loops a
+// full scroll-through scrubs (kept low so scrolling stays calm, not warp-speed),
+// and cursor-parallax depth.
 const LANE_DIR = [1, -1, 1, -1];
-const LANE_AMB = [42, 52, 46, 36];
-const LANE_LOOPS = [3, 2, 3, 2];
+const LANE_AMB = [26, 34, 30, 22];
+const LANE_LOOPS = [1.5, 1, 1.6, 1];
 const LANE_DEPTH = [1.0, 0.66, 1.22, 0.54];
 
 // Text tiles interleaved among the prints — varied brand voice (not monotone).
@@ -144,7 +145,11 @@ export default function GaleriBoard() {
       end: () => "+=" + Math.round(window.innerHeight * 3.2),
       pin: sticky,
       pinSpacing: true,
-      scrub: 0.5,
+      scrub: 1.1,
+      // higher than the Format section's pin (default 0) so this pin (higher on
+      // the page) is measured first — otherwise their pin-spacers overlap and
+      // the Format section pins on top of the still-pinned gallery (mobile).
+      refreshPriority: 1,
       invalidateOnRefresh: true,
       onRefresh: () => {
         H = heightOf();
