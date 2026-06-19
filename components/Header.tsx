@@ -5,7 +5,8 @@ import { waLink } from "@/lib/site";
 import { SocialLinks } from "./SocialIcons";
 
 const NAV = [
-  { id: "#galeri", label: "Galeri" },
+  // Galeri is a full page now (/galeri); the rest stay smooth-scroll anchors.
+  { id: "/galeri", label: "Galeri", page: true },
   { id: "#format", label: "Format" },
   { id: "#paket", label: "Paket" },
   { id: "#cara", label: "Cara Kerja" },
@@ -31,16 +32,26 @@ export default function Header() {
           <img src="/images/word-white.png" alt="tetra photobooth" />
         </a>
         <nav>
-          {NAV.map((n) => (
-            // root-relative so the smooth-scroll handler works on the home page
-            // and the link still navigates home from other routes (e.g. /pricelist)
-            <a key={n.id} className="lnk" href={`/${n.id}`} data-scroll={n.id}>
-              <span className="roll">
-                <span>{n.label}</span>
-                <span aria-hidden>{n.label}</span>
-              </span>
-            </a>
-          ))}
+          {NAV.map((n) =>
+            n.page ? (
+              // Real route → plain navigation (no smooth-scroll hijack).
+              <a key={n.id} className="lnk" href={n.id}>
+                <span className="roll">
+                  <span>{n.label}</span>
+                  <span aria-hidden>{n.label}</span>
+                </span>
+              </a>
+            ) : (
+              // root-relative so the smooth-scroll handler works on the home page
+              // and the link still navigates home from other routes (e.g. /pricelist)
+              <a key={n.id} className="lnk" href={`/${n.id}`} data-scroll={n.id}>
+                <span className="roll">
+                  <span>{n.label}</span>
+                  <span aria-hidden>{n.label}</span>
+                </span>
+              </a>
+            )
+          )}
           <SocialLinks className="hdr-socials" />
           <a className="btn fill" href={waLink()} target="_blank" rel="noopener noreferrer">
             Chat Admin

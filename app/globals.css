@@ -4400,3 +4400,227 @@ header nav a.lnk:hover .roll span {
   .pl-spark { opacity: 0; }
   .pl-backdrop-swatch::after { display: none; }
 }
+
+/* =========================================================================
+   GALERI — dedicated gallery/documentation page (/galeri)
+   Sticky filter → masonry "wall of prints" → reuses the .viewer lightbox.
+   ========================================================================= */
+.gx-hero {
+  padding: clamp(118px, 17vh, 196px) 0 clamp(34px, 5vh, 64px);
+  text-align: center;
+}
+.gx-hero .eyebrow {
+  display: block;
+  margin-bottom: clamp(16px, 2vh, 22px);
+}
+.gx-title {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: clamp(40px, 6.6vw, 92px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 15ch;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+.gx-lead {
+  color: var(--ink2);
+  margin: clamp(20px, 3vh, 30px) auto 0;
+  max-width: 56ch;
+  line-height: 1.75;
+  font-size: clamp(15px, 1.3vw, 17px);
+  text-wrap: balance;
+}
+.gx-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 14px;
+  margin: clamp(22px, 3.2vh, 34px) auto 0;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.gx-meta .dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.7;
+}
+.gx-meta a {
+  color: var(--ink2);
+  transition: color 0.3s;
+}
+.gx-meta a:hover {
+  color: var(--gold);
+}
+
+/* ---- sticky filter bar (stays reachable down the long wall) ---- */
+.gx-board {
+  padding-bottom: clamp(64px, 11vh, 128px);
+}
+.gx-bar {
+  position: sticky;
+  /* clear the fixed header (≈50px in its scrolled `.solid` state) */
+  top: 50px;
+  z-index: 30;
+  padding: 16px 0 14px;
+  margin-bottom: clamp(16px, 2.4vh, 26px);
+  background: linear-gradient(180deg, var(--paper) 28%, rgba(21, 18, 14, 0.72) 78%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.gx-bar .gtabs {
+  margin-bottom: 0;
+}
+.gx-count {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+.gx-count b {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* ---- masonry wall (CSS columns; cards never split) ---- */
+.gx-grid {
+  column-count: 4;
+  column-gap: clamp(14px, 1.5vw, 22px);
+}
+@media (max-width: 1100px) {
+  .gx-grid { column-count: 3; }
+}
+@media (max-width: 760px) {
+  .gx-grid { column-count: 2; column-gap: 12px; }
+}
+@media (max-width: 430px) {
+  .gx-grid { column-count: 1; }
+}
+.gx-card {
+  display: block;
+  width: 100%;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 clamp(14px, 1.5vw, 22px);
+  position: relative;
+  border: 0;
+  padding: 0;
+  background: var(--card);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.72), 0 4px 12px -10px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.6s var(--ease-out-quint);
+  animation: gxIn 0.7s var(--ease-out-quint) both;
+}
+.gx-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.gx-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(15, 12, 9, 0.74));
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.gx-card:hover {
+  box-shadow: 0 34px 66px -30px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(200, 169, 106, 0.55);
+}
+.gx-card:hover img {
+  transform: scale(1.05);
+}
+.gx-card:hover::after,
+.gx-card:focus-visible::after {
+  opacity: 1;
+}
+.gx-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 32px 16px 15px;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s, transform 0.5s var(--ease-out-quint);
+}
+.gx-card:hover .gx-cap,
+.gx-card:focus-visible .gx-cap {
+  opacity: 1;
+  transform: none;
+}
+.gx-cap b {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.12;
+  color: #fff;
+}
+.gx-cap i {
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold2);
+}
+.gx-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(15, 12, 9, 0.46);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 5px 10px;
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.5s, transform 0.5s var(--ease-out-quint);
+}
+.gx-card:hover .gx-tag,
+.gx-card:focus-visible .gx-tag {
+  opacity: 1;
+  transform: none;
+}
+@keyframes gxIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "Lihat galeri lengkap" bridge under the homepage marquee teaser */
+.gx-more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(28px, 4vh, 46px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gx-card { animation: none; }
+  .gx-card img,
+  .gx-card:hover img,
+  .gx-cap,
+  .gx-tag { transition: none; }
+}

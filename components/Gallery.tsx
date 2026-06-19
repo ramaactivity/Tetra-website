@@ -258,6 +258,12 @@ export default function Gallery() {
         {renderRow(ROW_A, false)}
         {renderRow(ROW_B, true)}
       </div>
+
+      <div className="gx-more" data-rv>
+        <a className="btn" href="/galeri">
+          Lihat Galeri Lengkap
+        </a>
+      </div>
     </section>
   );
 
