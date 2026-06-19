@@ -168,7 +168,7 @@ export default function GaleriBoard() {
     const st = ScrollTrigger.create({
       trigger: stream,
       start: "top top",
-      end: () => "+=" + Math.round(window.innerHeight * 3.8),
+      end: () => "+=" + Math.round(window.innerHeight * 3.2),
       pin: sticky,
       pinSpacing: true,
       scrub: 0.5,

@@ -33,17 +33,6 @@ export default function GaleriPage() {
             Ragam momen terkurasi dari mereka yang pernah merayakan harinya bersama kami.
             Silakan jelajahi, siapa tahu cerita kamu adalah yang berikutnya.
           </p>
-          <div className="gx-meta" data-rv>
-            <span>Kurasi dari ratusan acara</span>
-            <span className="dot" aria-hidden />
-            <span>Wedding</span>
-            <span className="dot" aria-hidden />
-            <span>Corporate</span>
-            <span className="dot" aria-hidden />
-            <span>Ulang Tahun</span>
-            <span className="dot" aria-hidden />
-            <span>Wisuda</span>
-          </div>
         </div>
       </section>
 
