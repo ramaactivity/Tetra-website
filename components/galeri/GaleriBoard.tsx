@@ -12,7 +12,7 @@ import {
 import { createPortal } from "react-dom";
 import { gsap } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
-import { GALLERY, GALLERY_TABS, type GalleryCategory } from "@/lib/gallery";
+import { GALLERY, GALLERY_TABS, type GalleryCategory, type GalleryItem } from "@/lib/gallery";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
@@ -25,23 +25,106 @@ const CAT_LABEL: Record<GalleryCategory, string> = {
 };
 
 type Filter = "all" | GalleryCategory;
+type Row = { items: GalleryItem[]; height: number; last: boolean };
 
-// Dedicated gallery board: sticky category filter → masonry wall of prints →
-// the same crossfading lightbox the homepage uses, but driven by the *filtered*
-// set so prev/next + the filmstrip only ever walk the photos on screen.
+const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
+
+// Pack items into full-width justified rows. Each row is scaled so its prints,
+// at their true aspect ratios, fill the container edge-to-edge — a real gallery
+// wall, never the equal-card grid. Mirrors the Flickr/Google-Photos approach.
+function buildRows(
+  items: GalleryItem[],
+  aspect: Record<string, number>,
+  width: number,
+  gap: number,
+  targetH: number
+): Row[] {
+  if (width <= 0) return [];
+  const rows: Row[] = [];
+  let line: GalleryItem[] = [];
+  let sumAspect = 0;
+  for (const it of items) {
+    const a = aspect[it.src] || 1.4;
+    line.push(it);
+    sumAspect += a;
+    const projected = sumAspect * targetH + gap * (line.length - 1);
+    if (projected >= width) {
+      const h = (width - gap * (line.length - 1)) / sumAspect;
+      rows.push({ items: line, height: h, last: false });
+      line = [];
+      sumAspect = 0;
+    }
+  }
+  if (line.length) {
+    // Last partial row: keep prints at the target height, left-aligned, so a
+    // single leftover photo is never blown up to fill the width.
+    rows.push({ items: line, height: targetH, last: true });
+  }
+  return rows;
+}
+
 export default function GaleriBoard() {
   const [cat, setCat] = useState<Filter>("all");
   const list = useMemo(
     () => (cat === "all" ? GALLERY : GALLERY.filter((g) => g.cat === cat)),
     [cat]
   );
-  // Lightbox handlers read the live list through a ref so their closures never
-  // go stale when the filter changes.
   const listRef = useRef(list);
   useEffect(() => {
     listRef.current = list;
   }, [list]);
 
+  /* ---- measure real aspect ratios once, then justify ---- */
+  const [aspect, setAspect] = useState<Record<string, number>>({});
+  const ready = Object.keys(aspect).length >= GALLERY.length;
+  useEffect(() => {
+    let cancelled = false;
+    const acc: Record<string, number> = {};
+    let remaining = GALLERY.length;
+    const done = () => {
+      remaining -= 1;
+      if (remaining === 0 && !cancelled) setAspect({ ...acc });
+    };
+    GALLERY.forEach((g) => {
+      const img = new Image();
+      img.onload = () => {
+        acc[g.src] = img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : 1.4;
+        done();
+      };
+      img.onerror = () => {
+        acc[g.src] = 1.4;
+        done();
+      };
+      img.src = smSrc(g.src);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  /* ---- track container width for the justified math ---- */
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    setWidth(Math.round(el.clientWidth)); // seed immediately so rows never flash blank
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width ?? 0;
+      setWidth(Math.round(w));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const gap = width < 600 ? 10 : 14;
+  const targetH = width >= 1100 ? 300 : width >= 760 ? 252 : width >= 560 ? 226 : 208;
+  const rows = useMemo(
+    () => (ready ? buildRows(list, aspect, width, gap, targetH) : []),
+    [ready, list, aspect, width, gap, targetH]
+  );
+
+  /* ---- lightbox state ---- */
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -58,7 +141,6 @@ export default function GaleriBoard() {
   const counter =
     openIdx !== null ? `${`0${openIdx + 1}`.slice(-2)} / ${`0${list.length}`.slice(-2)}` : "";
 
-  /* ---- lightbox controls (ported from Gallery, list-aware) ---- */
   const activeImg = useCallback(
     () => (activeIsA.current ? layerA.current : layerB.current),
     []
@@ -207,7 +289,6 @@ export default function GaleriBoard() {
     v.style.transformOrigin = `${px}% ${py}%`;
   };
 
-  /* keyboard nav while open */
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -219,13 +300,14 @@ export default function GaleriBoard() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close, go]);
 
-  // Switching filter closes the viewer so its index can't dangle past the new
-  // (shorter) list.
   const pick = (next: Filter) => {
     if (next === cat) return;
     if (open) close();
     setCat(next);
   };
+
+  // flat index into `list` so the lightbox walks photos in reading order
+  let flat = -1;
 
   return (
     <section className="gx-board" aria-label="Galeri karya Tetra Photobooth">
@@ -249,44 +331,52 @@ export default function GaleriBoard() {
       </div>
 
       <div className="wrap">
-        <p className="gx-count" aria-live="polite">
-          {cat === "all" ? (
-            <>
-              <b>{list.length}</b> momen terdokumentasi
-            </>
-          ) : (
-            <>
-              <b>{list.length}</b> karya · {CAT_LABEL[cat]}
-            </>
+        {/* key=cat replays the row cascade on each filter switch */}
+        <div className="gx-grid" ref={gridRef} key={cat}>
+          {!ready && (
+            <div className="gx-skel" aria-hidden>
+              {Array.from({ length: 9 }).map((_, i) => (
+                <span key={i} />
+              ))}
+            </div>
           )}
-        </p>
-
-        {/* key=cat remounts the wall so each filter switch replays the stagger */}
-        <div className="gx-grid" key={cat}>
-          {list.map((g, idx) => (
-            <button
-              className="gx-card"
-              key={g.src}
-              type="button"
-              aria-label={`Lihat ${g.title} — ${g.sub}`}
-              style={{ animationDelay: `${Math.min(idx, 14) * 0.045}s` }}
-              onClick={() => show(idx)}
-            >
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet={g.src.replace(/\.jpg$/, "-sm.jpg")} />
-                <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
-              </picture>
-              <span className="gx-tag">{CAT_LABEL[g.cat]}</span>
-              <span className="gx-cap">
-                <b>{g.title}</b>
-                <i>{g.sub}</i>
-              </span>
-            </button>
-          ))}
+          {ready &&
+            rows.map((row, r) => (
+              <div
+                className={`gx-row${row.last ? " is-last" : ""}`}
+                key={r}
+                style={{ ["--gx-gap" as string]: `${gap}px`, animationDelay: `${Math.min(r, 10) * 0.06}s` }}
+              >
+                {row.items.map((g) => {
+                  flat += 1;
+                  const idx = flat;
+                  const w = (aspect[g.src] || 1.4) * row.height;
+                  return (
+                    <button
+                      className="gx-card"
+                      key={g.src}
+                      type="button"
+                      aria-label={`Lihat ${g.title} — ${g.sub}`}
+                      style={{ width: `${w}px`, height: `${row.height}px`, flexGrow: row.last ? 0 : 1 }}
+                      onClick={() => show(idx)}
+                    >
+                      <picture className="rsp">
+                        <source media="(max-width: 768px)" srcSet={smSrc(g.src)} />
+                        <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
+                      </picture>
+                      <span className="gx-tag">{CAT_LABEL[g.cat]}</span>
+                      <span className="gx-cap">
+                        <b>{g.title}</b>
+                        <i>{g.sub}</i>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
         </div>
       </div>
 
-      {/* Lightbox is portaled to <body> so it escapes the section stacking context. */}
       {mounted &&
         createPortal(
           <div
@@ -362,7 +452,7 @@ export default function GaleriBoard() {
                     jump(idx);
                   }}
                 >
-                  <img src={g.src} alt="" />
+                  <img src={smSrc(g.src)} alt="" />
                 </button>
               ))}
             </div>
