@@ -435,7 +435,10 @@ export default function GaleriBoard() {
                           onMouseLeave={leaveCard}
                           onClick={() => openItem(e.item)}
                         >
-                          <img src={smSrc(e.item.src)} alt={e.item.title} draggable={false} decoding="async" />
+                          <picture className="rsp">
+                            <source media="(max-width: 768px)" srcSet={smSrc(e.item.src)} />
+                            <img src={e.item.src} alt={e.item.title} draggable={false} decoding="async" />
+                          </picture>
                           <span className="gx-cap">
                             <b>{e.item.title}</b>
                             <i>{e.item.sub}</i>
