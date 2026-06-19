@@ -25,42 +25,35 @@ const CAT_LABEL: Record<GalleryCategory, string> = {
 };
 
 type Filter = "all" | GalleryCategory;
-type Row = { items: GalleryItem[]; height: number; last: boolean };
-
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
-// Pack items into full-width justified rows. Each row is scaled so its prints,
-// at their true aspect ratios, fill the container edge-to-edge — a real gallery
-// wall, never the equal-card grid. Mirrors the Flickr/Google-Photos approach.
-function buildRows(
-  items: GalleryItem[],
-  aspect: Record<string, number>,
-  width: number,
-  gap: number,
-  targetH: number
-): Row[] {
-  if (width <= 0) return [];
-  const rows: Row[] = [];
-  let line: GalleryItem[] = [];
-  let sumAspect = 0;
-  for (const it of items) {
-    const a = aspect[it.src] || 1.4;
-    line.push(it);
-    sumAspect += a;
-    const projected = sumAspect * targetH + gap * (line.length - 1);
-    if (projected >= width) {
-      const h = (width - gap * (line.length - 1)) / sumAspect;
-      rows.push({ items: line, height: h, last: false });
-      line = [];
-      sumAspect = 0;
+// Per-lane character: gentle ambient drift speed/direction + a parallax depth
+// (back lanes react less to scroll & cursor). Cycled across however many lanes.
+const LANE_DNA = [
+  { dir: 1, speed: 15, depth: 1.0 },
+  { dir: -1, speed: 23, depth: 0.72 },
+  { dir: 1, speed: 19, depth: 1.2 },
+  { dir: -1, speed: 13, depth: 0.58 },
+];
+
+type LaneState = { pos: number; H: number; x: number };
+
+// Distribute the filtered set round-robin into N lanes, then repeat each lane's
+// items until it's tall enough to loop seamlessly (small categories still fill).
+function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
+  const out: GalleryItem[][] = Array.from({ length: lanes }, () => []);
+  list.forEach((g, i) => out[i % lanes].push(g));
+  const MIN = 5;
+  return out.map((items, li) => {
+    let base = items.length ? items : list.slice();
+    if (base.length) {
+      const off = li % base.length;
+      base = base.slice(off).concat(base.slice(0, off)); // phase-shift for variety
     }
-  }
-  if (line.length) {
-    // Last partial row: keep prints at the target height, left-aligned, so a
-    // single leftover photo is never blown up to fill the width.
-    rows.push({ items: line, height: targetH, last: true });
-  }
-  return rows;
+    const filled: GalleryItem[] = [];
+    while (base.length && filled.length < MIN) filled.push(...base);
+    return filled.length ? filled : base;
+  });
 }
 
 export default function GaleriBoard() {
@@ -74,57 +67,114 @@ export default function GaleriBoard() {
     listRef.current = list;
   }, [list]);
 
-  /* ---- measure real aspect ratios once, then justify ---- */
-  const [aspect, setAspect] = useState<Record<string, number>>({});
-  const ready = Object.keys(aspect).length >= GALLERY.length;
+  const [laneCount, setLaneCount] = useState(4);
   useEffect(() => {
-    let cancelled = false;
-    const acc: Record<string, number> = {};
-    let remaining = GALLERY.length;
-    const done = () => {
-      remaining -= 1;
-      if (remaining === 0 && !cancelled) setAspect({ ...acc });
+    const calc = () => {
+      const w = window.innerWidth;
+      setLaneCount(w >= 1200 ? 4 : w >= 820 ? 3 : 2);
     };
-    GALLERY.forEach((g) => {
-      const img = new Image();
-      img.onload = () => {
-        acc[g.src] = img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : 1.4;
-        done();
-      };
-      img.onerror = () => {
-        acc[g.src] = 1.4;
-        done();
-      };
-      img.src = smSrc(g.src);
-    });
-    return () => {
-      cancelled = true;
-    };
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
   }, []);
+  const lanes = useMemo(() => buildLanes(list, laneCount), [list, laneCount]);
 
-  /* ---- track container width for the justified math ---- */
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  /* ---- the infinite stream engine ---- */
+  const streamRef = useRef<HTMLDivElement>(null);
+  const trackRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const statesRef = useRef<LaneState[]>([]);
+  const mouse = useRef({ nx: 0, ny: 0 });
+  const hovering = useRef(false);
+  const visible = useRef(true);
+
   useEffect(() => {
-    const el = gridRef.current;
-    if (!el) return;
-    setWidth(Math.round(el.clientWidth)); // seed immediately so rows never flash blank
+    if (isReduced()) return; // CSS collapses the stream to a static column gallery
+    const tracks = trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
+    if (!tracks.length) return;
+
+    // Seed H with a viewport-based floor so the loop never spins fast in the
+    // brief window before images decode (the ResizeObserver corrects it after).
+    const floor = window.innerHeight * 1.5;
+    const states: LaneState[] = tracks.map((t, i) => {
+      const H = Math.max(t.scrollHeight / 2, floor);
+      return { pos: (H / tracks.length) * i, H, x: 0 };
+    });
+    statesRef.current = states;
+
+    // Tracks grow as images decode → keep H honest without per-frame reflow.
     const ro = new ResizeObserver((entries) => {
-      const w = entries[0]?.contentRect.width ?? 0;
-      setWidth(Math.round(w));
+      for (const e of entries) {
+        const idx = tracks.indexOf(e.target as HTMLDivElement);
+        if (idx >= 0) states[idx].H = (e.contentRect.height || 2) / 2 || 1;
+      }
     });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+    tracks.forEach((t) => ro.observe(t));
 
-  const gap = width < 600 ? 10 : 14;
-  const targetH = width >= 1100 ? 300 : width >= 760 ? 252 : width >= 560 ? 226 : 208;
-  const rows = useMemo(
-    () => (ready ? buildRows(list, aspect, width, gap, targetH) : []),
-    [ready, list, aspect, width, gap, targetH]
-  );
+    const io = new IntersectionObserver(
+      ([e]) => (visible.current = e.isIntersecting),
+      { rootMargin: "120px" }
+    );
+    if (streamRef.current) io.observe(streamRef.current);
 
-  /* ---- lightbox state ---- */
+    const getScroll = () => getLenis()?.scroll ?? window.scrollY;
+    let last = performance.now();
+    let lastScroll = getScroll();
+    let flow = 0;
+    let scrolledFlag = false;
+    let raf = 0;
+
+    const frame = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const sc = getScroll();
+      const inst = (sc - lastScroll) / Math.max(dt, 0.0001);
+      lastScroll = sc;
+      flow += (inst - flow) * 0.12; // smoothed scroll velocity (px/s)
+      const f = Math.max(-2600, Math.min(2600, flow));
+
+      if (!scrolledFlag && Math.abs(f) > 60) {
+        scrolledFlag = true;
+        streamRef.current?.classList.add("scrolled");
+      }
+
+      if (visible.current) {
+        const damp = hovering.current ? 0.05 : 1;
+        for (let i = 0; i < states.length; i++) {
+          const dna = LANE_DNA[i % LANE_DNA.length];
+          const s = states[i];
+          // ambient drift + scroll-driven travel (parallax by depth)
+          const v = (dna.dir * dna.speed + f * 0.2 * dna.depth) * damp;
+          s.pos += v * dt;
+          const H = s.H || 1;
+          let y = s.pos % H;
+          if (y < 0) y += H;
+          const targetX = mouse.current.nx * (10 + dna.depth * 18) * (i % 2 ? -1 : 1);
+          s.x += (targetX - s.x) * 0.06;
+          const el = tracks[i];
+          if (el) el.style.transform = `translate3d(${s.x.toFixed(2)}px, ${(-y).toFixed(2)}px, 0)`;
+        }
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+    };
+  }, [lanes]);
+
+  const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    mouse.current.nx = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.current.ny = (e.clientY / window.innerHeight) * 2 - 1;
+  };
+  const onLeave = () => {
+    mouse.current.nx = 0;
+    mouse.current.ny = 0;
+  };
+
+  /* ---- lightbox (detail view) ---- */
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -141,10 +191,7 @@ export default function GaleriBoard() {
   const counter =
     openIdx !== null ? `${`0${openIdx + 1}`.slice(-2)} / ${`0${list.length}`.slice(-2)}` : "";
 
-  const activeImg = useCallback(
-    () => (activeIsA.current ? layerA.current : layerB.current),
-    []
-  );
+  const activeImg = useCallback(() => (activeIsA.current ? layerA.current : layerB.current), []);
   const backImg = useCallback(() => (activeIsA.current ? layerB.current : layerA.current), []);
 
   const resetZoom = useCallback(() => {
@@ -191,7 +238,7 @@ export default function GaleriBoard() {
 
   const show = useCallback((i: number) => {
     const items = listRef.current;
-    if (!items[i]) return;
+    if (i < 0 || !items[i]) return;
     setOpenIdx(i);
     getLenis()?.stop();
     document.body.style.overflow = "hidden";
@@ -218,6 +265,11 @@ export default function GaleriBoard() {
         );
     });
   }, []);
+
+  const openItem = useCallback(
+    (g: GalleryItem) => show(listRef.current.findIndex((x) => x.src === g.src)),
+    [show]
+  );
 
   const close = useCallback(() => {
     resetZoom();
@@ -306,74 +358,74 @@ export default function GaleriBoard() {
     setCat(next);
   };
 
-  // flat index into `list` so the lightbox walks photos in reading order
-  let flat = -1;
-
   return (
-    <section className="gx-board" aria-label="Galeri karya Tetra Photobooth">
-      <div className="gx-bar">
-        <div className="wrap">
-          <div className="gtabs" role="tablist" aria-label="Saring berdasarkan jenis acara">
-            {GALLERY_TABS.map((t) => (
-              <button
-                key={t.cat}
-                type="button"
-                role="tab"
-                aria-selected={cat === t.cat}
-                className={cat === t.cat ? "on" : undefined}
-                onClick={() => pick(t.cat)}
-              >
-                {t.label}
-              </button>
-            ))}
+    <section className="gx-board" aria-label="Arus kenangan Tetra Photobooth">
+      <div className="gx-stream" ref={streamRef}>
+        <div className="gx-stream-sticky" onMouseMove={onMove} onMouseLeave={onLeave}>
+          <div className="gx-ghost" aria-hidden>
+            selamanya
           </div>
-        </div>
-      </div>
 
-      <div className="wrap">
-        {/* key=cat replays the row cascade on each filter switch */}
-        <div className="gx-grid" ref={gridRef} key={cat}>
-          {!ready && (
-            <div className="gx-skel" aria-hidden>
-              {Array.from({ length: 9 }).map((_, i) => (
-                <span key={i} />
-              ))}
-            </div>
-          )}
-          {ready &&
-            rows.map((row, r) => (
-              <div
-                className={`gx-row${row.last ? " is-last" : ""}`}
-                key={r}
-                style={{ ["--gx-gap" as string]: `${gap}px`, animationDelay: `${Math.min(r, 10) * 0.06}s` }}
-              >
-                {row.items.map((g) => {
-                  flat += 1;
-                  const idx = flat;
-                  const w = (aspect[g.src] || 1.4) * row.height;
-                  return (
-                    <button
-                      className="gx-card"
-                      key={g.src}
-                      type="button"
-                      aria-label={`Lihat ${g.title} — ${g.sub}`}
-                      style={{ width: `${w}px`, height: `${row.height}px`, flexGrow: row.last ? 0 : 1 }}
-                      onClick={() => show(idx)}
-                    >
-                      <picture className="rsp">
-                        <source media="(max-width: 768px)" srcSet={smSrc(g.src)} />
-                        <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
-                      </picture>
-                      <span className="gx-tag">{CAT_LABEL[g.cat]}</span>
-                      <span className="gx-cap">
-                        <b>{g.title}</b>
-                        <i>{g.sub}</i>
-                      </span>
-                    </button>
-                  );
-                })}
+          {/* key=cat+laneCount remounts the lanes when the set or column count changes */}
+          <div className="gx-stage" key={`${cat}-${laneCount}`}>
+            {lanes.map((laneItems, li) => (
+              <div className="gx-lane" key={li}>
+                <div
+                  className="gx-track"
+                  ref={(el) => {
+                    trackRefs.current[li] = el;
+                  }}
+                >
+                  {[0, 1].map((dup) =>
+                    laneItems.map((g, k) => (
+                      <button
+                        className={`gx-card${dup ? " gx-dup" : ""}`}
+                        key={`${dup}-${k}`}
+                        type="button"
+                        tabIndex={dup ? -1 : 0}
+                        aria-hidden={dup ? true : undefined}
+                        aria-label={`Lihat ${g.title} — ${g.sub}`}
+                        onMouseEnter={() => (hovering.current = true)}
+                        onMouseLeave={() => (hovering.current = false)}
+                        onClick={() => openItem(g)}
+                      >
+                        <img src={smSrc(g.src)} alt={g.title} draggable={false} decoding="async" />
+                        <span className="gx-cap">
+                          <b>{g.title}</b>
+                          <i>{g.sub}</i>
+                        </span>
+                      </button>
+                    ))
+                  )}
+                </div>
               </div>
             ))}
+          </div>
+
+          <div className="gx-stream-veil" aria-hidden />
+
+          <div className="gx-controls">
+            <div className="gtabs" role="tablist" aria-label="Saring berdasarkan jenis acara">
+              {GALLERY_TABS.map((t) => (
+                <button
+                  key={t.cat}
+                  type="button"
+                  role="tab"
+                  aria-selected={cat === t.cat}
+                  className={cat === t.cat ? "on" : undefined}
+                  onClick={() => pick(t.cat)}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="gx-hint" aria-hidden>
+            <span className="ln" />
+            Gulir untuk menyusuri · arahkan untuk berhenti
+            <span className="ln r" />
+          </div>
         </div>
       </div>
 
