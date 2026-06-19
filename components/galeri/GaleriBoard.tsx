@@ -108,6 +108,13 @@ export default function GaleriBoard() {
       return y;
     };
 
+    // Re-measure lane height as images decode so the modulo wrap stays seamless
+    // (a stale height makes the top/bottom seam jump/choppy).
+    const ro = new ResizeObserver(() => {
+      H = heightOf();
+    });
+    tracks.forEach((t) => ro.observe(t));
+
     const st = ScrollTrigger.create({
       trigger: stream,
       start: "top top",
@@ -141,6 +148,7 @@ export default function GaleriBoard() {
 
     return () => {
       gsap.ticker.remove(tick);
+      ro.disconnect();
       st.kill();
     };
   }, [lanes]);
@@ -152,8 +160,8 @@ export default function GaleriBoard() {
     laneRefs.current.forEach((el, i) => {
       if (!el) return;
       const depth = LANE_DEPTH[i % LANE_DEPTH.length];
-      const dir = i % 2 ? -1 : 1;
-      el.style.transform = `translate3d(${(nx * 26 * depth * dir).toFixed(1)}px, ${(ny * 16 * depth).toFixed(1)}px, 0)`;
+      // small + same-direction so neighbouring columns can never collide
+      el.style.transform = `translate3d(${(nx * 7 * depth).toFixed(1)}px, ${(ny * 9 * depth).toFixed(1)}px, 0)`;
     });
   }, []);
   const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
