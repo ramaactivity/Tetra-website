@@ -4662,9 +4662,10 @@ body:has(.gx-board) #ribbon {
   display: inline-flex;
   white-space: nowrap;
   will-change: transform;
-  animation: gxTapeA 46s linear infinite;
+  /* slow, relaxed drift */
+  animation: gxTapeA 110s linear infinite;
 }
-.gx-tape.bottom .gx-tape-track { animation: gxTapeB 46s linear infinite; }
+.gx-tape.bottom .gx-tape-track { animation: gxTapeB 110s linear infinite; }
 .gx-tape-group {
   display: inline-flex;
   align-items: center;
@@ -4803,6 +4804,62 @@ body:has(.gx-board) #ribbon {
   display: flex;
   justify-content: center;
   margin-top: clamp(28px, 4vh, 46px);
+}
+
+/* ---- Format section adopted onto /galeri (richer copy than the homepage).
+   Scoped to #format-galeri so the homepage FormatScrolly is untouched. ---- */
+#format-galeri .fmt-lead {
+  color: var(--ink2);
+  margin: 14px 0 0;
+  max-width: 44ch;
+  line-height: 1.62;
+  font-size: clamp(14px, 1.1vw, 16px);
+}
+#format-galeri .fcaps {
+  height: auto;
+  min-height: clamp(310px, 42vh, 390px);
+}
+#format-galeri .fcap .fdetail {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 42ch;
+}
+#format-galeri .fcap .fdetail li {
+  position: relative;
+  padding-left: 22px;
+  font-size: clamp(13px, 1vw, 14.5px);
+  line-height: 1.5;
+  color: var(--ink2);
+}
+#format-galeri .fcap .fdetail li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--gold);
+  font-size: 9px;
+}
+#format-galeri .fcap .fnote {
+  margin-top: 16px;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink2);
+  opacity: 0.82;
+}
+@media (max-width: 880px) {
+  #format-galeri .fmt-lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #format-galeri .fcap .fdetail {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
 }
 
 @media (max-width: 560px) {

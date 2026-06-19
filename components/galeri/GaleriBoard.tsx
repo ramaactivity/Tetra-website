@@ -12,18 +12,11 @@ import {
 import { createPortal } from "react-dom";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
-import {
-  GALLERY,
-  FORMAT_TABS,
-  formatOf,
-  type GalleryFormat,
-  type GalleryItem,
-} from "@/lib/gallery";
+import { GALLERY, type GalleryItem } from "@/lib/gallery";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
 
-type Filter = "all" | GalleryFormat;
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
 // Per-lane character: drift direction, ambient speed (px/s), loops a scroll
@@ -33,8 +26,7 @@ const LANE_AMB = [42, 52, 46, 36];
 const LANE_LOOPS = [3, 2, 3, 2];
 const LANE_DEPTH = [1.0, 0.66, 1.22, 0.54];
 
-// Text tiles interleaved among the prints — varied brand voice (not monotone)
-// plus a per-format explainer so clients learn each size while they browse.
+// Text tiles interleaved among the prints — varied brand voice (not monotone).
 type TextTile = { eyebrow?: string; a: string; b: string };
 const QUOTES: TextTile[] = [
   { a: "Satu bingkai,", b: "satu cerita." },
@@ -46,11 +38,6 @@ const QUOTES: TextTile[] = [
   { eyebrow: "Tetra Photobooth", a: "Momen jadi", b: "kenangan." },
   { a: "Tiap cetak,", b: "dirancang khusus." },
 ];
-const NOTES: Record<GalleryFormat, TextTile> = {
-  "4r": { eyebrow: "Ukuran 4R", a: "Cetak utama,", b: "lembar utuh." },
-  "2r": { eyebrow: "Ukuran 2R", a: "Strip klasik,", b: "dua sisi." },
-  polaroid: { eyebrow: "Polaroid", a: "Bingkai putih", b: "yang ikonik." },
-};
 
 // Repeating film-tape marquee text — varied so it never reads the same twice.
 const TAPE_PHRASES = [
@@ -84,22 +71,15 @@ function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
   });
 }
 
-// Interleave a text tile every few prints; pool + start offset vary per lane so
-// the tiles never line up into a row.
-function buildEntries(photos: GalleryItem[], laneIndex: number, fmt: Filter): Entry[] {
-  const notes = fmt === "all" ? [NOTES["4r"], NOTES["2r"], NOTES.polaroid] : [NOTES[fmt]];
-  const pool: TextTile[] = [];
-  const n = Math.max(QUOTES.length, notes.length);
-  for (let i = 0; i < n; i++) {
-    if (i < notes.length) pool.push(notes[i]);
-    if (i < QUOTES.length) pool.push(QUOTES[(i + laneIndex) % QUOTES.length]);
-  }
+// Interleave a brand-quote tile every few prints; start offset varies per lane
+// so the tiles never line up into a row.
+function buildEntries(photos: GalleryItem[], laneIndex: number): Entry[] {
   const out: Entry[] = [];
   let t = laneIndex;
   photos.forEach((p, i) => {
     out.push({ kind: "photo", item: p });
     if (i % 4 === 3) {
-      out.push({ kind: "text", tile: pool[t % pool.length] });
+      out.push({ kind: "text", tile: QUOTES[t % QUOTES.length] });
       t += 1;
     }
   });
@@ -107,15 +87,8 @@ function buildEntries(photos: GalleryItem[], laneIndex: number, fmt: Filter): En
 }
 
 export default function GaleriBoard() {
-  const [fmt, setFmt] = useState<Filter>("all");
-  const list = useMemo(
-    () => (fmt === "all" ? GALLERY : GALLERY.filter((g) => formatOf(g) === fmt)),
-    [fmt]
-  );
+  const list = GALLERY;
   const listRef = useRef(list);
-  useEffect(() => {
-    listRef.current = list;
-  }, [list]);
 
   const [laneCount, setLaneCount] = useState(4);
   useEffect(() => {
@@ -129,8 +102,8 @@ export default function GaleriBoard() {
   }, []);
 
   const laneEntries = useMemo(
-    () => buildLanes(list, laneCount).map((photos, li) => buildEntries(photos, li, fmt)),
-    [list, laneCount, fmt]
+    () => buildLanes(list, laneCount).map((photos, li) => buildEntries(photos, li)),
+    [list, laneCount]
   );
 
   /* ---- the stream engine: pin + scroll-scrub through endless modulo loops ---- */
@@ -407,12 +380,6 @@ export default function GaleriBoard() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close, go]);
 
-  const pick = (next: Filter) => {
-    if (next === fmt) return;
-    if (open) close();
-    setFmt(next);
-  };
-
   const tapeGroup = (
     <span className="gx-tape-group" aria-hidden>
       {Array.from({ length: 4 }).map((_, r) =>
@@ -434,7 +401,7 @@ export default function GaleriBoard() {
             selamanya
           </div>
 
-          <div className="gx-stage" key={`${fmt}-${laneCount}`}>
+          <div className="gx-stage" key={laneCount}>
             {laneEntries.map((entries, li) => (
               <div
                 className="gx-lane"
@@ -493,28 +460,12 @@ export default function GaleriBoard() {
 
           <div className="gx-stream-veil" aria-hidden />
 
-          {/* top film tape + filter, bottom film tape — crisp designed boundaries */}
+          {/* top & bottom film tapes — crisp designed boundaries */}
           <div className="gx-top">
             <div className="gx-tape top" aria-hidden>
               <div className="gx-tape-track">
                 {tapeGroup}
                 {tapeGroup}
-              </div>
-            </div>
-            <div className="gx-controls">
-              <div className="gtabs" role="tablist" aria-label="Saring berdasarkan ukuran cetak">
-                {FORMAT_TABS.map((t) => (
-                  <button
-                    key={t.key}
-                    type="button"
-                    role="tab"
-                    aria-selected={fmt === t.key}
-                    className={fmt === t.key ? "on" : undefined}
-                    onClick={() => pick(t.key)}
-                  >
-                    {t.label}
-                  </button>
-                ))}
               </div>
             </div>
           </div>

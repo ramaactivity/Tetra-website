@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import GaleriBoard from "@/components/galeri/GaleriBoard";
+import GaleriFormat from "@/components/galeri/GaleriFormat";
 
 export const metadata: Metadata = {
   title: "Galeri & Dokumentasi — Tetra Photobooth",
@@ -37,6 +38,8 @@ export default function GaleriPage() {
       </section>
 
       <GaleriBoard />
+
+      <GaleriFormat />
 
       <CtaFooter />
     </>
