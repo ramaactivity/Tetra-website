@@ -124,6 +124,11 @@ export default function GaleriBoard() {
   const mouse = useRef({ nx: 0, ny: 0 });
   const hovering = useRef(false);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // real hover devices only — touch must never set a sticky hover/dim/slow state
+  const canHover = useRef(false);
+  useEffect(() => {
+    canHover.current = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  }, []);
 
   useEffect(() => {
     if (isReduced()) return;
@@ -148,6 +153,14 @@ export default function GaleriBoard() {
     });
     tracks.forEach((t) => ro.observe(t));
 
+    // Pause the per-frame transforms when the gallery is off-screen — no point
+    // animating (and compositing) layers nobody can see.
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), {
+      rootMargin: "200px",
+    });
+    io.observe(stream);
+
     const st = ScrollTrigger.create({
       trigger: stream,
       start: "top top",
@@ -170,6 +183,7 @@ export default function GaleriBoard() {
     });
 
     const tick = (_time: number, deltaTime: number) => {
+      if (!visible || document.body.classList.contains("lb-open")) return;
       const dt = Math.min(0.05, (deltaTime || 16) / 1000);
       for (let i = 0; i < tracks.length; i++) {
         if (!hovering.current) base[i] += LANE_AMB[i % LANE_AMB.length] * LANE_DIR[i % LANE_DIR.length] * dt;
@@ -185,6 +199,7 @@ export default function GaleriBoard() {
     return () => {
       gsap.ticker.remove(tick);
       ro.disconnect();
+      io.disconnect();
       st.kill();
     };
   }, [laneEntries]);
@@ -198,6 +213,7 @@ export default function GaleriBoard() {
     });
   }, []);
   const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (!canHover.current) return; // no cursor parallax on touch
     mouse.current.nx = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.current.ny = (e.clientY / window.innerHeight) * 2 - 1;
     applyParallax();
@@ -208,10 +224,12 @@ export default function GaleriBoard() {
     applyParallax();
   };
   const enterCard = () => {
+    if (!canHover.current) return;
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     hovering.current = true;
   };
   const leaveCard = () => {
+    if (!canHover.current) return;
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     leaveTimer.current = setTimeout(() => (hovering.current = false), 70);
   };
@@ -281,6 +299,7 @@ export default function GaleriBoard() {
   const show = useCallback((i: number) => {
     const items = listRef.current;
     if (i < 0 || !items[i]) return;
+    hovering.current = false; // don't leave the stream stuck "slowed" after closing
     setOpenIdx(i);
     getLenis()?.stop();
     document.body.style.overflow = "hidden";

@@ -4530,23 +4530,20 @@ header nav a.lnk:hover .roll span {
   transition: opacity 0.55s;
   pointer-events: none;
 }
-/* point at a memory: the rest gently recede, the chosen print lifts forward,
-   sharp and gold-rimmed (no heavy blur — just a quiet step back) */
-.gx-stage:has(.gx-card:hover) .gx-card {
-  opacity: 0.5;
-  transform: scale(0.99);
+/* Hover emphasis — ONLY on real hover devices, so touch never sticks a state.
+   The chosen print lifts and gets a gold rim; nothing else is darkened. */
+@media (hover: hover) and (pointer: fine) {
+  .gx-card:hover {
+    transform: scale(1.035) !important;
+    z-index: 6;
+    box-shadow: 0 46px 90px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(200, 169, 106, 0.6),
+      0 0 56px -12px rgba(200, 169, 106, 0.4);
+  }
+  .gx-card:hover img { transform: scale(1.06); }
+  .gx-card:hover::after { opacity: 1; }
+  .gx-card:hover .gx-cap { opacity: 1; transform: none; }
 }
-.gx-card:hover {
-  opacity: 1 !important;
-  transform: scale(1.035) !important;
-  z-index: 6;
-  box-shadow: 0 46px 90px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(200, 169, 106, 0.6),
-    0 0 56px -12px rgba(200, 169, 106, 0.4);
-}
-.gx-card:hover img { transform: scale(1.06); }
-.gx-card:hover::after { opacity: 1; }
 .gx-card:focus-visible {
-  filter: none !important;
   z-index: 6;
   box-shadow: 0 0 0 2px var(--gold);
 }
@@ -4565,7 +4562,6 @@ header nav a.lnk:hover .roll span {
   transform: translateY(10px);
   transition: opacity 0.5s, transform 0.5s var(--ease-out-quint);
 }
-.gx-card:hover .gx-cap,
 .gx-card:focus-visible .gx-cap {
   opacity: 1;
   transform: none;
@@ -4748,8 +4744,6 @@ body:has(.gx-board) #ribbon {
   border-radius: 3px;
   pointer-events: none;
 }
-.gx-stage:has(.gx-card:hover) .gx-textcard { opacity: 0.45; }
-.gx-textcard { transition: opacity 0.5s var(--ease-out-quint); }
 .gx-tc-eyebrow {
   font-size: 10px;
   letter-spacing: 0.32em;
@@ -4929,7 +4923,5 @@ html.reduced .gx-controls {
   .gx-dup { display: none; }
   .gx-card,
   .gx-card img,
-  .gx-stage:has(.gx-card:hover) .gx-card,
   .gx-cap { transition: none; }
-  .gx-stage:has(.gx-card:hover) .gx-card { opacity: 1; transform: none; }
 }
