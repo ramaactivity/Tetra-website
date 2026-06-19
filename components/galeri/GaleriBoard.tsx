@@ -59,15 +59,19 @@ type Entry = { kind: "photo"; item: GalleryItem } | { kind: "text"; tile: TextTi
 function buildLanes(list: GalleryItem[], lanes: number): GalleryItem[][] {
   const out: GalleryItem[][] = Array.from({ length: lanes }, () => []);
   list.forEach((g, i) => out[i % lanes].push(g));
-  const MIN = 6;
+  // Keep each lane just long enough to loop past the viewport. Over-filling
+  // makes the transformed track exceed the GPU max texture and blur on retina.
+  const MIN = 4;
+  const MAX = 6;
   return out.map((items, li) => {
     let base = items.length ? items : list.slice();
     if (base.length) {
       const off = li % base.length;
       base = base.slice(off).concat(base.slice(0, off));
     }
+    base = base.slice(0, MAX); // cap unique items so the track layer stays small
     const filled: GalleryItem[] = [];
-    while (base.length && filled.length < MIN) filled.push(...base);
+    while (base.length && filled.length < MIN) filled.push(...base); // pad thin lanes
     return filled.length ? filled : base;
   });
 }
@@ -91,11 +95,16 @@ export default function GaleriBoard() {
   const list = GALLERY;
   const listRef = useRef(list);
 
-  const [laneCount, setLaneCount] = useState(4);
+  // More lanes on wider screens keeps each lane's track SHORT. That matters:
+  // the track is GPU-composited (transformed), and if it's taller than the
+  // max texture size (~16384px device) the browser downscales the whole layer
+  // and every photo blurs on retina. Narrower + fewer items per lane keeps it
+  // well under that, so the prints stay crisp.
+  const [laneCount, setLaneCount] = useState(5);
   useEffect(() => {
     const calc = () => {
       const w = window.innerWidth;
-      setLaneCount(w >= 1200 ? 4 : w >= 820 ? 3 : 2);
+      setLaneCount(w >= 1360 ? 6 : w >= 1080 ? 5 : w >= 820 ? 4 : w >= 560 ? 3 : 2);
     };
     calc();
     window.addEventListener("resize", calc);
