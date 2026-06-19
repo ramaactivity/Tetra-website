@@ -10,7 +10,7 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
 import { GALLERY, GALLERY_TABS, type GalleryCategory, type GalleryItem } from "@/lib/gallery";
 
@@ -27,9 +27,11 @@ const CAT_LABEL: Record<GalleryCategory, string> = {
 type Filter = "all" | GalleryCategory;
 const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
-// Per-lane base loop duration (seconds) + parallax depth. The CSS keyframe does
-// the actual infinite flow; JS only scales playbackRate from scroll velocity.
-const LANE_DUR = [46, 62, 52, 70];
+// Per-lane character: drift direction, ambient speed (px/s), how many full loops
+// a scroll-through scrubs (the "engine"), and cursor-parallax depth.
+const LANE_DIR = [1, -1, 1, -1];
+const LANE_AMB = [42, 52, 46, 36];
+const LANE_LOOPS = [3, 2, 3, 2];
 const LANE_DEPTH = [1.0, 0.66, 1.22, 0.54];
 
 // Round-robin the filtered set into N lanes, then repeat each lane until it's
@@ -74,10 +76,13 @@ export default function GaleriBoard() {
   const lanes = useMemo(() => buildLanes(list, laneCount), [list, laneCount]);
 
   /* ---- the stream engine ----
-     Motion is pure CSS (guaranteed to flow). Scroll velocity scales every
-     lane's playbackRate so scrolling visibly drives the stream; hovering a
-     print eases the whole stream toward a stop so you can dwell on it. */
+     The section pins and SCROLL SCRUBS each lane through many full loops, so
+     scrolling literally flies you through an endless river of prints (the loop
+     wraps with modulo → no end). A gentle ambient drift keeps it alive at rest;
+     hovering a print freezes the drift so you can dwell on it. Cursor parallax
+     lives on the lane wrapper, a separate element, so transforms never fight. */
   const streamRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const laneRefs = useRef<(HTMLDivElement | null)[]>([]);
   const trackRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -87,54 +92,56 @@ export default function GaleriBoard() {
 
   useEffect(() => {
     if (isReduced()) return; // CSS collapses to a static column gallery
-    const tracks = () =>
-      trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
+    const tracks = trackRefs.current.slice(0, lanes.length).filter(Boolean) as HTMLDivElement[];
+    const stream = streamRef.current;
+    const sticky = stickyRef.current;
+    if (!tracks.length || !stream || !sticky) return;
 
-    let visible = true;
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), {
-      rootMargin: "150px",
-    });
-    if (streamRef.current) io.observe(streamRef.current);
-
-    const getScroll = () => getLenis()?.scroll ?? window.scrollY;
-    let raf = 0;
-    let last = performance.now();
-    let lastScroll = getScroll();
-    let vel = 0;
-    let mul = 1;
-    let scrolledFlag = false;
-
-    const frame = (now: number) => {
-      const dt = Math.min(0.05, (now - last) / 1000);
-      last = now;
-      const sc = getScroll();
-      const inst = (sc - lastScroll) / Math.max(dt, 0.0001);
-      lastScroll = sc;
-      vel += (inst - vel) * 0.15;
-
-      if (!scrolledFlag && Math.abs(vel) > 80) {
-        scrolledFlag = true;
-        streamRef.current?.classList.add("scrolled");
-      }
-
-      // hovering → ease toward a near-stop; otherwise base speed + scroll boost
-      const target = hovering.current ? 0.04 : Math.min(7, 1 + Math.abs(vel) * 0.0032);
-      mul += (target - mul) * 0.09;
-      const m = Math.max(0, mul);
-
-      if (visible) {
-        for (const t of tracks()) {
-          const anims = t.getAnimations();
-          for (const a of anims) a.playbackRate = m;
-        }
-      }
-      raf = requestAnimationFrame(frame);
+    const heightOf = () =>
+      tracks.map((t) => Math.max(t.scrollHeight / 2, window.innerHeight * 1.4));
+    let H = heightOf();
+    const base = tracks.map((_, i) => (H[i] / tracks.length) * i); // stagger phases → never a grid
+    let progress = 0;
+    const wrap = (v: number, m: number) => {
+      let y = v % m;
+      if (y < 0) y += m;
+      return y;
     };
-    raf = requestAnimationFrame(frame);
+
+    const st = ScrollTrigger.create({
+      trigger: stream,
+      start: "top top",
+      end: () => "+=" + Math.round(window.innerHeight * 3.8),
+      pin: sticky,
+      pinSpacing: true,
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+      onRefresh: () => {
+        H = heightOf();
+      },
+      onUpdate: (self) => {
+        progress = self.progress;
+        if (progress > 0.015) stream.classList.add("scrolled");
+      },
+    });
+
+    // gsap.ticker passes deltaTime in MILLISECONDS as the 2nd arg.
+    const tick = (_time: number, deltaTime: number) => {
+      const dt = Math.min(0.05, (deltaTime || 16) / 1000);
+      for (let i = 0; i < tracks.length; i++) {
+        if (!hovering.current) base[i] += LANE_AMB[i % LANE_AMB.length] * LANE_DIR[i % LANE_DIR.length] * dt;
+        const dir = LANE_DIR[i % LANE_DIR.length];
+        const scrub = progress * H[i] * LANE_LOOPS[i % LANE_LOOPS.length] * dir;
+        const y = wrap(base[i] + scrub, H[i]);
+        tracks[i].style.transform = `translate3d(0, ${(-y).toFixed(2)}px, 0)`;
+      }
+    };
+    gsap.ticker.add(tick);
+    ScrollTrigger.refresh();
 
     return () => {
-      cancelAnimationFrame(raf);
-      io.disconnect();
+      gsap.ticker.remove(tick);
+      st.kill();
     };
   }, [lanes]);
 
@@ -356,7 +363,7 @@ export default function GaleriBoard() {
   return (
     <section className="gx-board" aria-label="Arus kenangan Tetra Photobooth">
       <div className="gx-stream" ref={streamRef}>
-        <div className="gx-stream-sticky" onMouseMove={onMove} onMouseLeave={onLeave}>
+        <div className="gx-stream-sticky" ref={stickyRef} onMouseMove={onMove} onMouseLeave={onLeave}>
           <div className="gx-ghost" aria-hidden>
             selamanya
           </div>
@@ -372,8 +379,6 @@ export default function GaleriBoard() {
               >
                 <div
                   className="gx-track"
-                  data-dir={li % 2 ? "down" : "up"}
-                  style={{ ["--dur" as string]: `${LANE_DUR[li % LANE_DUR.length]}s` }}
                   ref={(el) => {
                     trackRefs.current[li] = el;
                   }}

@@ -4465,14 +4465,12 @@ header nav a.lnk:hover .roll span {
    ========================================================================= */
 .gx-board { position: relative; }
 
-/* tall scroll budget; the stage pins full-screen inside it via CSS sticky */
+/* GSAP pins .gx-stream-sticky and adds the scroll budget via pin-spacing */
 .gx-stream {
   position: relative;
-  height: 260vh;
 }
 .gx-stream-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 11%, #000 89%, transparent);
@@ -4498,20 +4496,8 @@ header nav a.lnk:hover .roll span {
   display: flex;
   flex-direction: column;
   will-change: transform;
-  /* infinite vertical flow — content is duplicated ×2, so -50% loops seamlessly.
-     Same proven mechanism as the homepage marquee; JS only scales playbackRate.
-     Longhand (not the shorthand) so the per-lane var duration always resolves. */
-  animation-name: gxFlow;
-  animation-duration: var(--dur, 52s);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.gx-track[data-dir="down"] {
-  animation-direction: reverse;
-}
-@keyframes gxFlow {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+  /* GSAP drives translateY every frame: content is duplicated ×2 and the offset
+     wraps with modulo, so the lane loops forever with no seam and no end. */
 }
 .gx-card {
   position: relative;
