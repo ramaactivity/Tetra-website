@@ -1141,14 +1141,17 @@ header.solid {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--ink2);
-  margin-bottom: 42px;
+  margin-bottom: 20px;
 }
 /* running ticker — names scroll continuously, edges fade out (mask) so they
    glide in/out instead of hard-cutting. Two identical groups + translateX(-50%)
    makes the loop seamless. */
 .marquee {
   position: relative;
+  /* clips the wide track horizontally; vertical padding gives the chips room to
+     lift + cast their shadow on hover without being clipped at the top/bottom */
   overflow: hidden;
+  padding: 24px 0;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
 }
@@ -1164,7 +1167,7 @@ header.solid {
 /* second lane scrolls the opposite way at a different pace so the two rows feel
    alive and never lock into a mechanical grid */
 .marquee.rev {
-  margin-top: 16px;
+  margin-top: -20px;
 }
 .marquee.rev .marquee-track {
   animation-direction: reverse;
