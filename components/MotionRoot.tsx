@@ -268,10 +268,24 @@ export default function MotionRoot() {
         });
       };
 
-      /* ---- loader intro → curtain wipe → reveal page ---- */
+      /* ---- loader intro → curtain wipe → reveal page ----
+         The cinematic intro plays ONCE per browser session. On later page loads
+         the inline flag script (layout.tsx) adds `html.seen-intro` pre-paint so
+         CSS hides the loader with no flash; here we skip the timeline and reveal
+         the hero immediately. */
+      const introSeen = (() => {
+        try {
+          return sessionStorage.getItem("tetra_intro") === "1";
+        } catch {
+          return false;
+        }
+      })();
       const loaderEl = document.getElementById("loader");
       const ll = document.getElementById("ll");
-      if (loaderEl && ll) {
+      if (loaderEl && ll && !introSeen) {
+        try {
+          sessionStorage.setItem("tetra_intro", "1");
+        } catch {}
         const ch = splitChars(ll);
         const markImg = loaderEl.querySelector<HTMLElement>("#ldmark img");
         const sheen = document.getElementById("ldsheen");
@@ -379,7 +393,13 @@ export default function MotionRoot() {
           .to("#ldflash", { opacity: 0, duration: 0.9, ease: "power2.inOut" }, "+=0.02")
           .set("#ldflash", { display: "none" });
       } else {
+        // No loader element, or the intro was already seen this session: hide any
+        // loader chrome and reveal the hero straight away.
+        if (loaderEl) gsap.set(loaderEl, { display: "none" });
+        const flashEl = document.getElementById("ldflash");
+        if (flashEl) gsap.set(flashEl, { display: "none" });
         runHero();
+        ScrollTrigger.refresh();
       }
 
       /* ---- refresh after fonts/images settle (pin + ribbon geometry) ---- */

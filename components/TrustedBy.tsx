@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 // Trusted-by ticker. Clients are ordered "biggest first" — national/SOE & global
 // names lead, smaller venues/partners trail — so the strongest trust signals land
 // first as the strip scrolls in.
@@ -8,10 +12,15 @@
 // and brightens to pure white on hover. See `.mq-logo` in app/globals.css and the
 // Logo notes in docs/07_ASSETS.md.
 //
-// Entries with a `logo` render as an image; entries without one fall back to a
-// flat-white wordmark so the strip stays complete today and each official logo
-// drops straight in (just add the file + set `logo`) as Rama supplies them.
-type Client = { name: string; logo?: string; tall?: boolean };
+// IMPORTANT: logo files MUST have a TRANSPARENT background. A white/dark backdrop
+// gets flattened into a solid white rectangle by the monochrome filter. Vectors
+// (SVG) or large transparent PNGs are downscaled to ~34px tall so resolution is
+// never the issue; background + (for busy emblems) internal detail are.
+//
+// Entries with a `logo` render as an image; if that file is missing/fails to load
+// the item falls back to a flat-white wordmark so the strip never breaks — drop a
+// correctly-named transparent file into /public/images/logos and it appears.
+type Client = { name: string; logo?: string; tall?: boolean; dark?: boolean };
 
 const CLIENTS: Client[] = [
   // — verified official logos, heaviest names first —
@@ -21,27 +30,40 @@ const CLIENTS: Client[] = [
   { name: "Danantara", logo: "/images/logos/danantara.svg" },
   { name: "SeaBank", logo: "/images/logos/seabank.svg" },
   { name: "BAZNAS", logo: "/images/logos/baznas.svg", tall: true },
-  // — flat-white wordmark fallback —
-  // Indocement's badge-style mark flattens to a featureless disc under the
-  // monochrome filter, so it reads as a wordmark until a horizontal/wordmark-only
-  // vector is supplied. The rest await official artwork.
-  { name: "Indocement" },
-  { name: "United Tractors" },
-  { name: "JW Marriott" },
-  { name: "Kemenag DKI" },
-  { name: "Ancol" },
-  { name: "Implora" },
+  { name: "Indocement", logo: "/images/logos/indocement.svg", tall: true },
+  { name: "United Tractors", logo: "/images/logos/united-tractors.svg" },
+  { name: "JW Marriott", logo: "/images/logos/jw-marriott.svg", tall: true },
+  // NOTE: logo provided is "Kementerian Pendidikan Dasar & Menengah"
+  // (Kemendikdasmen), which differs from the previous "Kemenag DKI" entry.
+  { name: "Kemendikdasmen", logo: "/images/logos/kemendikdasmen.svg", tall: true },
+  { name: "Ancol", logo: "/images/logos/ancol.svg" },
+  { name: "Implora", logo: "/images/logos/implora.png" },
+  // PAI's mark was white-on-dark; recoloured to near-black on transparent so it
+  // sits on the same white tile as the rest (consistent wall).
+  { name: "Prima Audio Indonesia", logo: "/images/logos/prima-audio.png", tall: true },
 ];
 
 function Item({ c }: { c: Client }) {
-  if (c.logo) {
+  const [failed, setFailed] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  // A 404 can fire its error event before React attaches onError during
+  // hydration, leaving a broken-image icon. Re-check after mount: a
+  // complete-but-zero-width image means the source failed → use the wordmark.
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
+  if (c.logo && !failed) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
-        className={c.tall ? "mq-logo tall" : "mq-logo"}
+        ref={ref}
+        className={["mq-logo", c.tall && "tall", c.dark && "dark"].filter(Boolean).join(" ")}
         src={c.logo}
         alt={c.name}
         loading="lazy"
         decoding="async"
+        onError={() => setFailed(true)}
       />
     );
   }
@@ -73,13 +95,13 @@ export default function TrustedBy() {
           Dipercaya brand &amp; keluarga di ratusan acara
         </div>
       </div>
-      <div className="marquee" data-rv>
+      <div className="marquee">
         <div className="marquee-track">
           <Group items={CLIENTS} />
           <Group items={CLIENTS} hidden />
         </div>
       </div>
-      <div className="marquee rev" data-rv aria-hidden>
+      <div className="marquee rev" aria-hidden>
         <div className="marquee-track">
           <Group items={CLIENTS_B} />
           <Group items={CLIENTS_B} hidden />

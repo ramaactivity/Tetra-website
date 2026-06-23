@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 // Runs before first paint: flags JS/reduced-motion/touch so CSS can gate the
 // loader + hidden reveal states (no FOUC for JS users; full content for no-JS).
-const FLAGS = `(function(){var d=document.documentElement;d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');if(matchMedia('(pointer: coarse)').matches)d.classList.add('touch');}catch(e){}})();`;
+const FLAGS = `(function(){var d=document.documentElement;d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');if(matchMedia('(pointer: coarse)').matches)d.classList.add('touch');if(sessionStorage.getItem('tetra_intro')==='1')d.classList.add('seen-intro');}catch(e){}})();`;
 
 export default function RootLayout({
   children,
