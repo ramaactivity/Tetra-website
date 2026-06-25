@@ -3249,7 +3249,10 @@ html.reduced #loader,
 html.reduced .ld-flash,
 /* intro already shown this session → skip straight to the site (no re-play) */
 html.seen-intro #loader,
-html.seen-intro .ld-flash {
+html.seen-intro .ld-flash,
+/* data-saver / very slow link → skip the intro, show content immediately */
+html.lite #loader,
+html.lite .ld-flash {
   display: none !important;
 }
 

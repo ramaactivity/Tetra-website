@@ -29,9 +29,11 @@ export const metadata: Metadata = {
     "Photobooth premium di Bogor, melayani Jabodetabek. Cetakan berkualitas studio dengan frame yang kami desain khusus untuk setiap acaramu.",
 };
 
-// Runs before first paint: flags JS/reduced-motion/touch so CSS can gate the
-// loader + hidden reveal states (no FOUC for JS users; full content for no-JS).
-const FLAGS = `(function(){var d=document.documentElement;d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');if(matchMedia('(pointer: coarse)').matches)d.classList.add('touch');if(sessionStorage.getItem('tetra_intro')==='1')d.classList.add('seen-intro');}catch(e){}})();`;
+// Runs before first paint: flags JS/reduced-motion/touch + a `lite` profile so
+// CSS can gate the loader + hidden reveal states (no FOUC for JS users; full
+// content for no-JS). `lite` = the visitor asked to save data, or is on a very
+// slow link (2G) — they skip the cinematic intro and get content immediately.
+const FLAGS = `(function(){var d=document.documentElement;d.classList.add('js');try{var c=navigator.connection;if((c&&(c.saveData===true||/(^|-)2g$/.test(c.effectiveType||'')))||matchMedia('(prefers-reduced-data: reduce)').matches)d.classList.add('lite');if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');if(matchMedia('(pointer: coarse)').matches)d.classList.add('touch');if(sessionStorage.getItem('tetra_intro')==='1')d.classList.add('seen-intro');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

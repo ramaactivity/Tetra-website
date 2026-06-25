@@ -275,6 +275,8 @@ export default function MotionRoot() {
          the hero immediately. */
       const introSeen = (() => {
         try {
+          // `lite` visitors (data-saver / 2G) skip the cinematic intro entirely.
+          if (document.documentElement.classList.contains("lite")) return true;
           return sessionStorage.getItem("tetra_intro") === "1";
         } catch {
           return false;
