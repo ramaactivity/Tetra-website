@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Pic from "@/components/Pic";
 // The animating print stage shared by the homepage Format section and the
 // /galeri Format section. Markup + IDs are byte-identical to the previous inline
 // versions so MotionRoot's formatStory() (which targets #o4r/#frame4/#fpin etc.)
@@ -15,14 +15,8 @@ export default function FormatStage() {
               Landscape
             </div>
             <div className="frame4" id="frame4">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-corp1-sm.jpg" />
-                <img id="img4l" src="/images/g-corp1.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-bday1-sm.jpg" />
-                <img id="img4p" src="/images/g-bday1.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
+              <Pic src="/images/g-corp1.jpg" alt="" id="img4l" loading="lazy" />
+              <Pic src="/images/g-bday1.jpg" alt="" id="img4p" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
           </div>
@@ -32,17 +26,11 @@ export default function FormatStage() {
         <div className="fgroup" id="o2r">
           <div className="pair">
             <div className="half left">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-strip2-sm.jpg" />
-                <img src="/images/g-strip2.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
+              <Pic src="/images/g-strip2.jpg" alt="" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="half right">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-strip2-sm.jpg" />
-                <img src="/images/g-strip2.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
+              <Pic src="/images/g-strip2.jpg" alt="" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="seam" />
@@ -53,17 +41,11 @@ export default function FormatStage() {
         <div className="fgroup" id="opol">
           <div className="pair">
             <div className="half left">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
+              <Pic src="/images/g-wed1.jpg" alt="" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="half right">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
-              </picture>
+              <Pic src="/images/g-wed1.jpg" alt="" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="perf" />

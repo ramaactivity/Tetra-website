@@ -11,6 +11,7 @@ import {
 import { createPortal } from "react-dom";
 import { gsap } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
+import { PicThumb } from "@/components/Pic";
 
 // Shared fullscreen lightbox used by the homepage Gallery and the /galeri board.
 // Behaviour (open bloom, A/B cross-slide, zoom-pan, filmstrip, keyboard nav) is
@@ -19,8 +20,6 @@ import { getLenis } from "@/lib/lenis";
 export type LightboxItem = { src: string; title: string; sub: string };
 
 type Options = {
-  /** Transform a source into the filmstrip thumbnail src (e.g. small variant). */
-  thumb?: (src: string) => string;
   /** Fired just before a photo opens (e.g. clear the gallery's hover-slow state). */
   onOpen?: () => void;
 };
@@ -32,7 +31,6 @@ const isReduced = () =>
 const pad2 = (n: number) => `0${n}`.slice(-2);
 
 export function useLightbox(items: LightboxItem[], opts: Options = {}) {
-  const thumb = opts.thumb ?? ((s: string) => s);
   // Kept fresh for the imperative nav callbacks without reading the ref during
   // render (callers pass the stable GALLERY constant, so this only ever no-ops).
   const itemsRef = useRef(items);
@@ -286,21 +284,24 @@ export function useLightbox(items: LightboxItem[], opts: Options = {}) {
         <div className="vnm">{current?.title}</div>
         <div className="vfm">{current?.sub}</div>
       </div>
+      {/* Filmstrip thumbs render only while open, so they cost nothing on
+          initial page load (any device); they reuse the small image variants. */}
       <div className="vfilm" aria-hidden={!open}>
-        {items.map((g, idx) => (
-          <button
-            key={g.src}
-            className={openIdx === idx ? "on" : undefined}
-            tabIndex={open ? 0 : -1}
-            aria-label={g.title}
-            onClick={(e) => {
-              e.stopPropagation();
-              jump(idx);
-            }}
-          >
-            <img src={thumb(g.src)} alt="" />
-          </button>
-        ))}
+        {open &&
+          items.map((g, idx) => (
+            <button
+              key={g.src}
+              className={openIdx === idx ? "on" : undefined}
+              tabIndex={0}
+              aria-label={g.title}
+              onClick={(e) => {
+                e.stopPropagation();
+                jump(idx);
+              }}
+            >
+              <PicThumb src={g.src} />
+            </button>
+          ))}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Pic from "../Pic";
 // Curated overlapping print stack — 5 absolutely-positioned rotated white cards.
 // Positions/rotations are locked to 03_DESIGN_SPEC.md §2 (do not change).
 // Wrapped in .hero-media-inner so MotionRoot can tilt the whole pile in 3D
@@ -19,10 +19,7 @@ export default function PrintStack() {
           // .hgw owns the stack position + entrance; .hg floats independently
           <div key={s.cls} className={`hgw ${s.cls}`}>
             <div className="hg">
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet={s.src.replace(/\.jpg$/, "-sm.jpg")} />
-                <img src={s.src} alt="" decoding="async" />
-              </picture>
+              <Pic src={s.src} alt="" />
             </div>
           </div>
         ))}

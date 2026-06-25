@@ -1,8 +1,8 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import { GALLERY } from "@/lib/gallery";
 import { useLightbox } from "./lightbox/useLightbox";
+import Pic from "./Pic";
 import { IgIcon, TiktokIcon } from "./SocialIcons";
 import { INSTAGRAM_URL, TIKTOK_URL } from "@/lib/site";
 
@@ -34,10 +34,7 @@ export default function Gallery() {
                   aria-label={`Lihat ${g.title} — ${g.sub}`}
                   onClick={() => openAt(g.i)}
                 >
-                  <picture className="rsp">
-                    <source media="(max-width: 768px)" srcSet={g.src.replace(/\.jpg$/, "-sm.jpg")} />
-                    <img src={g.src} alt={g.title} loading="lazy" decoding="async" />
-                  </picture>
+                  <Pic src={g.src} alt={g.title} loading="lazy" />
                   <span className="gitem-cap">
                     <b>{g.title}</b>
                     <i>{g.sub}</i>

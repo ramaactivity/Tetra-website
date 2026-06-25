@@ -12,11 +12,10 @@ import {
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { GALLERY, type GalleryItem } from "@/lib/gallery";
 import { useLightbox } from "@/components/lightbox/useLightbox";
+import Pic from "@/components/Pic";
 
 const isReduced = () =>
   typeof document !== "undefined" && document.documentElement.classList.contains("reduced");
-
-const smSrc = (src: string) => src.replace(/\.jpg$/, "-sm.jpg");
 
 // Per-lane character: drift direction, gentle ambient speed (px/s), loops a
 // full scroll-through scrubs (kept low so scrolling stays calm, not warp-speed),
@@ -241,7 +240,6 @@ export default function GaleriBoard() {
 
   /* ---- lightbox (detail view, photos only) — shared hook ---- */
   const { openAt, portal } = useLightbox(GALLERY, {
-    thumb: smSrc,
     // don't leave the stream stuck "slowed" after opening a photo
     onOpen: () => {
       hovering.current = false;
@@ -304,10 +302,7 @@ export default function GaleriBoard() {
                           onMouseLeave={leaveCard}
                           onClick={() => openItem(e.item)}
                         >
-                          <picture className="rsp">
-                            <source media="(max-width: 768px)" srcSet={smSrc(e.item.src)} />
-                            <img src={e.item.src} alt={e.item.title} draggable={false} decoding="async" />
-                          </picture>
+                          <Pic src={e.item.src} alt={e.item.title} draggable={false} />
                           <span className="gx-cap">
                             <b>{e.item.title}</b>
                             <i>{e.item.sub}</i>

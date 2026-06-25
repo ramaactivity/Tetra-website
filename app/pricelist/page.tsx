@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
+import Pic from "@/components/Pic";
 import PriceNav from "@/components/pricelist/PriceNav";
 import PackageBlock from "@/components/pricelist/PackageBlock";
 import StickyActions from "@/components/pricelist/StickyActions";
@@ -64,22 +64,13 @@ export default function PricelistPage() {
 
           <div className="pl-hero-fan" aria-hidden data-rv>
             <div className="pl-fan-card f1" data-float>
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-strip2-sm.jpg" />
-                <img src="/images/g-strip2.jpg" alt="" loading="eager" decoding="async" />
-              </picture>
+              <Pic src="/images/g-strip2.jpg" alt="" loading="eager" />
             </div>
             <div className="pl-fan-card f2" data-float>
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                <img src="/images/g-wed1.jpg" alt="" loading="eager" decoding="async" />
-              </picture>
+              <Pic src="/images/g-wed1.jpg" alt="" loading="eager" />
             </div>
             <div className="pl-fan-card f3" data-float>
-              <picture className="rsp">
-                <source media="(max-width: 768px)" srcSet="/images/g-corp1-sm.jpg" />
-                <img src="/images/g-corp1.jpg" alt="" loading="eager" decoding="async" />
-              </picture>
+              <Pic src="/images/g-corp1.jpg" alt="" loading="eager" />
             </div>
             <span className="pl-spark sp1" />
             <span className="pl-spark sp2" />
@@ -152,7 +143,7 @@ export default function PricelistPage() {
               <div className="pl-layout-card" key={l.name}>
                 <div className={`pl-layout-thumb t-${l.shape}`} aria-hidden>
                   <span className="pl-layout-frame">
-                    <img src={l.img} alt="" loading="lazy" decoding="async" />
+                    <Pic src={l.img} alt="" loading="lazy" />
                   </span>
                 </div>
                 <div className="pl-layout-meta">
