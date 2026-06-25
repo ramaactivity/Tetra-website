@@ -10,6 +10,7 @@ import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
 import CtaFooter from "@/components/CtaFooter";
+import Divider from "@/components/Divider";
 
 // Story arc: Hook → bukti cepat → lihat hasil → kenapa beda → bentuknya →
 // apa yang didapat → semudah ini → suara klien → objeksi → aksi.
@@ -20,41 +21,29 @@ export default function Home() {
       <Hero />
       <TrustedBy />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <Manifesto />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <Gallery />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <WhyTetra />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <FormatScrolly />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <Package />
       <Process />
       <Testimonials />
 
-      <div className="wrap">
-        <div className="divider" />
-      </div>
+      <Divider />
 
       <Faq />
       <CtaFooter />

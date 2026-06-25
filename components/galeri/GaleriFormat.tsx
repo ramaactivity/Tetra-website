@@ -1,79 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 // FORMAT CETAK (galeri) — the homepage's pinned 3-act scrollytelling, adopted
-// onto /galeri with RICHER copy. The structure/IDs/classes are kept identical
-// to FormatScrolly so MotionRoot's `formatStory()` animates it automatically;
-// only the section id differs (so the nav "Format" link still points home).
+// onto /galeri with RICHER copy. The print stage (FormatStage) is shared with
+// the homepage so MotionRoot's `formatStory()` animates it automatically; only
+// the section id and the right-hand copy differ.
+import FormatStage from "@/components/format/FormatStage";
+
 export default function GaleriFormat() {
   return (
     <section className="fmt" id="format-galeri">
       <div className="fpin" id="fpin">
         <div className="wrap fgrid">
           {/* LEFT — the print stage (scaled up) */}
-          <div className="fstage-wrap">
-            <div className="fstage">
-              {/* Act 1 — 4R (landscape ↔ portrait flip) */}
-              <div className="fgroup" id="o4r">
-                <div className="frame4wrap">
-                  <div className="oriBadge" id="oriBadge">
-                    Landscape
-                  </div>
-                  <div className="frame4" id="frame4">
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-corp1-sm.jpg" />
-                      <img id="img4l" src="/images/g-corp1.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-bday1-sm.jpg" />
-                      <img id="img4p" src="/images/g-bday1.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <span className="fsheen" aria-hidden />
-                  </div>
-                </div>
-              </div>
-
-              {/* Act 2 — 2R (machine auto-cut into two strips) */}
-              <div className="fgroup" id="o2r">
-                <div className="pair">
-                  <div className="half left">
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-strip2-sm.jpg" />
-                      <img src="/images/g-strip2.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <span className="fsheen" aria-hidden />
-                  </div>
-                  <div className="half right">
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-strip2-sm.jpg" />
-                      <img src="/images/g-strip2.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <span className="fsheen" aria-hidden />
-                  </div>
-                  <div className="seam" />
-                </div>
-              </div>
-
-              {/* Act 3 — Polaroid (perforation tear) */}
-              <div className="fgroup" id="opol">
-                <div className="pair">
-                  <div className="half left">
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                      <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <span className="fsheen" aria-hidden />
-                  </div>
-                  <div className="half right">
-                    <picture className="rsp">
-                      <source media="(max-width: 768px)" srcSet="/images/g-wed1-sm.jpg" />
-                      <img src="/images/g-wed1.jpg" alt="" loading="lazy" decoding="async" />
-                    </picture>
-                    <span className="fsheen" aria-hidden />
-                  </div>
-                  <div className="perf" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <FormatStage />
 
           {/* RIGHT — copy + cycling captions (richer than the homepage version) */}
           <div className="fcopy">
