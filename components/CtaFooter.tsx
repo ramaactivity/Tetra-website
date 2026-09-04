@@ -2,6 +2,7 @@
 import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL } from "@/lib/site";
 import { SocialLinks } from "./SocialIcons";
 import Pic from "./Pic";
+import { AREAS } from "@/lib/areas";
 
 // CTA + Footer. The prototype's "Preview situs" toast and the footer's preview
 // fine-print are intentionally removed for production.
@@ -76,6 +77,14 @@ export default function CtaFooter() {
               <a href="/galeri">Galeri</a>
               <a href="/#format" data-scroll="#format">Format</a>
               <a href="/#cara" data-scroll="#cara">Cara Kerja</a>
+            </div>
+            <div className="col">
+              <h3>Area Layanan</h3>
+              {AREAS.map((a) => (
+                <a key={a.slug} href={`/sewa-photobooth/${a.slug}`}>
+                  Sewa Photobooth {a.name}
+                </a>
+              ))}
             </div>
           </div>
           <div className="brand">
