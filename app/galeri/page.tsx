@@ -5,12 +5,16 @@ import GaleriBoard from "@/components/galeri/GaleriBoard";
 import GaleriFormat from "@/components/galeri/GaleriFormat";
 
 export const metadata: Metadata = {
-  title: "Galeri & Dokumentasi — Tetra Photobooth",
+  title: "Galeri Photobooth Wedding, Corporate & Wisuda",
   description:
-    "Jelajahi hasil dokumentasi Tetra Photobooth dari acara wedding, corporate, ulang tahun, hingga wisuda. Cetakan kualitas studio yang dibawa pulang setiap tamu.",
+    "Jelajahi hasil photobooth Tetra dari acara wedding, corporate, ulang tahun, hingga wisuda di Jabodetabek. Cetakan kualitas studio yang dibawa pulang setiap tamu.",
   alternates: { canonical: "/galeri" },
   openGraph: {
-    title: "Galeri & Dokumentasi — Tetra Photobooth",
+    type: "website",
+    locale: "id_ID",
+    url: "/galeri",
+    siteName: "Tetra Photobooth",
+    title: "Galeri Photobooth Wedding, Corporate & Wisuda — Tetra Photobooth",
     description:
       "Ragam momen terkurasi dari mereka yang pernah merayakan harinya bersama kami. Satu bingkai, satu cerita.",
     images: ["/images/g-wed1.jpg"],

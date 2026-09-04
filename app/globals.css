@@ -2828,7 +2828,7 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
   color: var(--gold);
   text-transform: uppercase;
 }
-.step h4 {
+.step h3 {
   font-family: var(--disp);
   font-weight: 400;
   font-size: clamp(22px, 3vw, 36px);
@@ -2896,7 +2896,13 @@ html.js:not(.reduced) .why-deck .rcard:nth-child(6) {
 .qrow {
   border-bottom: 1px solid var(--line);
 }
+.qrow .qh {
+  margin: 0;
+}
 .qrow .q {
+  width: 100%;
+  text-align: left;
+  color: inherit;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3059,7 +3065,7 @@ footer .top {
   gap: 36px;
   padding-bottom: 6vh;
 }
-footer .col h5 {
+footer .col h3 {
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;

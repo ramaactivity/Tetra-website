@@ -12,7 +12,7 @@ export default function Hero() {
       <div className="wrap">
         <div className="hero-copy">
           <div className="eyebrow" id="he">
-            Photobooth Premium · Jabodetabek
+            Sewa Photobooth Premium · Bogor &amp; Jabodetabek
           </div>
           <h1 id="h1">
             {/* br-m forces the same 3-line break on mobile as desktop wraps to
@@ -26,8 +26,8 @@ export default function Hero() {
             </span>
           </h1>
           <p className="sub" id="hs">
-            Mengubah experience acaramu menjadi souvenir cetak instan. Memori nyata
-            yang beneran disimpan para tamu.
+            Photobooth yang mengubah experience acaramu menjadi souvenir cetak
+            instan. Memori nyata yang beneran disimpan para tamu.
           </p>
           <div className="cta" id="hc">
             <a

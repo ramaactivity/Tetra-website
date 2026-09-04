@@ -302,7 +302,7 @@ export default function GaleriBoard() {
                           onMouseLeave={leaveCard}
                           onClick={() => openItem(e.item)}
                         >
-                          <Pic src={e.item.src} alt={e.item.title} draggable={false} />
+                          <Pic src={e.item.src} alt={`Hasil photobooth ${e.item.title} — ${e.item.sub}`} draggable={false} />
                           <span className="gx-cap">
                             <b>{e.item.title}</b>
                             <i>{e.item.sub}</i>

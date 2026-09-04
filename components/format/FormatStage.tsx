@@ -15,8 +15,8 @@ export default function FormatStage() {
               Landscape
             </div>
             <div className="frame4" id="frame4">
-              <Pic src="/images/g-corp1.jpg" alt="" id="img4l" loading="lazy" />
-              <Pic src="/images/g-bday1.jpg" alt="" id="img4p" loading="lazy" />
+              <Pic src="/images/g-corp1.jpg" alt="Cetak photobooth 4R landscape" id="img4l" loading="lazy" />
+              <Pic src="/images/g-bday1.jpg" alt="Cetak photobooth 4R portrait" id="img4p" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
           </div>
@@ -26,7 +26,7 @@ export default function FormatStage() {
         <div className="fgroup" id="o2r">
           <div className="pair">
             <div className="half left">
-              <Pic src="/images/g-strip2.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-strip2.jpg" alt="Photo strip 2R hasil photobooth" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="half right">
@@ -41,7 +41,7 @@ export default function FormatStage() {
         <div className="fgroup" id="opol">
           <div className="pair">
             <div className="half left">
-              <Pic src="/images/g-wed1.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-wed1.jpg" alt="Cetak photobooth gaya polaroid" loading="lazy" />
               <span className="fsheen" aria-hidden />
             </div>
             <div className="half right">

@@ -14,19 +14,19 @@ export default function CtaFooter() {
               (hero uses bday1/corp1/strip2/strip3/wed1). */}
           <div className="cfan" data-rv>
             <div className="pcard c1" data-float>
-              <Pic src="/images/g-grad2.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-grad2.jpg" alt="Cetakan photobooth acara wisuda" loading="lazy" />
             </div>
             <div className="pcard c2" data-float>
-              <Pic src="/images/g-grad1.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-grad1.jpg" alt="Hasil photobooth wisuda sekolah" loading="lazy" />
             </div>
             <div className="pcard c3" data-float>
-              <Pic src="/images/g-strip1.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-strip1.jpg" alt="Photo strip 2R acara reuni" loading="lazy" />
             </div>
             <div className="pcard c4" data-float>
-              <Pic src="/images/g-wed2.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-wed2.jpg" alt="Cetakan polaroid photobooth pernikahan" loading="lazy" />
             </div>
             <div className="pcard c5" data-float>
-              <Pic src="/images/g-corp2.jpg" alt="" loading="lazy" />
+              <Pic src="/images/g-corp2.jpg" alt="Hasil photobooth corporate event" loading="lazy" />
             </div>
           </div>
           <h2 data-split>
@@ -54,12 +54,12 @@ export default function CtaFooter() {
         <div className="wrap">
           <div className="top">
             <div className="col">
-              <h5>Tetra Photobooth</h5>
-              <p>Bogor, Jawa Barat</p>
-              <p>Melayani Jabodetabek</p>
+              <h3>Tetra Photobooth</h3>
+              <p>Sewa photobooth premium — Bogor, Jawa Barat</p>
+              <p>Melayani Jakarta, Bogor, Depok, Tangerang &amp; Bekasi</p>
             </div>
             <div className="col">
-              <h5>Kontak</h5>
+              <h3>Kontak</h3>
               <a href={waLink()} target="_blank" rel="noopener noreferrer">
                 Chat Admin (WhatsApp)
               </a>
@@ -72,14 +72,14 @@ export default function CtaFooter() {
               <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </div>
             <div className="col">
-              <h5>Jelajah</h5>
+              <h3>Jelajah</h3>
               <a href="/galeri">Galeri</a>
               <a href="/#format" data-scroll="#format">Format</a>
               <a href="/#cara" data-scroll="#cara">Cara Kerja</a>
             </div>
           </div>
           <div className="brand">
-            <img src="/images/word-white.png" alt="tetra photobooth" />
+            <img src="/images/word-white.png" alt="Tetra Photobooth" />
             <SocialLinks className="ftr-socials" />
             <div className="fine">© 2026 Tetra Photobooth</div>
           </div>

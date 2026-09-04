@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Marcellus, Outfit } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
@@ -22,11 +22,51 @@ const outfit = Outfit({
   display: "swap",
 });
 
+const SITE_DESCRIPTION =
+  "Jasa sewa photobooth premium di Bogor, melayani seluruh Jabodetabek. Cetak instan unlimited ±10 detik, free desain frame custom, softfile realtime via QR. Untuk wedding, ulang tahun, wisuda & corporate event.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://tetraphoto.com"),
-  title: "Tetra Photobooth — Photobooth Premium Jabodetabek",
-  description:
-    "Photobooth premium di Bogor, melayani Jabodetabek. Cetakan berkualitas studio dengan frame yang kami desain khusus untuk setiap acaramu.",
+  title: {
+    default: "Sewa Photobooth Bogor & Jabodetabek — Tetra Photobooth",
+    template: "%s — Tetra Photobooth",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: "Tetra Photobooth",
+  creator: "Tetra Photobooth",
+  publisher: "Tetra Photobooth",
+  keywords: [
+    "sewa photobooth",
+    "sewa photobooth Bogor",
+    "sewa photobooth Jakarta",
+    "jasa photobooth Jabodetabek",
+    "photobooth wedding",
+    "photobooth pernikahan",
+    "photobooth ulang tahun",
+    "photobooth wisuda",
+    "photobooth corporate event",
+    "360 spin video booth",
+    "photobooth cetak instan",
+    "photobooth unlimited",
+  ],
+  category: "photography",
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: "/",
+    siteName: "Tetra Photobooth",
+    title: "Sewa Photobooth Bogor & Jabodetabek — Tetra Photobooth",
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sewa Photobooth Bogor & Jabodetabek — Tetra Photobooth",
+    description: SITE_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#15120e",
 };
 
 // Runs before first paint: flags JS/reduced-motion/touch + a `lite` profile so

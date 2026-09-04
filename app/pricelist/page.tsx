@@ -21,7 +21,7 @@ import {
 
 // Hidden page: shared by admin via WhatsApp, kept out of search results.
 export const metadata: Metadata = {
-  title: "Pricelist 2026 — Tetra Photobooth",
+  title: "Pricelist 2026",
   description:
     "Daftar harga & paket Tetra Photobooth 2026: Unlimited Photobooth, 360° Spin, Magazine Box, Photo Stage, dan layanan tambahan.",
   robots: { index: false, follow: false },

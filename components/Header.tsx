@@ -29,7 +29,7 @@ export default function Header() {
       <div className="wrap">
         <a className="nlogo" href="/#top" data-scroll="#top" aria-label="Tetra Photobooth — ke atas">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/word-white.png" alt="tetra photobooth" />
+          <img src="/images/word-white.png" alt="Tetra Photobooth" />
         </a>
         <nav>
           {NAV.map((n) =>

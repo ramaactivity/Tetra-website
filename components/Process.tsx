@@ -44,7 +44,7 @@ export default function Process() {
             <div className="step" data-rv key={s.n}>
               <div className="dot" />
               <div className="n">{s.n}</div>
-              <h4>{s.h}</h4>
+              <h3>{s.h}</h3>
               <p>{s.p}</p>
             </div>
           ))}

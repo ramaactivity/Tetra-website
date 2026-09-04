@@ -45,7 +45,7 @@ export default function Loader() {
         </div>
         <div className="ld-inner">
           <div className="ld-mark" id="ldmark">
-            <img src="/images/word-white.png" alt="tetra photobooth" />
+            <img src="/images/word-white.png" alt="Tetra Photobooth" />
             <span className="ld-sheen" id="ldsheen" aria-hidden />
           </div>
           <div className="ll" id="ll">
