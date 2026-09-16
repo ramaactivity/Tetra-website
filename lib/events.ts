@@ -35,11 +35,11 @@ export const EVENTS: EventKind[] = [
   {
     slug: "wedding",
     name: "Wedding",
-    title: "Sewa Photobooth Wedding",
+    title: "Sewa Photobooth Wedding Bogor & Jabodetabek",
     description:
-      "Sewa photobooth wedding di Bogor & Jabodetabek. Cetak instan unlimited, frame custom bertema undangan, dan softfile realtime — souvenir yang dibawa pulang setiap tamu.",
+      "Jasa photobooth wedding di Bogor & Jabodetabek. Cetak instan unlimited, frame custom bertema undangan, dan softfile realtime — souvenir yang dibawa pulang setiap tamu.",
     h1Tail: "Wedding",
-    lead: "Resepsi berlangsung beberapa jam, cetakannya bertahan bertahun-tahun. Photobooth kami memberi setiap tamu sesuatu yang nyata untuk dibawa pulang dari hari besarmu.",
+    lead: "Resepsi berlangsung beberapa jam, cetakannya bertahan bertahun-tahun. Photobooth pernikahan kami memberi setiap tamu sesuatu yang nyata untuk dibawa pulang dari hari besarmu.",
     story: [
       "Wedding adalah acara yang paling sering kami tangani. Kami hafal ritmenya: tamu datang bergelombang setelah akad, menumpuk saat sesi foto keluarga, lalu mengalir lagi menjelang penutup. Karena itu cetakan kami keluar sekitar sepuluh detik per lembar, supaya antrean di booth tidak pernah menahan tamu terlalu lama.",
       "Frame cetakannya kami desain ulang mengikuti tema undanganmu, bukan template yang tinggal ganti nama. Warna, tipografi, dan ornamennya menyesuaikan, sehingga cetakan yang dibawa pulang tamu terasa satu napas dengan seluruh dekorasi acara.",
@@ -243,7 +243,7 @@ export const EVENTS: EventKind[] = [
   {
     slug: "360-spin-booth",
     name: "360° Spin Booth",
-    title: "Sewa 360 Photobooth & Spin Video Booth",
+    title: "Sewa 360 Photobooth Bogor & Jabodetabek",
     description:
       "Sewa 360 photobooth di Bogor & Jabodetabek. Lengan kamera berputar merekam video slow motion yang langsung dibagikan tamu lewat QR code — paling efektif untuk aktivasi brand dan pesta.",
     h1Tail: "360°",

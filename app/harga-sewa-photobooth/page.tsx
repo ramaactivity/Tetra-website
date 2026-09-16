@@ -52,6 +52,10 @@ const FAQ = [
     a: "Area Bogor bebas biaya transport. Jakarta, Depok, Tangerang, dan Bekasi menyesuaikan jarak dan lokasi, dan selalu kami sebutkan di penawaran awal, bukan di akhir.",
   },
   {
+    q: "Ada paket photobooth yang lebih terjangkau?",
+    a: "Ada. Photo Stage 2 jam di Rp 1.500.000 adalah titik masuk paling ringan: tamu berfoto lalu mengunduh softfile lewat QR code, tanpa cetak fisik. Kalau yang kamu cari tetap cetakan, Unlimited Photobooth 2 jam di Rp 2.000.000 sudah termasuk cetak tanpa batas.",
+  },
+  {
     q: "Berapa DP untuk booking?",
     a: "Tanggal diamankan dengan DP, sisanya dilunasi menjelang hari-H. Nominal dan termin lengkapnya kami kirim bersama pricelist saat kamu chat admin.",
   },

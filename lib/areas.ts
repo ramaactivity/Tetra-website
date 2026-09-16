@@ -472,6 +472,349 @@ export const AREAS: Area[] = [
     waIntro:
       "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cileungsi.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
+  {
+    slug: "ciawi",
+    parent: "bogor",
+    name: "Ciawi",
+    title: "Sewa Photobooth Ciawi & Gadog",
+    description:
+      "Sewa photobooth di Ciawi, Gadog, dan Cipayung tanpa biaya transport. Cetak instan unlimited untuk resepsi gedung dan acara di venue kaki gunung, dengan tim yang datang sebelum jalur ramai.",
+    h1Tail: "Ciawi",
+    lead: "Ciawi adalah gerbangnya. Dari sini jalur bercabang ke Puncak, ke Sukabumi, dan kembali ke kota Bogor, dan kami sudah terbiasa menghitung waktu berangkat mengikuti ritmenya.",
+    story: [
+      "Ciawi, Gadog, dan Cipayung punya campuran venue yang khas kaki gunung: gedung pertemuan di pinggir jalur utama, restoran dengan area terbuka, dan vila berukuran sedang untuk resepsi keluarga. Semuanya masih Kabupaten Bogor, jadi tidak ada biaya transport sama sekali.",
+      "Yang paling menentukan di area ini bukan jarak, melainkan jam. Akhir pekan membuat jalur exit tol Ciawi sampai Gadog padat sejak pagi, dan sistem buka-tutup bisa menggeser perjalanan berjam-jam. Tim kami berangkat jauh lebih awal supaya booth tetap siap sekitar satu jam sebelum tamu pertama datang.",
+    ],
+    points: [
+      {
+        h: "Tanpa biaya transport",
+        p: "Ciawi, Gadog, Cipayung, dan Megamendung masuk Kabupaten Bogor, jadi bebas biaya perjalanan.",
+      },
+      {
+        h: "Berangkat sebelum jalur padat",
+        p: "Kami memperhitungkan buka-tutup jalur Puncak dan keramaian exit tol Ciawi sejak jauh hari, bukan di hari-H.",
+      },
+      {
+        h: "Siap untuk venue semi-terbuka",
+        p: "Banyak venue di Ciawi punya area terbuka. Lighting studio kami menjaga cetakan tetap terang meski acara berlanjut sampai senja.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-wed7.jpg", alt: "Cetakan photobooth resepsi pernikahan di venue Ciawi" },
+      { src: "/images/g-bday3.jpg", alt: "Photobooth acara keluarga di kawasan Gadog" },
+      { src: "/images/g-strip2.jpg", alt: "Photostrip 2R hasil photobooth acara kumpul keluarga" },
+    ],
+    faq: [
+      {
+        q: "Apakah Ciawi kena biaya transport?",
+        a: "Tidak. Ciawi dan sekitarnya termasuk Gadog, Cipayung, dan Megamendung masih Kabupaten Bogor, jadi bebas biaya perjalanan.",
+      },
+      {
+        q: "Bagaimana kalau acaranya bertepatan dengan akhir pekan yang macet?",
+        a: "Justru itu yang kami antisipasi. Beri tahu jam mulai acaranya sejak awal, dan tim berangkat lebih pagi agar keterlambatan jalur tidak pernah jadi urusanmu.",
+      },
+      {
+        q: "Bisa untuk resepsi di restoran atau vila kecil?",
+        a: "Bisa. Booth kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, jadi muat di teras restoran maupun ruang keluarga vila.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Ciawi/Gadog.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "dramaga",
+    parent: "bogor",
+    name: "Dramaga",
+    title: "Sewa Photobooth Dramaga & Bogor Barat",
+    description:
+      "Sewa photobooth di Dramaga dan Bogor Barat tanpa biaya transport. Cetak instan unlimited untuk wisuda, sidang, dan acara kampus di sekitar IPB, sampai resepsi keluarga di Ciampea dan Cibungbulang.",
+    h1Tail: "Dramaga",
+    lead: "Dramaga hidup oleh kalender kampus. Musim wisuda dan sidang membawa ratusan orang yang ingin berfoto dalam waktu yang sama sempitnya, dan booth kami memang dirancang untuk beban itu.",
+    story: [
+      "Kawasan Dramaga dan Bogor Barat berputar mengikuti ritme IPB. Wisuda, sidang, pelepasan angkatan, dan syukuran keluarga menumpuk di bulan-bulan tertentu, dan kami sudah terbiasa dengan pola antreannya: ramai serentak setelah prosesi, lalu mengalir sampai acara ditutup.",
+      "Di luar kampus, Dramaga, Ciampea, dan Cibungbulang penuh resepsi keluarga yang berlangsung di rumah atau tenda halaman. Booth kami sama mudahnya dipasang di aula kampus maupun di halaman rumah, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+    ],
+    points: [
+      {
+        h: "Terbiasa musim wisuda",
+        p: "Satu booth sanggup melayani ratusan cetakan dalam beberapa jam, dan untuk angkatan besar kami bisa menyiapkan lebih dari satu titik.",
+      },
+      {
+        h: "Tanpa biaya transport",
+        p: "Dramaga, Ciampea, Cibungbulang, dan sekitarnya masih Kabupaten Bogor, jadi bebas biaya perjalanan.",
+      },
+      {
+        h: "Frame bertema almamater",
+        p: "Logo kampus, warna angkatan, dan nama acara masuk ke desain frame tanpa biaya tambahan.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-grad2.jpg", alt: "Cetakan photobooth wisuda kampus di kawasan Dramaga" },
+      { src: "/images/g-grad1.jpg", alt: "Hasil photobooth acara wisuda dengan frame almamater" },
+      { src: "/images/g-wed2.jpg", alt: "Photobooth resepsi pernikahan di Bogor Barat" },
+    ],
+    faq: [
+      {
+        q: "Bisa untuk acara wisuda dan sidang di kampus?",
+        a: "Bisa, dan itu salah satu yang paling sering kami kerjakan di area ini. Sebutkan perkiraan jumlah pesertanya supaya kami bantu hitungkan durasi dan jumlah booth yang pas.",
+      },
+      {
+        q: "Menerima pesanan dari himpunan atau panitia mahasiswa?",
+        a: "Tentu. Kami menyiapkan penawaran tertulis dan invoice untuk keperluan laporan kepanitiaan tanpa perlu diminta berkali-kali.",
+      },
+      {
+        q: "Apakah Dramaga kena biaya transport?",
+        a: "Tidak. Dramaga dan Bogor Barat masih wilayah Bogor, jadi masuk area bebas biaya perjalanan.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Dramaga/Bogor Barat.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "cibubur",
+    parent: "depok",
+    name: "Cibubur",
+    title: "Sewa Photobooth Cibubur",
+    description:
+      "Sewa photobooth di Cibubur, Cimanggis, dan sekitarnya. Cetak instan unlimited untuk resepsi gedung, ulang tahun di cluster, dan gathering perusahaan di kawasan Cibubur.",
+    h1Tail: "Cibubur",
+    lead: "Cibubur duduk di pertemuan tiga wilayah sekaligus. Kami melayaninya dari sisi Bogor, jadi jaraknya dekat dan jadwal kami tetap longgar untuk acaramu di sana.",
+    story: [
+      "Cibubur adalah salah satu area yang paling sering ditanyakan ke kami setelah kota-kota besarnya sendiri. Wilayahnya menyambung dari Cimanggis di Depok, Jatisampurna di Bekasi, sampai Gunung Putri di Bogor, dan kami mendatanginya dari arah Bogor sehingga perjalanannya singkat.",
+      "Acaranya beragam: resepsi di gedung pertemuan, ulang tahun di clubhouse cluster, arisan besar, sampai gathering kantor di kawasan perumahan. Booth kami sama mudahnya berdiri di ballroom maupun di halaman clubhouse, dengan cetakan yang keluar sekitar sepuluh detik per lembar supaya antrean tidak pernah menumpuk.",
+    ],
+    points: [
+      {
+        h: "Dekat dari arah Bogor",
+        p: "Kami mendatangi Cibubur lewat sisi Gunung Putri, jadi perjalanannya pendek dan biaya transportnya ringan.",
+      },
+      {
+        h: "Cocok untuk acara cluster",
+        p: "Clubhouse, taman perumahan, dan halaman rumah semuanya cukup, asal ada listrik dan area sekitar 3×3 meter.",
+      },
+      {
+        h: "Siap untuk gedung besar",
+        p: "Untuk resepsi dengan tamu ratusan orang, cetak unlimited kami menjaga antrean tetap bergerak sepanjang acara.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-bday4.jpg", alt: "Photobooth ulang tahun di clubhouse kawasan Cibubur" },
+      { src: "/images/g-wed4.jpg", alt: "Cetakan photobooth resepsi pernikahan di gedung Cibubur" },
+      { src: "/images/g-corp7.jpg", alt: "Photobooth gathering perusahaan di kawasan Cibubur" },
+    ],
+    faq: [
+      {
+        q: "Cibubur dihitung area mana?",
+        a: "Kami mendatanginya dari sisi Bogor lewat Gunung Putri, jadi biaya transportnya ringan. Sebutkan alamat venue-nya dan kami sampaikan angkanya di awal, bukan di akhir.",
+      },
+      {
+        q: "Bisa untuk acara di clubhouse perumahan?",
+        a: "Bisa, dan cukup sering kami kerjakan. Kami hanya butuh area sekitar 3×3 meter dekat sumber listrik.",
+      },
+      {
+        q: "Melayani juga Cimanggis dan Jatisampurna?",
+        a: "Ya. Seluruh kawasan Cibubur yang menyambung ke Cimanggis, Jatisampurna, dan Gunung Putri kami layani dengan paket yang sama.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cibubur.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "margonda",
+    parent: "depok",
+    name: "Margonda",
+    title: "Sewa Photobooth Margonda & Depok Kota",
+    description:
+      "Sewa photobooth di Margonda, Beji, dan pusat kota Depok. Cetak instan unlimited untuk wisuda dan acara kampus di sekitar UI, seminar, sampai resepsi di hotel sepanjang Margonda.",
+    h1Tail: "Margonda",
+    lead: "Sepanjang Margonda berjejer kampus, hotel, dan gedung pertemuan. Acaranya jarang santai: rundown ketat, tamu banyak, dan waktu bongkar pasang yang sempit.",
+    story: [
+      "Pusat kota Depok berputar di sekitar Margonda dan Beji, dengan Universitas Indonesia sebagai magnetnya. Wisuda, seminar, pelepasan angkatan, dan job fair membawa ratusan orang yang semuanya ingin berfoto dalam jendela waktu yang sama, dan cetakan kami yang keluar sekitar sepuluh detik per lembar dibuat persis untuk beban itu.",
+      "Di luar kampus, hotel dan gedung pertemuan sepanjang Margonda ramai oleh resepsi dan acara perusahaan. Tim kami terbiasa dengan aturan loading gedung dan jadwal bongkar pasang yang ketat, jadi booth tetap siap sekitar satu jam sebelum acara tanpa mengganggu vendor lain.",
+    ],
+    points: [
+      {
+        h: "Dirancang untuk antrean kampus",
+        p: "Wisuda dan acara angkatan dengan ratusan peserta sudah jadi keseharian kami, termasuk penambahan titik booth kalau dibutuhkan.",
+      },
+      {
+        h: "Terbiasa aturan gedung",
+        p: "Jadwal loading, akses lift barang, dan waktu bongkar yang ketat kami ikuti tanpa perlu diingatkan panitia.",
+      },
+      {
+        h: "Dokumen administrasi lengkap",
+        p: "Penawaran tertulis dan invoice untuk kampus maupun perusahaan kami siapkan sejak awal.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-grad1.jpg", alt: "Cetakan photobooth wisuda kampus di kawasan Margonda Depok" },
+      { src: "/images/g-corp3.jpg", alt: "Photobooth acara seminar perusahaan di Depok" },
+      { src: "/images/g-wed1.jpg", alt: "Hasil photobooth resepsi pernikahan di hotel Margonda" },
+    ],
+    faq: [
+      {
+        q: "Bisa untuk wisuda dan acara kampus di sekitar UI?",
+        a: "Bisa, dan itu salah satu jenis acara yang paling sering kami kerjakan. Sebutkan jumlah pesertanya supaya kami bantu tentukan durasi dan jumlah booth yang pas.",
+      },
+      {
+        q: "Bagaimana dengan waktu setup di gedung yang padat jadwal?",
+        a: "Kami butuh sekitar satu jam. Kalau gedung memberi jendela bongkar pasang yang lebih sempit, sebutkan sejak awal dan tim datang lebih pagi.",
+      },
+      {
+        q: "Berapa biaya transport ke Depok?",
+        a: "Menyesuaikan jarak dari basis kami di Bogor, dan angkanya selalu kami sebutkan di penawaran awal, bukan setelah acara.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Margonda/Depok kota.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "sawangan",
+    parent: "depok",
+    name: "Sawangan",
+    title: "Sewa Photobooth Sawangan & Depok Selatan",
+    description:
+      "Sewa photobooth di Sawangan, Bojongsari, Cinere, dan Limo. Cetak instan unlimited untuk resepsi rumahan, ulang tahun, dan acara di gedung serbaguna Depok selatan.",
+    h1Tail: "Sawangan",
+    lead: "Depok selatan adalah wilayah resepsi rumahan: tenda di halaman, tetangga yang datang berombongan, dan suasana yang lebih hangat daripada ballroom manapun.",
+    story: [
+      "Sawangan, Bojongsari, Limo, dan Cinere adalah sisi Depok yang paling dekat dari basis kami di Bogor, jadi biaya transportnya paling ringan di antara seluruh area Depok. Jadwal kami pun lebih longgar untuk permintaan yang datang agak mendadak.",
+      "Sebagian besar acara di sini berlangsung di rumah atau gedung serbaguna berukuran sedang, dengan tamu yang datang bergelombang sepanjang hari. Cetak unlimited membuat setiap rombongan tetap dapat lembarannya sendiri, dan dua crew kami menjaga alur booth tanpa perlu dipandu tuan rumah.",
+    ],
+    points: [
+      {
+        h: "Sisi Depok terdekat",
+        p: "Dari Bogor, Sawangan dan Bojongsari adalah pintu masuk paling dekat, jadi biaya transportnya paling ringan.",
+      },
+      {
+        h: "Siap untuk resepsi rumahan",
+        p: "Booth kami muat di tenda halaman maupun ruang tamu, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+      },
+      {
+        h: "Tetap jalan meski tamu bergelombang",
+        p: "Cetakan unlimited berarti rombongan yang datang siang maupun sore sama-sama pulang membawa hasilnya.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-wed9.jpg", alt: "Cetakan photobooth resepsi rumahan di Sawangan Depok" },
+      { src: "/images/g-bday2.jpg", alt: "Photobooth ulang tahun keluarga di Depok selatan" },
+      { src: "/images/g-strip3.jpg", alt: "Photostrip 2R hasil photobooth acara keluarga" },
+    ],
+    faq: [
+      {
+        q: "Bisa untuk resepsi di rumah dengan tenda halaman?",
+        a: "Bisa, dan itu yang paling sering kami kerjakan di area ini. Kami hanya butuh area sekitar 3×3 meter yang terlindung dan satu sumber listrik.",
+      },
+      {
+        q: "Apakah Sawangan lebih murah transportnya dibanding Depok kota?",
+        a: "Ya, karena jaraknya paling dekat dari basis kami di Bogor. Sebutkan alamat venue-nya dan kami sampaikan angkanya di awal.",
+      },
+      {
+        q: "Melayani Cinere dan Limo juga?",
+        a: "Melayani, dengan paket dan ketentuan yang sama seperti Sawangan dan Bojongsari.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Sawangan/Depok selatan.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "jakarta-selatan",
+    parent: "jakarta",
+    name: "Jakarta Selatan",
+    title: "Sewa Photobooth Jakarta Selatan",
+    description:
+      "Sewa photobooth di Jakarta Selatan: Kemang, Senayan, Pondok Indah, sampai TB Simatupang. Cetak instan unlimited dan frame custom untuk wedding, brand activation, dan acara kantor.",
+    h1Tail: "Jakarta Selatan",
+    lead: "Jakarta Selatan menuntut booth yang tampilannya sebersih venue-nya. Kami datang dengan setup yang rapi, crew yang paham rundown, dan cetakan yang layak dipajang.",
+    story: [
+      "Dari Kemang dan Senayan sampai Pondok Indah dan koridor TB Simatupang, Jakarta Selatan adalah wilayah dengan standar visual paling tinggi yang kami layani. Resepsi hotel, peluncuran produk, dan aktivasi brand di sini menuntut booth yang tidak mengganggu desain ruangan, dan setup kami memang dibuat untuk menyatu, bukan menonjol.",
+      "Kami datang dari Bogor lewat jalur tol, dan untuk Jakarta Selatan tim selalu berangkat dengan margin waktu tambahan agar kemacetan tidak pernah menggeser jadwal. Booth tetap siap sekitar satu jam sebelum tamu pertama masuk, berapa pun lalu lintas hari itu.",
+    ],
+    points: [
+      {
+        h: "Setup yang menyatu dengan venue",
+        p: "Backdrop bawaan bisa dilepas agar booth mengikuti dekorasi, bukan melawannya.",
+      },
+      {
+        h: "Datang dengan margin waktu",
+        p: "Kami memperhitungkan kemacetan jalur tol sejak awal, sehingga booth tetap siap satu jam sebelum acara.",
+      },
+      {
+        h: "Terbiasa brand activation",
+        p: "Frame mengikuti brand guideline, dan 360° spin booth kami sering dipakai untuk aktivasi yang mengejar jangkauan media sosial.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-corp3.jpg", alt: "Photobooth brand activation di Jakarta Selatan" },
+      { src: "/images/g-wed1.jpg", alt: "Cetakan photobooth pernikahan di hotel Jakarta Selatan" },
+      { src: "/images/g-strip3.jpg", alt: "Photostrip 2R hasil photobooth aktivasi brand" },
+    ],
+    faq: [
+      {
+        q: "Berapa biaya transport ke Jakarta Selatan?",
+        a: "Menyesuaikan jarak dan lokasi venue-nya, dan selalu kami sebutkan di penawaran awal. Tidak pernah muncul sebagai tambahan setelah acara.",
+      },
+      {
+        q: "Bisa untuk acara di hotel dengan aturan vendor yang ketat?",
+        a: "Bisa. Kirimkan ketentuan vendor dan jadwal loading dari pihak hotel, lalu kami sesuaikan waktu kedatangan dan kelengkapan dokumennya.",
+      },
+      {
+        q: "Cocok untuk brand activation di mal?",
+        a: "Sangat cocok. Untuk aktivasi, 360° spin booth biasanya paling efektif karena videonya langsung dibagikan pengunjung ke media sosial.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Jakarta Selatan.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "jakarta-timur",
+    parent: "jakarta",
+    name: "Jakarta Timur",
+    title: "Sewa Photobooth Jakarta Timur",
+    description:
+      "Sewa photobooth di Jakarta Timur: Cawang, Cakung, Duren Sawit, sampai Pulo Gadung. Cetak instan unlimited untuk resepsi gedung, wisuda sekolah, dan gathering karyawan kawasan industri.",
+    h1Tail: "Jakarta Timur",
+    lead: "Jakarta Timur adalah sisi ibu kota yang paling dekat dari Bogor, dan wilayah dengan gedung resepsi terbanyak yang kami datangi setiap bulannya.",
+    story: [
+      "Lewat tol Jagorawi, Jakarta Timur adalah bagian ibu kota yang paling cepat kami capai. Cawang, Kramat Jati, Duren Sawit, sampai Cakung penuh gedung pertemuan dan aula serbaguna yang jadwalnya padat oleh resepsi hampir setiap akhir pekan.",
+      "Selain resepsi, wilayah ini ramai oleh wisuda sekolah dan gathering karyawan di kawasan industri Pulo Gadung dan Cakung. Dua-duanya berarti antrean panjang dalam waktu singkat, dan cetakan kami yang keluar sekitar sepuluh detik per lembar menjaga alurnya tetap bergerak.",
+    ],
+    points: [
+      {
+        h: "Sisi Jakarta terdekat",
+        p: "Lewat Jagorawi, Jakarta Timur adalah wilayah ibu kota yang paling cepat kami capai dari Bogor.",
+      },
+      {
+        h: "Terbiasa gedung resepsi",
+        p: "Aula serbaguna dan gedung pertemuan dengan ruang booth terbatas sudah jadi keseharian kami.",
+      },
+      {
+        h: "Siap untuk kawasan industri",
+        p: "Prosedur izin masuk dan jadwal loading pabrik kami ikuti tanpa membuang waktu di pos keamanan.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-wed8.jpg", alt: "Cetakan photobooth resepsi pernikahan di gedung Jakarta Timur" },
+      { src: "/images/g-corp5.jpg", alt: "Photobooth gathering karyawan kawasan industri Jakarta Timur" },
+      { src: "/images/g-grad2.jpg", alt: "Hasil photobooth wisuda sekolah" },
+    ],
+    faq: [
+      {
+        q: "Berapa biaya transport ke Jakarta Timur?",
+        a: "Paling ringan di antara wilayah Jakarta karena jaraknya paling dekat lewat Jagorawi. Angkanya kami sebutkan di penawaran awal sesuai alamat venue.",
+      },
+      {
+        q: "Bisa untuk wisuda sekolah dengan ratusan siswa?",
+        a: "Bisa. Satu booth cukup untuk sekitar 200 peserta dalam tiga jam; di atas itu kami sarankan dua titik booth agar antrean tetap nyaman.",
+      },
+      {
+        q: "Melayani acara di kawasan industri?",
+        a: "Ya. Kirimkan ketentuan izin masuk dan jam loading-nya, lalu tim kami menyesuaikan waktu kedatangan.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Jakarta Timur.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
 ];
 
 export function getArea(slug: string): Area | undefined {
