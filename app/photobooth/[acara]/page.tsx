@@ -120,7 +120,8 @@ export default async function EventPage({ params }: Props) {
       <section className="area-story">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Photobooth untuk <span className="it">{ev.name}</span>.
+            Jasa photobooth <span className="it">{ev.name}</span>{" "}
+            di Bogor &amp; Jabodetabek.
           </h2>
           {ev.story.map((p) => (
             <p className="lead area-p" data-rv key={p.slice(0, 24)}>
@@ -148,7 +149,8 @@ export default async function EventPage({ params }: Props) {
       <section className="area-points">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Kenapa cocok untuk <span className="it">acaramu</span>.
+            Kenapa Tetra cocok untuk photobooth{" "}
+            <span className="it">{ev.name}</span>.
           </h2>
           <div className="area-grid">
             {ev.points.map((pt) => (
@@ -166,7 +168,8 @@ export default async function EventPage({ params }: Props) {
       <section className="area-faqsec">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Yang sering ditanya soal <span className="it">{ev.name}</span>.
+            Pertanyaan soal sewa photobooth{" "}
+            <span className="it">{ev.name}</span>.
           </h2>
           <div className="area-faq">
             {ev.faq.map((f) => (

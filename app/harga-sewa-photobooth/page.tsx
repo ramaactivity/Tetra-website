@@ -5,7 +5,7 @@ import Divider from "@/components/Divider";
 import { AREAS } from "@/lib/areas";
 
 const CITIES = AREAS.filter((a) => !a.parent);
-import { PACKAGES, fmtIDR } from "@/lib/pricelist";
+import { PACKAGES, fromPrice, fmtIDR } from "@/lib/pricelist";
 import { waLink, waMessage } from "@/lib/site";
 
 // Halaman harga publik — menjawab query "harga sewa photobooth" yang tidak
@@ -18,7 +18,7 @@ const DESCRIPTION =
   "Harga sewa photobooth di Bogor & Jabodetabek mulai Rp 1.500.000. Rincian harga per paket, apa saja yang sudah termasuk, dan hal yang mempengaruhi biaya.";
 
 export const metadata: Metadata = {
-  title: "Harga Sewa Photobooth Bogor & Jabodetabek",
+  title: "Harga Sewa Photobooth Bogor Mulai 1,5 Juta",
   description: DESCRIPTION,
   alternates: { canonical: "/harga-sewa-photobooth" },
   openGraph: {
@@ -30,9 +30,6 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
   },
 };
-
-const from = (p: (typeof PACKAGES)[number]) =>
-  Math.min(...p.tiers.map((t) => t.price));
 
 const FAQ = [
   {
@@ -72,7 +69,7 @@ const AFFECTS = [
   },
   {
     h: "Lokasi acara",
-    p: "Bogor bebas biaya transport. Jakarta, Depok, Tangerang, dan Bekasi menyesuaikan jarak, dan angkanya kami sebutkan di awal.",
+    p: "Seluruh area Bogor gratis biaya transport, kota maupun kabupaten. Jakarta, Depok, Tangerang, dan Bekasi menyesuaikan jarak, dan angkanya kami sebutkan di awal, bukan di akhir.",
   },
   {
     h: "Layanan tambahan",
@@ -95,7 +92,7 @@ const jsonLd = [
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "IDR",
-      lowPrice: Math.min(...PACKAGES.map(from)),
+      lowPrice: Math.min(...PACKAGES.map(fromPrice)),
       highPrice: Math.max(...PACKAGES.flatMap((p) => p.tiers.map((t) => t.price))),
       offerCount: PACKAGES.length,
       availability: "https://schema.org/InStock",
@@ -170,7 +167,7 @@ export default function HargaPage() {
       <section className="area-points">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Harga per <span className="it">paket</span>.
+            Harga sewa photobooth per <span className="it">paket</span>.
           </h2>
           <p className="lead area-p" data-rv>
             Angka di bawah adalah harga terendah tiap paket, yaitu durasi paling singkat.
@@ -180,7 +177,7 @@ export default function HargaPage() {
             {PACKAGES.map((p) => (
               <div className="area-point" data-rv key={p.id}>
                 <h3>
-                  {p.name} — mulai {fmtIDR(from(p))}
+                  {p.name} — mulai {fmtIDR(fromPrice(p))}
                 </h3>
                 <p>{p.blurb}</p>
               </div>
@@ -194,7 +191,7 @@ export default function HargaPage() {
       <section className="area-story">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Yang sudah <span className="it">termasuk</span>.
+            Yang sudah <span className="it">termasuk</span> di harganya.
           </h2>
           <p className="lead area-p" data-rv>
             Cetak foto unlimited selama durasi sewa dalam format 2R photostrip, 4R, atau
@@ -202,9 +199,11 @@ export default function HargaPage() {
             Dua crew yang menemani tamu sepanjang acara, properti, serta backdrop pilihan.
           </p>
           <p className="lead area-p" data-rv>
-            Desain frame custom sesuai tema acaramu juga sudah termasuk, begitu pula akses
-            softfile realtime lewat QR code dan flashdisk berisi seluruh dokumentasi. Dari
-            pihakmu cukup listrik dan area sekitar 3×3 meter.
+            Empat hal yang sering jadi biaya tambahan di tempat lain, di sini gratis:
+            desain frame custom sesuai tema acaramu, properti, backdrop pilihan, dan
+            transport untuk seluruh area Bogor. Softfile realtime lewat QR code serta
+            flashdisk berisi seluruh dokumentasi juga sudah termasuk. Dari pihakmu cukup
+            listrik dan area sekitar 3×3 meter.
           </p>
         </div>
       </section>
@@ -214,7 +213,7 @@ export default function HargaPage() {
       <section className="area-points">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Yang mempengaruhi <span className="it">harga</span>.
+            Yang mempengaruhi harga sewa <span className="it">photobooth</span>.
           </h2>
           <div className="area-grid">
             {AFFECTS.map((a) => (
@@ -232,7 +231,7 @@ export default function HargaPage() {
       <section className="area-faqsec">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Pertanyaan soal <span className="it">harga</span>.
+            Pertanyaan soal harga sewa <span className="it">photobooth</span>.
           </h2>
           <div className="area-faq">
             {FAQ.map((f) => (

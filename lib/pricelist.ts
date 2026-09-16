@@ -8,6 +8,12 @@ export const PDF_URL = "/pricelist-tetra-photobooth-2026.pdf";
 export const PDF_NAME = "Pricelist Tetra Photobooth 2026.pdf";
 
 /** Indonesian Rupiah, dot-grouped, SSR-deterministic (no Intl locale dependency). */
+/** Harga terendah sebuah paket. Tier "Extend" dikecualikan: itu tarif jam
+ *  tambahan di hari-H, bukan harga paket, dan nilainya jauh di bawah tier
+ *  terpendek — sempat membuat "mulai Rp 500.000" muncul di /harga & JSON-LD. */
+export const fromPrice = (p: Pkg): number =>
+  Math.min(...p.tiers.filter((t) => !/extend/i.test(t.label)).map((t) => t.price));
+
 export const fmtIDR = (n: number): string =>
   "Rp " + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 

@@ -117,7 +117,7 @@ export default async function AreaPage({ params }: Props) {
       <section className="area-story">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Rasanya punya Tetra di <span className="it">{area.name}</span>.
+            Jasa photobooth di <span className="it">{area.name}</span>.
           </h2>
           {area.story.map((p) => (
             <p className="lead area-p" data-rv key={p.slice(0, 24)}>
@@ -139,7 +139,7 @@ export default async function AreaPage({ params }: Props) {
       <section className="area-points">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Kenapa memilih <span className="it">kami</span>.
+            Kenapa memilih <span className="it">Tetra</span> di {area.name}.
           </h2>
           <div className="area-grid">
             {area.points.map((pt) => (
@@ -157,7 +157,8 @@ export default async function AreaPage({ params }: Props) {
       <section className="area-faqsec">
         <div className="wrap">
           <h2 className="sec-title" data-rv>
-            Yang sering ditanya dari <span className="it">{area.name}</span>.
+            Pertanyaan soal sewa photobooth{" "}
+            <span className="it">{area.name}</span>.
           </h2>
           <div className="area-faq">
             {area.faq.map((f) => (

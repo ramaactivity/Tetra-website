@@ -60,8 +60,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sewa Photobooth Bogor & Jabodetabek — Tetra Photobooth",
-    description: SITE_DESCRIPTION,
   },
 };
 

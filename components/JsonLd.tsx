@@ -1,4 +1,5 @@
 import { WA_NUMBER, INSTAGRAM_URL, TIKTOK_URL, EMAIL } from "@/lib/site";
+import { PACKAGES, fromPrice } from "@/lib/pricelist";
 
 // LocalBusiness + WebSite structured data (schema.org) — rendered once on the
 // homepage. Helps Google understand who we are, where we operate, and what we
@@ -9,6 +10,7 @@ const BUSINESS = {
   "@type": "LocalBusiness",
   "@id": "https://tetraphoto.com/#business",
   name: "Tetra Photobooth",
+  alternateName: ["Tetra", "Sewa Photobooth Tetra", "Jasa Photobooth Tetra"],
   url: "https://tetraphoto.com",
   image: [
     "https://tetraphoto.com/images/g-wed1.jpg",
@@ -22,6 +24,7 @@ const BUSINESS = {
   email: EMAIL,
   priceRange: "Rp 1.500.000 - Rp 7.000.000",
   currenciesAccepted: "IDR",
+  paymentAccepted: "Transfer Bank, Tunai, QRIS",
   // Jam balas chat admin, bukan jam operasional toko fisik. Ubah di sini kalau
   // jamnya berubah — Google Business Profile harus menyebut jam yang sama.
   openingHoursSpecification: {
@@ -55,14 +58,19 @@ const BUSINESS = {
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Paket Photobooth",
-    itemListElement: [
-      "Unlimited Photobooth",
-      "360° Spin Video Booth",
-      "Magazine Box Photobooth",
-      "Photo Stage",
-    ].map((name) => ({
+    itemListElement: PACKAGES.map((p) => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name, areaServed: "Jabodetabek" },
+      name: p.name,
+      description: p.blurb,
+      price: String(fromPrice(p)),
+      priceCurrency: "IDR",
+      availability: "https://schema.org/InStock",
+      url: "https://tetraphoto.com/harga-sewa-photobooth",
+      itemOffered: {
+        "@type": "Service",
+        name: p.name,
+        areaServed: "Jabodetabek",
+      },
     })),
   },
 };
