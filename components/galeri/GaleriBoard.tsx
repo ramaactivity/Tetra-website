@@ -10,7 +10,7 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { GALLERY, type GalleryItem } from "@/lib/gallery";
+import { GALLERY, galleryAlt, type GalleryItem } from "@/lib/gallery";
 import { useLightbox } from "@/components/lightbox/useLightbox";
 import Pic from "@/components/Pic";
 
@@ -302,7 +302,7 @@ export default function GaleriBoard() {
                           onMouseLeave={leaveCard}
                           onClick={() => openItem(e.item)}
                         >
-                          <Pic src={e.item.src} alt={`Hasil photobooth ${e.item.title} — ${e.item.sub}`} draggable={false} />
+                          <Pic src={e.item.src} alt={galleryAlt(e.item)} draggable={false} />
                           <span className="gx-cap">
                             <b>{e.item.title}</b>
                             <i>{e.item.sub}</i>

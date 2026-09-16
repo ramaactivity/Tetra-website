@@ -17,6 +17,8 @@ export interface AreaPrint {
 
 export interface Area {
   slug: string;
+  /** Slug induk untuk sub-area (mis. "bogor"). Kosong = kota utama. */
+  parent?: string;
   /** Nama kota untuk heading & copy */
   name: string;
   /** Meta title (template layout menambahkan "— Tetra Photobooth") */
@@ -273,6 +275,202 @@ export const AREAS: Area[] = [
     ],
     waIntro:
       "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Bekasi.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "sentul",
+    parent: "bogor",
+    name: "Sentul",
+    title: "Sewa Photobooth Sentul",
+    description:
+      "Sewa photobooth di Sentul dan Sentul City tanpa biaya transport. Cetak instan unlimited, frame custom, dan crew yang hafal venue-venue di kawasan ini.",
+    h1Tail: "Sentul",
+    lead: "Sentul penuh venue dengan pemandangan bukit dan ruang terbuka yang lapang. Kami sudah sering bekerja di sana, jadi tahu di mana booth sebaiknya berdiri agar tidak kalah oleh cahaya sore.",
+    story: [
+      "Sentul dan Sentul City hanya sekitar setengah jam dari basis kami, jadi untuk acara di kawasan ini kami tidak menarik biaya transport sama sekali. Tim biasanya berangkat pagi dan booth sudah siap sekitar satu jam sebelum tamu pertama datang.",
+      "Sebagian besar venue di Sentul memadukan ruang dalam dan luar ruangan. Kami membawa lighting studio sendiri, jadi hasil cetakan tetap terang dan tajam baik ketika booth berdiri di ballroom tertutup maupun di teras yang menghadap bukit.",
+    ],
+    points: [
+      {
+        h: "Tanpa biaya transport",
+        p: "Sentul, Sentul City, dan Babakan Madang masuk area bebas biaya perjalanan karena masih wilayah Kabupaten Bogor.",
+      },
+      {
+        h: "Siap untuk venue outdoor",
+        p: "Lighting studio kami membuat cetakan tetap bersih meski booth berdiri di area semi-terbuka menjelang senja.",
+      },
+      {
+        h: "Hafal aksesnya",
+        p: "Tim kami terbiasa dengan jalur masuk kawasan Sentul City dan aturan loading venue-venue besarnya.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-wed5.jpg", alt: "Cetakan photobooth pernikahan di venue kawasan Sentul" },
+      { src: "/images/g-corp2.jpg", alt: "Photobooth gathering perusahaan di Sentul" },
+      { src: "/images/g-wed6.jpg", alt: "Hasil cetak photobooth 2R acara pernikahan" },
+    ],
+    faq: [
+      {
+        q: "Apakah Sentul kena biaya transport?",
+        a: "Tidak. Sentul dan Sentul City masih Kabupaten Bogor, jadi masuk area bebas biaya perjalanan sama seperti kota Bogor.",
+      },
+      {
+        q: "Bisa untuk acara outdoor di area bukit?",
+        a: "Bisa, selama ada sumber listrik dan area sekitar 3×3 meter yang terlindung dari hujan. Beri tahu kami kalau lokasinya benar-benar terbuka supaya tim membawa penutup tambahan untuk printer.",
+      },
+      {
+        q: "Berapa lama setup di venue Sentul?",
+        a: "Sekitar satu jam sebelum acara mulai. Untuk venue dengan akses loading yang jauh dari titik booth, tim kami datang lebih awal lagi.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Sentul.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "cibinong",
+    parent: "bogor",
+    name: "Cibinong",
+    title: "Sewa Photobooth Cibinong",
+    description:
+      "Sewa photobooth di Cibinong tanpa biaya transport. Cetak instan unlimited untuk resepsi gedung, wisuda sekolah, dan acara kantor pemerintahan di sekitar Cibinong.",
+    h1Tail: "Cibinong",
+    lead: "Cibinong sibuk oleh resepsi gedung dan acara instansi. Dua-duanya butuh booth yang cepat dan crew yang tidak perlu dipandu, dan itulah cara kami bekerja.",
+    story: [
+      "Cibinong dekat sekali dari basis kami, jadi tidak ada biaya transport dan jadwal kami jauh lebih fleksibel di sana, termasuk untuk permintaan yang datang mendadak. Kawasan ini juga padat gedung pertemuan, sehingga tim kami sudah hafal pola loading dan pembagian ruangnya.",
+      "Banyak acara di Cibinong adalah resepsi dengan tamu yang datang bergelombang, atau kegiatan instansi dengan rundown ketat. Cetakan kami keluar sekitar sepuluh detik per lembar supaya antrean tidak pernah menahan jalannya acara, dan crew kami terbiasa menyesuaikan diri dengan panitia.",
+    ],
+    points: [
+      {
+        h: "Paling dekat dari basis",
+        p: "Cibinong hanya beberapa menit dari titik berangkat kami, jadi bebas biaya transport dan mudah untuk jadwal mendadak.",
+      },
+      {
+        h: "Terbiasa di gedung pertemuan",
+        p: "Kami sudah sering bekerja di gedung serbaguna dan aula instansi di sekitar Cibinong, termasuk yang ruang boothnya terbatas.",
+      },
+      {
+        h: "Dokumen resmi tersedia",
+        p: "Untuk acara sekolah maupun instansi, penawaran tertulis dan invoice kami siapkan tanpa perlu diminta berulang.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-corp4.jpg", alt: "Photobooth acara instansi di Cibinong" },
+      { src: "/images/g-grad1.jpg", alt: "Cetakan photobooth wisuda sekolah" },
+      { src: "/images/g-wed8.jpg", alt: "Hasil photobooth resepsi pernikahan di gedung" },
+    ],
+    faq: [
+      {
+        q: "Apakah ada biaya transport untuk Cibinong?",
+        a: "Tidak ada. Cibinong masuk Kabupaten Bogor dan merupakan salah satu area terdekat dari basis kami.",
+      },
+      {
+        q: "Bisa dipesan mendadak untuk acara minggu ini?",
+        a: "Sering bisa, justru karena jaraknya dekat. Chat admin kami dengan tanggalnya, dan kalau slotnya kosong, frame custom tetap sempat kami desain.",
+      },
+      {
+        q: "Melayani acara dinas dan sekolah negeri?",
+        a: "Ya. Kami terbiasa melengkapi penawaran tertulis, invoice, dan dokumen vendor untuk kebutuhan administrasi panitia.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cibinong.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "puncak-cisarua",
+    parent: "bogor",
+    name: "Puncak & Cisarua",
+    title: "Sewa Photobooth Puncak & Cisarua",
+    description:
+      "Sewa photobooth untuk acara di Puncak, Cisarua, dan Megamendung. Cetak instan unlimited di villa dan resort pegunungan, dengan tim yang berangkat lebih awal agar booth siap tepat waktu.",
+    h1Tail: "Puncak",
+    lead: "Acara di Puncak hampir selalu berarti villa, resort, atau ruang terbuka yang dingin dan lembap. Kami menyiapkan perangkat dan jadwal berangkat dengan memperhitungkan itu semua.",
+    story: [
+      "Kawasan Puncak, Cisarua, dan Megamendung ramai oleh gathering perusahaan, retreat, dan pernikahan intim di villa. Tantangan terbesarnya bukan jaraknya, melainkan lalu lintas dan sistem buka-tutup jalurnya, jadi tim kami selalu berangkat jauh lebih awal agar booth tetap siap satu jam sebelum acara.",
+      "Udara pegunungan yang lembap bisa mempengaruhi kertas cetak, maka perangkat dan bahan kami simpan dalam wadah tertutup sampai menjelang pemakaian. Hasilnya cetakan tetap kering, tajam, dan tahan lama meski acaranya berlangsung di teras terbuka.",
+    ],
+    points: [
+      {
+        h: "Berangkat lebih awal",
+        p: "Kami memperhitungkan buka-tutup jalur Puncak sejak awal, jadi keterlambatan lalu lintas tidak pernah jadi urusanmu.",
+      },
+      {
+        h: "Siap untuk udara lembap",
+        p: "Kertas dan perangkat kami simpan tertutup sampai menjelang dipakai, supaya cetakan tidak melengkung atau buram.",
+      },
+      {
+        h: "Cocok untuk villa dan resort",
+        p: "Booth kami muat di teras maupun ruang keluarga villa, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-corp6.jpg", alt: "Photobooth gathering perusahaan di villa kawasan Puncak" },
+      { src: "/images/g-wed3.jpg", alt: "Cetakan photobooth pernikahan intim di resort" },
+      { src: "/images/g-strip1.jpg", alt: "Photostrip 2R hasil photobooth acara kumpul keluarga" },
+    ],
+    faq: [
+      {
+        q: "Apakah Puncak kena biaya transport?",
+        a: "Puncak dan Cisarua masuk Kabupaten Bogor, jadi bebas biaya transport. Kami hanya minta info lokasi lebih awal supaya tim bisa berangkat sebelum jalur ramai.",
+      },
+      {
+        q: "Bagaimana kalau acaranya di villa tanpa ballroom?",
+        a: "Tidak masalah. Booth kami hanya butuh area sekitar 3×3 meter, dan sering kami pasang di teras atau ruang keluarga villa.",
+      },
+      {
+        q: "Cetakan aman di udara dingin dan lembap?",
+        a: "Aman. Bahan cetak kami simpan tertutup sampai dipakai, dan lapisan pelindung di permukaannya membuat hasilnya tahan air maupun sidik jari.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di kawasan Puncak/Cisarua.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
+  },
+  {
+    slug: "cileungsi",
+    parent: "bogor",
+    name: "Cileungsi",
+    title: "Sewa Photobooth Cileungsi",
+    description:
+      "Sewa photobooth di Cileungsi, Gunung Putri, dan Jonggol tanpa biaya transport. Cetak instan unlimited untuk resepsi, ulang tahun, dan acara pabrik di Bogor timur.",
+    h1Tail: "Cileungsi",
+    lead: "Cileungsi berada di perbatasan Bogor dan Bekasi, dan kami melayaninya sebagai area Bogor: tanpa biaya transport, dengan jadwal yang tetap longgar.",
+    story: [
+      "Bogor timur, mulai Cileungsi, Gunung Putri, sampai Jonggol, punya campuran acara yang menarik: resepsi keluarga di gedung, pesta ulang tahun di rumah, dan gathering karyawan di kawasan industri. Semuanya kami layani dari basis Bogor tanpa biaya perjalanan.",
+      "Untuk acara pabrik dan kawasan industri, kami terbiasa dengan prosedur izin masuk dan jadwal loading yang lebih ketat. Sebutkan saja ketentuan venue-nya sejak awal, dan tim kami menyesuaikan waktu kedatangan supaya booth tetap siap sebelum acara dimulai.",
+    ],
+    points: [
+      {
+        h: "Dihitung sebagai area Bogor",
+        p: "Meski dekat perbatasan Bekasi, Cileungsi dan sekitarnya tetap bebas biaya transport karena masih Kabupaten Bogor.",
+      },
+      {
+        h: "Terbiasa acara kawasan industri",
+        p: "Kami paham prosedur izin masuk dan jadwal loading pabrik, jadi tidak ada waktu terbuang di pos keamanan.",
+      },
+      {
+        h: "Dari rumah sampai gedung",
+        p: "Booth kami sama mudahnya dipasang di halaman rumah maupun di aula gedung pertemuan.",
+      },
+    ],
+    prints: [
+      { src: "/images/g-bday1.jpg", alt: "Photobooth pesta ulang tahun di rumah kawasan Cileungsi" },
+      { src: "/images/g-corp5.jpg", alt: "Photobooth gathering karyawan kawasan industri" },
+      { src: "/images/g-wed9.jpg", alt: "Cetakan photobooth resepsi pernikahan di gedung" },
+    ],
+    faq: [
+      {
+        q: "Cileungsi masuk area Bogor atau Bekasi?",
+        a: "Kami menghitungnya sebagai Bogor, jadi bebas biaya transport. Begitu juga Gunung Putri, Jonggol, dan Citeureup.",
+      },
+      {
+        q: "Bisa untuk acara di dalam kawasan pabrik?",
+        a: "Bisa. Kirimkan ketentuan izin masuk dan jam loading venue-nya, lalu kami sesuaikan waktu kedatangan tim.",
+      },
+      {
+        q: "Bisa untuk acara kecil di rumah?",
+        a: "Bisa. Kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, dan banyak acara rumahan yang kami kerjakan berlangsung di ruang tamu atau halaman.",
+      },
+    ],
+    waIntro:
+      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cileungsi.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
 ];
 

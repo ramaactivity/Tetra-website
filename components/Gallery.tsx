@@ -1,6 +1,6 @@
 "use client";
 
-import { GALLERY } from "@/lib/gallery";
+import { GALLERY, galleryAlt } from "@/lib/gallery";
 import { useLightbox } from "./lightbox/useLightbox";
 import Pic from "./Pic";
 import { IgIcon, TiktokIcon } from "./SocialIcons";
@@ -34,7 +34,7 @@ export default function Gallery() {
                   aria-label={`Lihat ${g.title} — ${g.sub}`}
                   onClick={() => openAt(g.i)}
                 >
-                  <Pic src={g.src} alt={`Hasil photobooth ${g.title} — ${g.sub}`} loading="lazy" />
+                  <Pic src={g.src} alt={galleryAlt(g)} loading="lazy" />
                   <span className="gitem-cap">
                     <b>{g.title}</b>
                     <i>{g.sub}</i>

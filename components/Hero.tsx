@@ -11,9 +11,9 @@ export default function Hero() {
       </div>
       <div className="wrap">
         <div className="hero-copy">
-          <div className="eyebrow" id="he">
+          <h2 className="eyebrow" id="he">
             Sewa Photobooth Premium · Bogor &amp; Jabodetabek
-          </div>
+          </h2>
           <h1 id="h1">
             {/* br-m forces the same 3-line break on mobile as desktop wraps to
                 naturally; hidden on desktop so the desktop layout is unchanged. */}

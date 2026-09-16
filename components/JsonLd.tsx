@@ -10,12 +10,34 @@ const BUSINESS = {
   "@id": "https://tetraphoto.com/#business",
   name: "Tetra Photobooth",
   url: "https://tetraphoto.com",
-  image: "https://tetraphoto.com/images/g-wed1.jpg",
+  image: [
+    "https://tetraphoto.com/images/g-wed1.jpg",
+    "https://tetraphoto.com/images/g-corp1.jpg",
+    "https://tetraphoto.com/images/g-grad1.jpg",
+  ],
+  logo: "https://tetraphoto.com/images/word-white.png",
   description:
     "Jasa sewa photobooth premium berbasis di Bogor, melayani seluruh Jabodetabek. Cetak instan unlimited, free desain frame custom, dan softfile realtime untuk wedding, ulang tahun, wisuda, dan corporate event.",
   telephone: `+${WA_NUMBER}`,
   email: EMAIL,
-  priceRange: "$$",
+  priceRange: "Rp 1.500.000 - Rp 7.000.000",
+  currenciesAccepted: "IDR",
+  // Jam balas chat admin, bukan jam operasional toko fisik. Ubah di sini kalau
+  // jamnya berubah — Google Business Profile harus menyebut jam yang sama.
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
+    opens: "09:00",
+    closes: "21:00",
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Bogor",

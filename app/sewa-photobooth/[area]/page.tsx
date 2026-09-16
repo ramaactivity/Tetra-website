@@ -72,7 +72,9 @@ export default async function AreaPage({ params }: Props) {
   const area = getArea(slug);
   if (!area) notFound();
 
-  const others = AREAS.filter((a) => a.slug !== area.slug);
+  // Sesama level saja: kota utama saling menautkan, sub-area saling menautkan.
+  const others = AREAS.filter((a) => a.slug !== area.slug && a.parent === area.parent);
+  const subs = AREAS.filter((a) => a.parent === area.slug);
   const wa = waLink(waMessage(area.waIntro));
 
   return (
@@ -165,6 +167,17 @@ export default async function AreaPage({ params }: Props) {
               </div>
             ))}
           </div>
+          {subs.length > 0 && (
+            <p className="area-others" data-rv>
+              Termasuk area{" "}
+              {subs.map((sub, i) => (
+                <span key={sub.slug}>
+                  <a href={`/sewa-photobooth/${sub.slug}`}>{sub.name}</a>
+                  {i < subs.length - 2 ? ", " : i === subs.length - 2 ? ", dan " : "."}
+                </span>
+              ))}
+            </p>
+          )}
           <p className="area-others" data-rv>
             Kami juga melayani{" "}
             {others.map((o, i) => (

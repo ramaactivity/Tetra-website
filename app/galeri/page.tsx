@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import GaleriBoard from "@/components/galeri/GaleriBoard";
 import GaleriFormat from "@/components/galeri/GaleriFormat";
+import { GALLERY, galleryAlt } from "@/lib/gallery";
 
 export const metadata: Metadata = {
   title: "Galeri Photobooth Wedding, Corporate & Wisuda",
@@ -21,9 +22,46 @@ export const metadata: Metadata = {
   },
 };
 
+// ImageGallery + Breadcrumb — biar tiap foto punya konteks di Google Images,
+// sumber traffic terbesar untuk niche visual seperti photobooth.
+const JSONLD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: "Galeri Photobooth Tetra",
+    url: "https://tetraphoto.com/galeri",
+    description:
+      "Hasil photobooth Tetra dari acara wedding, corporate, ulang tahun, dan wisuda di Bogor & Jabodetabek.",
+    isPartOf: { "@id": "https://tetraphoto.com/#website" },
+    associatedMedia: GALLERY.map((g) => ({
+      "@type": "ImageObject",
+      contentUrl: `https://tetraphoto.com${g.src}`,
+      name: g.title,
+      caption: galleryAlt(g),
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Beranda", item: "https://tetraphoto.com" },
+      { "@type": "ListItem", position: 2, name: "Galeri", item: "https://tetraphoto.com/galeri" },
+    ],
+  },
+];
+
 export default function GaleriPage() {
   return (
     <>
+      {JSONLD.map((data, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+          }}
+        />
+      ))}
       <Header />
 
       <section className="gx-hero">

@@ -41,3 +41,7 @@ export const GALLERY: GalleryItem[] = [
   { i: 24, src: "/images/g-bday4.jpg", title: "Dea's Sweet 17", sub: "Ulang Tahun · 2R", cat: "bday" },
   { i: 25, src: "/images/g-corp5.jpg", title: "Surveyor Indonesia", sub: "Corporate · 4R", cat: "corp" },
 ];
+
+/** Alt text untuk tiap foto galeri — dipakai di homepage dan /galeri. */
+export const galleryAlt = (g: GalleryItem): string =>
+  `Hasil photobooth ${g.sub.replace(" · ", " format ")} — ${g.title}`;

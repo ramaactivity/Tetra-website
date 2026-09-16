@@ -3,6 +3,7 @@ import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMA
 import { SocialLinks } from "./SocialIcons";
 import Pic from "./Pic";
 import { AREAS } from "@/lib/areas";
+import { EVENTS } from "@/lib/events";
 
 // CTA + Footer. The prototype's "Preview situs" toast and the footer's preview
 // fine-print are intentionally removed for production.
@@ -75,12 +76,21 @@ export default function CtaFooter() {
             <div className="col">
               <h3>Jelajah</h3>
               <a href="/galeri">Galeri</a>
+              <a href="/harga-sewa-photobooth">Harga</a>
               <a href="/#format" data-scroll="#format">Format</a>
               <a href="/#cara" data-scroll="#cara">Cara Kerja</a>
             </div>
             <div className="col">
+              <h3>Jenis Acara</h3>
+              {EVENTS.map((e) => (
+                <a key={e.slug} href={`/photobooth/${e.slug}`}>
+                  Photobooth {e.name}
+                </a>
+              ))}
+            </div>
+            <div className="col">
               <h3>Area Layanan</h3>
-              {AREAS.map((a) => (
+              {AREAS.filter((a) => !a.parent).map((a) => (
                 <a key={a.slug} href={`/sewa-photobooth/${a.slug}`}>
                   Sewa Photobooth {a.name}
                 </a>

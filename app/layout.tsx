@@ -23,7 +23,7 @@ const outfit = Outfit({
 });
 
 const SITE_DESCRIPTION =
-  "Jasa sewa photobooth premium di Bogor, melayani seluruh Jabodetabek. Cetak instan unlimited ±10 detik, free desain frame custom, softfile realtime via QR. Untuk wedding, ulang tahun, wisuda & corporate event.";
+  "Sewa photobooth premium di Bogor & Jabodetabek. Cetak instan unlimited, frame custom gratis, softfile realtime via QR. Untuk wedding, ulang tahun & corporate event.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tetraphoto.com"),

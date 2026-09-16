@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /pricelist
 
 Sitemap: https://tetraphoto.com/sitemap.xml
