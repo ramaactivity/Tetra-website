@@ -3,37 +3,18 @@ import { AREAS } from "@/lib/areas";
 import { EVENTS } from "@/lib/events";
 
 // /pricelist is intentionally absent — it is noindexed and shared privately.
+//
+// No lastModified / changeFrequency / priority on purpose. Google ignores the
+// last two outright, and only honours lastmod when it is truthful; `new Date()`
+// runs at build time, so every deploy would claim all 24 URLs just changed.
+// A plain URL list is what Google asks for.
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://tetraphoto.com",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: "https://tetraphoto.com/harga-sewa-photobooth",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: "https://tetraphoto.com/galeri",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    ...EVENTS.map((e) => ({
-      url: `https://tetraphoto.com/photobooth/${e.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    })),
-    ...AREAS.map((a) => ({
-      url: `https://tetraphoto.com/sewa-photobooth/${a.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    })),
+  const paths = [
+    "",
+    "/harga-sewa-photobooth",
+    "/galeri",
+    ...EVENTS.map((e) => `/photobooth/${e.slug}`),
+    ...AREAS.map((a) => `/sewa-photobooth/${a.slug}`),
   ];
+  return paths.map((path) => ({ url: `https://tetraphoto.com${path}` }));
 }

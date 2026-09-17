@@ -41,6 +41,9 @@ export default function Package() {
             >
               Tanya Paket &amp; Harga
             </a>
+            <a className="btn" href="/harga-sewa-photobooth">
+              Lihat Harga
+            </a>
           </div>
         </div>
 
