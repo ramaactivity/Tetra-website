@@ -32,3 +32,22 @@ export const INSTAGRAM_URL = "https://www.instagram.com/tetraphotobooth/";
 export const TIKTOK_HANDLE = "@tetraphotobooth";
 export const TIKTOK_URL = "https://www.tiktok.com/@tetraphotobooth";
 export const EMAIL = "tetraphotobooth@gmail.com";
+
+// Identitas usaha untuk halaman legal (/syarat-ketentuan, /kebijakan-refund,
+// /privasi) dan verifikasi merchant payment gateway.
+// Kontak publik (WA_NUMBER + EMAIL di atas) sengaja dibedakan dari kontak
+// administratif di bawah: yang publik harus konsisten dengan Google Business
+// Profile supaya NAP tidak pecah; yang administratif adalah yang terdaftar di
+// payment gateway.
+export const LEGAL = {
+  business: "Tetra Photobooth",
+  owner: "Muhamad Ramadan Saputra",
+  nib: "1709260089791",
+  kbli: "77291 — Penyewaan Peralatan dan Perlengkapan Acara",
+  address:
+    "Jl. Ciwaluya RT.02/RW.08, Kel. Tegallega, Kec. Bogor Tengah, Kota Bogor, Jawa Barat 16127",
+  adminEmail: "ramadan@tetraphoto.com",
+  adminPhone: "+62 896-1138-4767",
+  /** Tanggal berlaku yang ditampilkan di halaman legal. */
+  updated: "26 September 2026",
+} as const;

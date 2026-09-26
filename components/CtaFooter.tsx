@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL } from "@/lib/site";
+import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL, LEGAL } from "@/lib/site";
 import { SocialLinks } from "./SocialIcons";
 import Pic from "./Pic";
 import { AREAS } from "@/lib/areas";
@@ -59,6 +59,9 @@ export default function CtaFooter() {
               <h3>Tetra Photobooth</h3>
               <p>Sewa photobooth premium — Bogor, Jawa Barat</p>
               <p>Melayani Jakarta, Bogor, Depok, Tangerang &amp; Bekasi</p>
+              <p>
+                {LEGAL.owner} · NIB {LEGAL.nib}
+              </p>
             </div>
             <div className="col">
               <h3>Kontak</h3>
@@ -95,6 +98,12 @@ export default function CtaFooter() {
                   Sewa Photobooth {a.name}
                 </a>
               ))}
+            </div>
+            <div className="col">
+              <h3>Legal</h3>
+              <a href="/syarat-ketentuan">Syarat &amp; Ketentuan</a>
+              <a href="/kebijakan-refund">Kebijakan Refund</a>
+              <a href="/privasi">Kebijakan Privasi</a>
             </div>
           </div>
           <div className="brand">

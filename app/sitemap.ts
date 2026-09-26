@@ -15,6 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/galeri",
     ...EVENTS.map((e) => `/photobooth/${e.slug}`),
     ...AREAS.map((a) => `/sewa-photobooth/${a.slug}`),
+    "/syarat-ketentuan",
+    "/kebijakan-refund",
+    "/privasi",
   ];
   return paths.map((path) => ({ url: `https://tetraphoto.com${path}` }));
 }

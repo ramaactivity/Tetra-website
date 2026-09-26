@@ -5097,6 +5097,7 @@ html.reduced .gx-controls {
   border-bottom: 1px solid var(--line);
   padding: 26px 0;
 }
+.area-qa h2,
 .area-qa h3 {
   font-family: var(--disp);
   font-weight: 400;
@@ -5107,6 +5108,10 @@ html.reduced .gx-controls {
   color: var(--ink2);
   line-height: 1.75;
   max-width: 68ch;
+}
+/* Halaman legal menaruh beberapa paragraf dalam satu .area-qa. */
+.area-qa p + p {
+  margin-top: 12px;
 }
 .area-others {
   margin-top: clamp(30px, 5vh, 46px);
