@@ -7,6 +7,19 @@ import { AREAS } from "@/lib/areas";
 const CITIES = AREAS.filter((a) => !a.parent);
 import { PACKAGES, fromPrice, fmtIDR } from "@/lib/pricelist";
 import { WaButton } from "@/components/Wa";
+import {
+  TRANSPORT_SENTENCE,
+  AREA_CLASSIC,
+  MEJA_KURSI,
+  LISTRIK_CLASSIC,
+  PAJAK_NOTE,
+  DURASI_PANJANG_NOTE,
+  BACKDROP_INCLUDE_TEXT,
+  BACKDROP_LUXURY_NOTE,
+  DP_MIN,
+  PELUNASAN,
+  TANPA_CETAK,
+} from "@/lib/facts";
 
 // Halaman harga publik — menjawab query "harga sewa photobooth" yang tidak
 // bisa ditangkap /pricelist (noindex, dibagikan privat via WhatsApp).
@@ -34,27 +47,35 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: "Berapa harga sewa photobooth di Bogor?",
-    a: "Mulai dari Rp 1.500.000 untuk paket Photo Stage 2 jam, dan Rp 2.000.000 untuk Unlimited Photobooth 2 jam dengan cetak tanpa batas. Area Bogor bebas biaya transport.",
+    a: "Mulai dari Rp 1.500.000 untuk paket Photo Stage 2 jam, dan Rp 2.000.000 untuk Unlimited Photobooth 2 jam dengan cetak tanpa batas. Seluruh Jabodetabek bebas biaya transport.",
   },
   {
     q: "Apa yang menentukan harga sewa photobooth?",
-    a: "Empat hal: jenis paket yang dipilih, durasi sewa, jarak lokasi acara dari Bogor, dan layanan tambahan seperti backdrop khusus atau jam extend.",
+    a: "Empat hal: jenis paket yang dipilih, durasi sewa, lokasi acara kalau berada di luar Jabodetabek, dan layanan tambahan seperti backdrop luxury atau jam extend.",
   },
   {
     q: "Apakah harga sudah termasuk cetak foto?",
-    a: "Sudah. Semua paket photobooth kami cetak unlimited selama durasi sewa, jadi tidak ada biaya per lembar. Frame custom, crew, properti, dan softfile juga sudah termasuk.",
+    a: `Untuk paket yang mencetak, ya: cetak unlimited selama durasi sewa tanpa biaya per lembar, lengkap dengan frame custom, crew, properti, dan softfile. Tiga paket memang tidak menghasilkan cetakan fisik karena bentuknya berbeda: ${TANPA_CETAK.join(", ")}. Ketiganya memberi hasil digital yang diunduh tamu lewat QR code.`,
   },
   {
     q: "Ada biaya transport tambahan?",
-    a: "Area Bogor bebas biaya transport. Jakarta, Depok, Tangerang, dan Bekasi menyesuaikan jarak dan lokasi, dan selalu kami sebutkan di penawaran awal, bukan di akhir.",
+    a: TRANSPORT_SENTENCE + " Khusus paket Magazine Box, biaya transport tidak termasuk dan nominalnya kami sebutkan di awal.",
   },
   {
     q: "Ada paket photobooth yang lebih terjangkau?",
     a: "Ada. Photo Stage 2 jam di Rp 1.500.000 adalah titik masuk paling ringan: tamu berfoto lalu mengunduh softfile lewat QR code, tanpa cetak fisik. Kalau yang kamu cari tetap cetakan, Unlimited Photobooth 2 jam di Rp 2.000.000 sudah termasuk cetak tanpa batas.",
   },
   {
+    q: "Harga sudah termasuk pajak?",
+    a: PAJAK_NOTE,
+  },
+  {
+    q: "Bisa sewa lebih dari 8 jam?",
+    a: DURASI_PANJANG_NOTE,
+  },
+  {
     q: "Berapa DP untuk booking?",
-    a: "Tanggal diamankan dengan DP, sisanya dilunasi menjelang hari-H. Nominal dan termin lengkapnya kami kirim bersama pricelist saat kamu chat admin.",
+    a: `Minimal ${DP_MIN}, dan tanggalmu terkunci begitu DP diterima. ${PELUNASAN}.`,
   },
 ];
 
@@ -69,11 +90,11 @@ const AFFECTS = [
   },
   {
     h: "Lokasi acara",
-    p: "Seluruh area Bogor gratis biaya transport, kota maupun kabupaten. Jakarta, Depok, Tangerang, dan Bekasi menyesuaikan jarak, dan angkanya kami sebutkan di awal, bukan di akhir.",
+    p: TRANSPORT_SENTENCE,
   },
   {
     h: "Layanan tambahan",
-    p: "Backdrop khusus, keychain station, jam extend, atau format cetak tambahan dihitung terpisah dan sepenuhnya opsional.",
+    p: "Backdrop luxury, keychain station, jam extend, atau instalasi tambahan dihitung terpisah dan sepenuhnya opsional.",
   },
 ];
 
@@ -141,9 +162,10 @@ export default function HargaPage() {
             &amp; Jabodetabek.
           </h1>
           <p className="gx-lead" data-rv>
-            Mulai Rp 1.500.000. Semua paket sudah termasuk cetak unlimited, frame yang
-            didesain ulang sesuai tema acaramu, crew profesional, dan softfile realtime.
-            Tidak ada biaya cetak per lembar, tidak ada biaya kejutan di akhir.
+            Mulai Rp 1.500.000. Paket cetak memberi lembaran tanpa batas selama durasi
+            sewa, dan semua paket sudah termasuk frame yang didesain ulang sesuai tema
+            acaramu, crew profesional, softfile realtime, serta transport gratis
+            se-Jabodetabek. Tidak ada biaya cetak per lembar, tidak ada biaya kejutan.
           </p>
           <div className="area-cta" data-rv>
             <WaButton label="Cek Jadwal & Harga" />
@@ -186,16 +208,21 @@ export default function HargaPage() {
             Yang sudah <span className="it">termasuk</span> di harganya.
           </h2>
           <p className="lead area-p" data-rv>
-            Cetak foto unlimited selama durasi sewa dalam format 2R photostrip, 4R, atau
-            polaroid-style. Peralatan profesional lengkap: kamera, printer, dan lighting.
-            Dua crew yang menemani tamu sepanjang acara, properti, serta backdrop pilihan.
+            Pada paket cetak: foto unlimited selama durasi sewa dalam format 2R
+            photostrip, 4R, atau polaroid-style, dan ketiganya bisa portrait maupun
+            landscape. Peralatan profesional lengkap: kamera, printer, dan lighting. Dua
+            crew yang menemani tamu sepanjang acara, properti, serta backdrop pilihan.
           </p>
           <p className="lead area-p" data-rv>
             Empat hal yang sering jadi biaya tambahan di tempat lain, di sini gratis:
-            desain frame custom sesuai tema acaramu, properti, backdrop pilihan, dan
-            transport untuk seluruh area Bogor. Softfile realtime lewat QR code serta
-            flashdisk berisi seluruh dokumentasi juga sudah termasuk. Dari pihakmu cukup
-            listrik dan area sekitar 3×3 meter.
+            desain frame custom sesuai tema acaramu, properti, backdrop basic, dan
+            transport untuk seluruh Jabodetabek. Softfile realtime lewat QR code serta
+            flashdisk berisi seluruh dokumentasi juga sudah termasuk.
+          </p>
+          <p className="lead area-p" data-rv>
+            {BACKDROP_INCLUDE_TEXT}. {BACKDROP_LUXURY_NOTE} Dari pihakmu cukup area
+            sekitar {AREA_CLASSIC}, {MEJA_KURSI}, dan sumber listrik {LISTRIK_CLASSIC}
+            di dekat booth.
           </p>
         </div>
       </section>

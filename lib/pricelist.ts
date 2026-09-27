@@ -17,6 +17,21 @@ export const fromPrice = (p: Pkg): number =>
 export const fmtIDR = (n: number): string =>
   "Rp " + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
+import {
+  TRANSPORT_FREE,
+  TRANSPORT_MAGAZINE_EXCLUDED,
+  BACKDROP_INCLUDE_TEXT,
+  SPIN_KAPASITAS,
+  AREA_CLASSIC,
+  LISTRIK_CLASSIC,
+  MEJA_KURSI,
+  LISTRIK_MAGAZINE,
+  PELUNASAN,
+  DP_MIN,
+  CREW_SENTENCE,
+  DURASI_PANJANG_NOTE,
+} from "./facts";
+
 export type Tier = { label: string; price: number };
 export type TermBlock = { title: string; items: string[] };
 
@@ -30,9 +45,6 @@ export type Pkg = {
   /** Collapsible extras: flow/alur, syarat & ketentuan, catatan, etc. */
   extras?: TermBlock[];
 };
-
-const TRANSPORT_BOGOR =
-  "Free transport area Bogor, Jadetabek menyesuaikan jarak dan lokasi";
 
 export const PACKAGES: Pkg[] = [
   {
@@ -57,9 +69,15 @@ export const PACKAGES: Pkg[] = [
       "Crew profesional dan ramah",
       "Desain frame foto custom sesuai acara",
       "Akses softfile real-time via QR code",
-      "Backdrop basic pilihan: merah, gold, silver & lainnya",
+      BACKDROP_INCLUDE_TEXT,
       "Flashdisk kayu berisi seluruh file dokumentasi",
-      TRANSPORT_BOGOR,
+      TRANSPORT_FREE,
+    ],
+    extras: [
+      {
+        title: "Catatan",
+        items: [DURASI_PANJANG_NOTE],
+      },
     ],
   },
   {
@@ -79,13 +97,13 @@ export const PACKAGES: Pkg[] = [
     ],
     includes: [
       "Video 360° berkualitas tinggi menggunakan iPhone",
-      "Platform spin 360 untuk 3–4 orang (maks. 250 kg)",
+      `Platform spin 360 untuk ${SPIN_KAPASITAS}`,
       "Lighting profesional",
       "Template video custom sesuai acara",
       "Pilihan musik sesuai preferensi",
       "Properti seru pilihan",
       "Sharing real-time via Airdrop atau QR code",
-      TRANSPORT_BOGOR,
+      TRANSPORT_FREE,
     ],
   },
   {
@@ -107,7 +125,7 @@ export const PACKAGES: Pkg[] = [
       "Crew profesional dan ramah",
       "Desain frame foto custom sesuai acara",
       "Akses softfile real-time via QR code",
-      "Backdrop basic pilihan: merah, gold, silver & lainnya",
+      BACKDROP_INCLUDE_TEXT,
       "Flashdisk kayu berisi seluruh file dokumentasi",
     ],
     extras: [
@@ -118,11 +136,11 @@ export const PACKAGES: Pkg[] = [
           "Mohon disiapkan area minimal 4×5 meter",
           "Magazine booth hanya untuk indoor",
           "Magazine booth akan dibongkar setelah durasi photobooth selesai",
-          "Sumber listrik terdekat wajib disediakan (±700 watt)",
+          `Sumber listrik terdekat wajib disediakan (${LISTRIK_MAGAZINE})`,
           "Klien menyiapkan 1 meja & 3 kursi untuk kebutuhan operasional",
           "Magazine booth tidak dapat dipindahkan setelah setup",
           "Dekorasi tambahan diperbolehkan selama tidak merusak struktur magazine; kerusakan akan dikenakan biaya penggantian",
-          "Biaya transport, penggantian sticker, dan dekorasi tambahan tidak termasuk dalam package",
+          `${TRANSPORT_MAGAZINE_EXCLUDED}; penggantian sticker dan dekorasi tambahan juga tidak termasuk`,
         ],
       },
     ],
@@ -144,7 +162,7 @@ export const PACKAGES: Pkg[] = [
       {
         title: "Tidak Termasuk",
         items: [
-          "Biaya transport",
+          TRANSPORT_MAGAZINE_EXCLUDED,
           "Biaya penggantian sticker",
           "Dekorasi tambahan",
         ],
@@ -188,7 +206,7 @@ export const PACKAGES: Pkg[] = [
       "Link akses softfile via Drive",
       "Lighting profesional",
       "Crew profesional & ramah untuk mengarahkan tamu",
-      "Free transport area Jabodetabek",
+      TRANSPORT_FREE,
     ],
     extras: [
       {
@@ -225,7 +243,7 @@ export const PACKAGES: Pkg[] = [
       "Link akses softfile via Drive",
       "Lighting profesional",
       "Crew profesional & ramah untuk mengarahkan tamu",
-      "Free transport area Jabodetabek",
+      TRANSPORT_FREE,
     ],
     extras: [
       {
@@ -316,7 +334,7 @@ export const LAYOUTS: Layout[] = [
     name: "Stripe / 2R",
     size: "1200 × 3600 px",
     poses: "2–4 pose",
-    note: "Kolom foto bisa dikustom",
+    note: "Landscape & portrait, kolom foto bisa dikustom",
     img: "/images/g-strip1.jpg",
     shape: "stripe",
   },
@@ -332,6 +350,7 @@ export const LAYOUTS: Layout[] = [
     name: "Polaroid",
     size: "2400 × 1800 px",
     poses: "1–2 pose",
+    note: "Landscape & portrait",
     img: "/images/g-grad1.jpg",
     shape: "polaroid",
   },
@@ -353,12 +372,13 @@ export const BACKDROPS: Backdrop[] = [
   { name: "Gold", css: "linear-gradient(150deg, #b88a3e, #e9cd8e 50%, #9c7634)" },
   { name: "Putih", css: "linear-gradient(150deg, #f4efe6, #ffffff 55%, #e6ddcd)", dark: true },
   { name: "Silver", css: "linear-gradient(150deg, #9aa0a6, #e3e6ea 50%, #888d93)", dark: true },
+  { name: "Hijau Emerald", css: "linear-gradient(150deg, #0b5744, #17886a 52%, #08402f)" },
 ];
 
 export const BOOKING_TERMS: string[] = [
-  "Minimal booking DP sebesar Rp 500.000,-",
+  `Minimal booking DP sebesar ${DP_MIN}`,
   "Melakukan DP sama dengan keep tanggal",
-  "Pelunasan dilakukan maksimal H-3 sebelum acara",
+  PELUNASAN,
   "Pembayaran hanya ke rekening BCA 0954965224 (Muhamad Ramadan Saputra)",
   "Untuk pembayaran melalui wedding / event organizer harap konfirmasi terlebih dahulu maksimal H-7 sebelum pembayaran",
   "Reschedule dapat dilakukan maksimal H-30 sebelum acara dan jika tanggal masih kosong",
@@ -369,13 +389,13 @@ export const TECH_TERMS: TermBlock[] = [
   {
     title: "Area & Perlengkapan",
     items: [
-      "Sediakan area minimal 3 × 4 meter, 2 kursi dan 1 meja, serta pastikan tersedia sumber listrik di area photobooth.",
+      `Sediakan area minimal ${AREA_CLASSIC}, ${MEJA_KURSI}, serta sumber listrik ${LISTRIK_CLASSIC} di dekat area photobooth.`,
     ],
   },
   {
     title: "Kedatangan & Waktu Operasional",
     items: [
-      "Crew photobooth berjumlah 2 orang datang 1 jam sebelum acara untuk persiapan, dan selesai tepat waktu sesuai durasi booking.",
+      `${CREW_SENTENCE}, dan layanan selesai tepat waktu sesuai durasi booking.`,
     ],
   },
   {

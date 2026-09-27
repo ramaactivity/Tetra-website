@@ -3,7 +3,9 @@
 // bernilai untuk pembaca dan aman dari kebijakan doorway-page Google.
 // Fakta yang dipakai di sini harus konsisten dengan klaim di homepage:
 // basis Bogor, transport gratis se-Jabodetabek, setup ±1 jam sebelum acara,
-// butuh listrik + area ±3×3 m.
+// butuh listrik ±500 W + area ±3×4 m.
+
+import { AREA_CLASSIC, LISTRIK_CLASSIC } from "./facts";
 
 export interface AreaFaq {
   q: string;
@@ -44,7 +46,7 @@ export const AREAS: Area[] = [
     lead: "Basis kami memang di Bogor. Dari sinilah tim, kamera, dan printer kami berangkat ke ratusan acara, jadi untuk acaramu di kota hujan, kamilah yang paling dekat.",
     story: [
       "Sewa photobooth di Bogor bersama Tetra berarti tanpa biaya transport sama sekali, jadwal yang lebih fleksibel, dan tim yang hafal medannya: gedung pertemuan di tengah kota, aula sekolah, sampai venue ke arah Sentul dan Puncak.",
-      "Semua paket sudah lengkap: cetak unlimited sekitar 10 detik per lembar, dua kru profesional, properti, dan frame yang kami desain ulang mengikuti tema acaramu. Kamu cukup menyiapkan listrik dan area sekitar 3×3 meter.",
+      `Paket cetak sudah lengkap: cetak unlimited sekitar 10 detik per lembar, dua kru profesional, properti, dan frame yang kami desain ulang mengikuti tema acaramu. Kamu cukup menyiapkan sumber listrik ${LISTRIK_CLASSIC} dan area sekitar ${AREA_CLASSIC}.`,
     ],
     points: [
       {
@@ -149,7 +151,7 @@ export const AREAS: Area[] = [
       },
       {
         h: "Fleksibel di rumah",
-        p: "Booth kami cukup dengan area 3×3 meter, jadi halaman atau garasi rumah untuk acara keluarga pun muat.",
+        p: `Booth kami cukup dengan area ${AREA_CLASSIC}, jadi halaman atau garasi rumah untuk acara keluarga pun muat.`,
       },
     ],
     prints: [
@@ -164,7 +166,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bisa untuk acara di rumah?",
-        a: "Bisa sekali. Kami hanya butuh area sekitar 3×3 meter dekat sumber listrik, satu meja, dan dua kursi. Sisanya kami yang bawa.",
+        a: `Bisa sekali. Kami hanya butuh area sekitar ${AREA_CLASSIC} dekat sumber listrik, satu meja, dan dua kursi. Sisanya kami yang bawa.`,
       },
       {
         q: "Format apa yang cocok untuk wisuda?",
@@ -303,7 +305,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bisa untuk acara outdoor di area bukit?",
-        a: "Bisa, selama ada sumber listrik dan area sekitar 3×3 meter yang terlindung dari hujan. Beri tahu kami kalau lokasinya benar-benar terbuka supaya tim membawa penutup tambahan untuk printer.",
+        a: `Bisa, selama ada sumber listrik dan area sekitar ${AREA_CLASSIC} yang terlindung dari hujan. Beri tahu kami kalau lokasinya benar-benar terbuka supaya tim membawa penutup tambahan untuk printer.`,
       },
       {
         q: "Berapa lama setup di venue Sentul?",
@@ -382,7 +384,7 @@ export const AREAS: Area[] = [
       },
       {
         h: "Cocok untuk villa dan resort",
-        p: "Booth kami muat di teras maupun ruang keluarga villa, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+        p: `Booth kami muat di teras maupun ruang keluarga villa, cukup dengan area sekitar ${AREA_CLASSIC} dan satu sumber listrik.`,
       },
     ],
     prints: [
@@ -397,7 +399,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bagaimana kalau acaranya di villa tanpa ballroom?",
-        a: "Tidak masalah. Booth kami hanya butuh area sekitar 3×3 meter, dan sering kami pasang di teras atau ruang keluarga villa.",
+        a: `Tidak masalah. Booth kami hanya butuh area sekitar ${AREA_CLASSIC}, dan sering kami pasang di teras atau ruang keluarga villa.`,
       },
       {
         q: "Cetakan aman di udara dingin dan lembap?",
@@ -448,7 +450,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bisa untuk acara kecil di rumah?",
-        a: "Bisa. Kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, dan banyak acara rumahan yang kami kerjakan berlangsung di ruang tamu atau halaman.",
+        a: `Bisa. Kami hanya butuh area sekitar ${AREA_CLASSIC} dan satu sumber listrik, dan banyak acara rumahan yang kami kerjakan berlangsung di ruang tamu atau halaman.`,
       },
     ],
   },
@@ -495,7 +497,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bisa untuk resepsi di restoran atau vila kecil?",
-        a: "Bisa. Booth kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, jadi muat di teras restoran maupun ruang keluarga vila.",
+        a: `Bisa. Booth kami hanya butuh area sekitar ${AREA_CLASSIC} dan satu sumber listrik, jadi muat di teras restoran maupun ruang keluarga vila.`,
       },
     ],
   },
@@ -510,7 +512,7 @@ export const AREAS: Area[] = [
     lead: "Dramaga hidup oleh kalender kampus. Musim wisuda dan sidang membawa ratusan orang yang ingin berfoto dalam waktu yang sama sempitnya, dan booth kami memang dirancang untuk beban itu.",
     story: [
       "Kawasan Dramaga dan Bogor Barat berputar mengikuti ritme IPB. Wisuda, sidang, pelepasan angkatan, dan syukuran keluarga menumpuk di bulan-bulan tertentu, dan kami sudah terbiasa dengan pola antreannya: ramai serentak setelah prosesi, lalu mengalir sampai acara ditutup.",
-      "Di luar kampus, Dramaga, Ciampea, dan Cibungbulang penuh resepsi keluarga yang berlangsung di rumah atau tenda halaman. Booth kami sama mudahnya dipasang di aula kampus maupun di halaman rumah, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+      `Di luar kampus, Dramaga, Ciampea, dan Cibungbulang penuh resepsi keluarga yang berlangsung di rumah atau tenda halaman. Booth kami sama mudahnya dipasang di aula kampus maupun di halaman rumah, cukup dengan area sekitar ${AREA_CLASSIC} dan satu sumber listrik.`,
     ],
     points: [
       {
@@ -566,7 +568,7 @@ export const AREAS: Area[] = [
       },
       {
         h: "Cocok untuk acara cluster",
-        p: "Clubhouse, taman perumahan, dan halaman rumah semuanya cukup, asal ada listrik dan area sekitar 3×3 meter.",
+        p: `Clubhouse, taman perumahan, dan halaman rumah semuanya cukup, asal ada listrik dan area sekitar ${AREA_CLASSIC}.`,
       },
       {
         h: "Siap untuk gedung besar",
@@ -585,7 +587,7 @@ export const AREAS: Area[] = [
       },
       {
         q: "Bisa untuk acara di clubhouse perumahan?",
-        a: "Bisa, dan cukup sering kami kerjakan. Kami hanya butuh area sekitar 3×3 meter dekat sumber listrik.",
+        a: `Bisa, dan cukup sering kami kerjakan. Kami hanya butuh area sekitar ${AREA_CLASSIC} dekat sumber listrik.`,
       },
       {
         q: "Melayani juga Cimanggis dan Jatisampurna?",
@@ -660,7 +662,7 @@ export const AREAS: Area[] = [
       },
       {
         h: "Siap untuk resepsi rumahan",
-        p: "Booth kami muat di tenda halaman maupun ruang tamu, cukup dengan area sekitar 3×3 meter dan satu sumber listrik.",
+        p: `Booth kami muat di tenda halaman maupun ruang tamu, cukup dengan area sekitar ${AREA_CLASSIC} dan satu sumber listrik.`,
       },
       {
         h: "Tetap jalan meski tamu bergelombang",
@@ -675,7 +677,7 @@ export const AREAS: Area[] = [
     faq: [
       {
         q: "Bisa untuk resepsi di rumah dengan tenda halaman?",
-        a: "Bisa, dan itu yang paling sering kami kerjakan di area ini. Kami hanya butuh area sekitar 3×3 meter yang terlindung dan satu sumber listrik.",
+        a: `Bisa, dan itu yang paling sering kami kerjakan di area ini. Kami hanya butuh area sekitar ${AREA_CLASSIC} yang terlindung dan satu sumber listrik.`,
       },
       {
         q: "Apakah Sawangan lebih murah transportnya dibanding Depok kota?",

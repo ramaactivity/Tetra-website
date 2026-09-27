@@ -182,3 +182,31 @@ Pesan terisi dibaca bot admin (`~/tetra-wa-bot/src/lib/smartLead.js` →
 parser bot. Pesan tidak boleh memuat `&`, `#`, `+`, `%`, atau emoji: browser
 dalam aplikasi Instagram/TikTok men-decode ulang link `wa.me` sehingga `&`
 memotong pesan. Dijaga oleh `npm run check`.
+
+
+---
+
+## Fakta layanan: satu sumber di `lib/facts.ts` (27 Sep 2026)
+
+Fakta yang muncul di lebih dari satu halaman TIDAK lagi ditulis ulang per
+halaman. Semuanya diambil dari `lib/facts.ts` dan dirujuk oleh halaman, FAQ,
+JSON-LD, serta metadata. Kalau sebuah angka berubah, ubah di sana saja.
+
+| Fakta | Nilai berlaku |
+|---|---|
+| Transport | Gratis seluruh Jabodetabek (Bogor, Jakarta, Depok, Tangerang, Bekasi) untuk Unlimited Photobooth, 360° Spin, dan Photo Stage. **Magazine Box: transport tidak termasuk.** Di luar Jabodetabek ada biaya transport, nominal dari admin. |
+| Backdrop basic (gratis) | Putih, Merah, Gold, Silver, Hijau Emerald. Hitam sudah tidak ada. Luxury/tema khusus berbiaya tambahan; dekorasi sendiri diperbolehkan. |
+| Area & listrik (Classic, Photo Stage) | 3 × 4 meter, 1 meja dan 2 kursi, listrik ±500 watt. |
+| Area 360° Spin | 3 × 3 meter, langit-langit tinggi, 2–4 orang, maks. 250 kg. |
+| Area Magazine Box | 4 × 5 meter, ±700 watt, indoor (Magazine Box Only ±100 watt). |
+| DP | Minimal Rp 500.000; tanggal terkunci setelah DP diterima. |
+| Pelunasan | Paling lambat H-1 sebelum acara. |
+| Crew & setup | 2 crew, datang paling lambat 1 jam sebelum acara, setup ±30 menit. |
+| Format cetak | 2R photostrip, 4R, Polaroid — harga sama, semuanya bisa portrait maupun landscape. |
+| Durasi > 8 jam | Paket 8 jam + Rp 500.000 per jam tambahan. |
+| Extend di hari H | Rp 500.000 per jam. |
+| Pajak | Belum termasuk pajak (usaha perorangan non-PKP). Kalau perlu dicantumkan: gross up 2,5%, ditanggung klien. |
+| Paket tanpa cetak fisik | 360° Spin Video Booth, Photo Stage Only, Magazine Box Only. |
+
+Jangan menulis "semua paket cetak unlimited" — tiga paket di atas tidak
+menghasilkan cetakan fisik.

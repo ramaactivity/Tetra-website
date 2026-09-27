@@ -3,6 +3,15 @@ import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
 import { LEGAL, EMAIL, waLink, waMessage } from "@/lib/site";
+import {
+  AREA_CLASSIC,
+  LISTRIK_CLASSIC,
+  MEJA_KURSI,
+  AREA_MAGAZINE,
+  LISTRIK_MAGAZINE,
+  DP_MIN,
+  CREW_SENTENCE,
+} from "@/lib/facts";
 
 // Halaman legal. Isinya diturunkan dari ketentuan yang sudah dikirim ke klien
 // lewat pricelist PDF, supaya tidak ada versi ketentuan yang berbeda-beda.
@@ -46,8 +55,8 @@ const SECTIONS: { h: string; p: string[] }[] = [
   {
     h: "3. Pemesanan dan pembayaran acara",
     p: [
-      "Tanggal acara diamankan dengan uang muka (DP) minimal Rp 500.000. Tanggal baru dianggap terkunci setelah DP diterima, bukan pada saat tanya-jawab ketersediaan.",
-      "Pelunasan dilakukan paling lambat 3 (tiga) hari sebelum acara. Pembayaran melalui transfer bank ke rekening resmi atas nama pemilik usaha; detail rekening diberikan bersama invoice, bukan di halaman publik ini.",
+      `Tanggal acara diamankan dengan uang muka (DP) minimal ${DP_MIN}. Tanggal baru dianggap terkunci setelah DP diterima, bukan pada saat tanya-jawab ketersediaan.`,
+      "Pelunasan dilakukan paling lambat 1 (satu) hari sebelum acara. Pembayaran melalui transfer bank ke rekening resmi atas nama pemilik usaha; detail rekening diberikan bersama invoice, bukan di halaman publik ini.",
       "Untuk pembayaran yang diproses melalui wedding organizer atau event organizer, harap dikonfirmasikan terlebih dahulu paling lambat 7 (tujuh) hari sebelum pembayaran dilakukan.",
     ],
   },
@@ -61,7 +70,7 @@ const SECTIONS: { h: string; p: string[] }[] = [
   {
     h: "5. Kewajiban penyewa dan venue",
     p: [
-      "Penyewa menyediakan area minimal 3 × 4 meter, 1 (satu) meja dan 2 (dua) kursi, serta sumber listrik yang memadai di area photobooth. Khusus paket Magazine Box, dibutuhkan area minimal 4 × 5 meter, daya listrik sekitar 700 watt, dan penempatan hanya di dalam ruangan.",
+      `Penyewa menyediakan area minimal ${AREA_CLASSIC}, ${MEJA_KURSI}, serta sumber listrik ${LISTRIK_CLASSIC} di dekat area photobooth. Khusus paket Magazine Box, dibutuhkan area minimal ${AREA_MAGAZINE}, daya listrik ${LISTRIK_MAGAZINE}, dan penempatan hanya di dalam ruangan.`,
       "Untuk lokasi terbuka, area photobooth tidak boleh terkena sinar matahari langsung. Penyewa wajib menyediakan tenda atau pelindung, serta lokasi alternatif apabila turun hujan.",
       "Penyewa juga memastikan akses masuk dan jalur loading peralatan tersedia, serta memberikan nomor kontak penanggung jawab (PIC, panitia, atau event organizer) yang dapat dihubungi selama acara berlangsung.",
     ],
@@ -69,7 +78,7 @@ const SECTIONS: { h: string; p: string[] }[] = [
   {
     h: "6. Pelaksanaan acara",
     p: [
-      "Dua orang crew tiba sekitar 1 (satu) jam sebelum acara untuk persiapan, dan layanan berakhir tepat sesuai durasi yang dipesan. Khusus acara pernikahan, tersedia sesi khusus pengantin selama 15 menit.",
+      `${CREW_SENTENCE}, dan layanan berakhir tepat sesuai durasi yang dipesan. Khusus acara pernikahan, tersedia sesi khusus pengantin selama 15 menit.`,
       "Setelah peralatan terpasang, peralatan tidak dapat dipindahkan. Apabila pemindahan terpaksa dilakukan, durasi layanan tetap mengikuti waktu pemesanan dan tidak dapat dijeda maupun diperpanjang.",
       "Penambahan waktu, perubahan jadwal pada hari pelaksanaan, maupun waktu istirahat (break time) wajib diinformasikan terlebih dahulu kepada crew.",
     ],

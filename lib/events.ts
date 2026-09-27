@@ -3,7 +3,9 @@
 // punya niat beli tinggi tapi sebelumnya numpuk di homepage.
 // Aturan sama dengan areas.ts: copy ditulis unik per acara, bukan template
 // ganti-nama, dan faktanya konsisten dengan homepage — basis Bogor, transport
-// gratis se-Bogor, setup ±1 jam sebelum acara, butuh listrik + area ±3×3 m.
+// gratis se-Jabodetabek, setup ±1 jam sebelum acara, butuh listrik ±500 W + area ±3×4 m.
+
+import { AREA_CLASSIC } from "./facts";
 
 import type { GalleryCategory } from "./gallery";
 
@@ -72,7 +74,7 @@ export const EVENTS: EventKind[] = [
       },
       {
         q: "Apakah photobooth mengganggu dekorasi pelaminan?",
-        a: "Tidak. Kami hanya butuh area sekitar 3×3 meter di sisi ruangan dekat sumber listrik. Kalau dekorasimu punya area khusus, backdrop bawaan kami bisa dilepas agar menyatu dengan dekorasi venue.",
+        a: `Tidak. Kami hanya butuh area sekitar ${AREA_CLASSIC} di sisi ruangan dekat sumber listrik. Kalau dekorasimu punya area khusus, backdrop bawaan kami bisa dilepas agar menyatu dengan dekorasi venue.`,
       },
       {
         q: "Bisa untuk akad, engagement, atau siraman?",
@@ -118,7 +120,7 @@ export const EVENTS: EventKind[] = [
       },
       {
         q: "Bisa untuk ulang tahun di rumah?",
-        a: "Bisa. Kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik. Banyak acara ulang tahun yang kami kerjakan berlangsung di ruang tamu atau halaman rumah.",
+        a: `Bisa. Kami hanya butuh area sekitar ${AREA_CLASSIC} dan satu sumber listrik. Banyak acara ulang tahun yang kami kerjakan berlangsung di ruang tamu atau halaman rumah.`,
       },
       {
         q: "Frame-nya bisa disesuaikan tema pesta?",

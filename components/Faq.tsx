@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AREA_CLASSIC, LISTRIK_CLASSIC, MEJA_KURSI } from "@/lib/facts";
 
 const ITEMS = [
   {
@@ -17,7 +18,7 @@ const ITEMS = [
   },
   {
     q: "Butuh apa aja dari kami?",
-    a: "Cukup lokasi dekat sumber listrik dan area sekitar 3×3 meter, plus satu meja dan dua kursi. Sisanya — booth, properti, operator — kami yang bawa.",
+    a: `Cukup area sekitar ${AREA_CLASSIC} dengan sumber listrik ${LISTRIK_CLASSIC} di dekatnya, plus ${MEJA_KURSI}. Sisanya — booth, properti, operator — kami yang bawa.`,
   },
   {
     q: "Hasil cetaknya awet?",
