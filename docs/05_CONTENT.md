@@ -207,6 +207,8 @@ JSON-LD, serta metadata. Kalau sebuah angka berubah, ubah di sana saja.
 | Extend di hari H | Rp 500.000 per jam. |
 | Pajak | Belum termasuk pajak (usaha perorangan non-PKP). Kalau perlu dicantumkan: gross up 2,5%, ditanggung klien. |
 | Paket tanpa cetak fisik | 360° Spin Video Booth, Photo Stage Only, Magazine Box Only. |
+| Add-on | Photomagnet 50 cetak Rp 650.000. Nama yang benar **Custom Sleeve** 1.000 lembar (bukan "Costume"). Keychain Photobooth Station Rp 10.000/pcs, minimal 100 pcs. |
+| Kapasitas foto (Classic) | Sampai 10 orang lebih sekali foto, tergantung luas area; disesuaikan lewat lensa. |
 
 Jangan menulis "semua paket cetak unlimited" — tiga paket di atas tidak
 menghasilkan cetakan fisik.

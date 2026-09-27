@@ -103,6 +103,7 @@ export default function PricelistPage() {
               <h3 className="pl-keychain-name">{KEYCHAIN.name}</h3>
               <p className="lead pl-keychain-blurb">{KEYCHAIN.blurb}</p>
               <div className="pl-keychain-price">{KEYCHAIN.priceLabel}</div>
+              <p className="pl-keychain-min">{KEYCHAIN.minNote}</p>
             </article>
 
             <article className="pl-addons-card" data-rv>

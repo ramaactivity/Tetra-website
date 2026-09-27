@@ -270,6 +270,8 @@ export const PACKAGES: Pkg[] = [
 export const KEYCHAIN = {
   name: "Keychain Photobooth Station",
   priceLabel: "10K / pcs",
+  /** Booth keychain hanya dibuka mulai 100 pcs. */
+  minNote: "Minimal 100 pcs",
   blurb:
     "Experience seru membuat gantungan kunci. Booth khusus keychain, frame akrilik variatif, pilihan gantungan & aksesoris, didukung crew ramah dan profesional.",
 };
@@ -359,10 +361,10 @@ export const LAYOUTS: Layout[] = [
 export const ADDITIONAL: Tier[] = [
   { label: "Voucher photobooth 100 pcs", price: 25000 },
   { label: "Guest book photo 25 lembar", price: 200000 },
-  { label: "Photomagnet 50 cetak", price: 350000 },
+  { label: "Photomagnet 50 cetak", price: 650000 },
   { label: "Break time / 1 jam", price: 150000 },
   { label: "Album photostripe 20 halaman", price: 100000 },
-  { label: "Costume sleeve 1000 lembar", price: 1500000 },
+  { label: "Custom sleeve 1000 lembar", price: 1500000 },
 ];
 
 export type Backdrop = { name: string; css: string; dark?: boolean };

@@ -4217,6 +4217,14 @@ header nav a.lnk:hover .roll span {
   color: var(--gold2);
   margin-top: 18px;
 }
+/* Syarat minimum di bawah harga keychain — kecil, tidak menyaingi angkanya. */
+.pl-keychain-min {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
 .pl-addons-card {
   background: var(--paper2);
   border: 1px solid var(--line);
