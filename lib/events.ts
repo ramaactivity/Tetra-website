@@ -27,8 +27,6 @@ export interface EventKind {
   /** Kategori galeri yang ditampilkan; kosong berarti tidak ada strip galeri */
   gallery: GalleryCategory | null;
   faq: EventFaq[];
-  /** Kalimat pembuka chat WhatsApp dari halaman ini */
-  waIntro: string;
 }
 
 export const EVENTS: EventKind[] = [
@@ -81,8 +79,6 @@ export const EVENTS: EventKind[] = [
         a: "Bisa. Paket yang sama berlaku untuk seluruh rangkaian acara pernikahan, termasuk lamaran, siraman, dan unduh mantu.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya dari halaman photobooth wedding di website Tetra.\nBoleh dibantu cek ketersediaan tanggal & rekomendasi paket untuk resepsi saya?",
   },
   {
     slug: "ulang-tahun",
@@ -133,8 +129,6 @@ export const EVENTS: EventKind[] = [
         a: "Ada. Keychain station membuat tamu bisa membawa pulang gantungan kunci berisi fotonya sendiri, dan 360° spin booth merekam video pendek yang langsung bisa dibagikan ke media sosial.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya dari halaman photobooth ulang tahun di website Tetra.\nBoleh dibantu cek ketersediaan tanggal & rekomendasi paket untuk pesta saya?",
   },
   {
     slug: "wisuda",
@@ -185,8 +179,6 @@ export const EVENTS: EventKind[] = [
         a: "Sebutkan sejak awal dan kami sesuaikan konfigurasi perangkatnya. Kebutuhan daya kami tidak besar, tapi lebih baik kami tahu sebelum hari-H daripada menyesuaikan di lokasi.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya dari halaman photobooth wisuda di website Tetra.\nBoleh dibantu cek ketersediaan tanggal & rekomendasi paket untuk acara wisuda kami?",
   },
   {
     slug: "corporate-event",
@@ -237,8 +229,6 @@ export const EVENTS: EventKind[] = [
         a: "Gathering dan malam penghargaan umumnya mengambil empat sampai enam jam. Untuk aktivasi yang berlangsung sepanjang hari, paket delapan jam adalah pilihan yang paling masuk akal.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya dari halaman photobooth corporate event di website Tetra.\nBoleh dibantu dikirimkan penawaran untuk acara perusahaan kami?",
   },
   {
     slug: "360-spin-booth",
@@ -289,8 +279,6 @@ export const EVENTS: EventKind[] = [
         a: "Paket 360° menghasilkan video, bukan cetakan. Kalau tamu ingin membawa pulang lembaran fisik juga, gabungkan dengan paket Unlimited Photobooth dalam satu acara.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya dari halaman 360 photobooth di website Tetra.\nBoleh dibantu cek ketersediaan tanggal & harga paket 360° spin booth?",
   },
 ];
 

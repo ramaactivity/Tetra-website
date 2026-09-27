@@ -7,7 +7,7 @@ import Pic from "@/components/Pic";
 import { EVENTS, getEvent } from "@/lib/events";
 import { GALLERY } from "@/lib/gallery";
 import { AREAS } from "@/lib/areas";
-import { waLink, waMessage } from "@/lib/site";
+import { WaButton } from "@/components/Wa";
 
 // Halaman layanan per jenis acara — SEO untuk query "photobooth wedding",
 // "photobooth ulang tahun", "sewa 360 photobooth", dst. Statis penuh.
@@ -78,7 +78,6 @@ export default async function EventPage({ params }: Props) {
 
   const others = EVENTS.filter((e) => e.slug !== ev.slug);
   const shots = ev.gallery ? GALLERY.filter((g) => g.cat === ev.gallery).slice(0, 3) : [];
-  const wa = waLink(waMessage(ev.waIntro));
 
   return (
     <>
@@ -105,9 +104,7 @@ export default async function EventPage({ params }: Props) {
             {ev.lead}
           </p>
           <div className="area-cta" data-rv>
-            <a className="btn fill" href={wa} target="_blank" rel="noopener noreferrer">
-              Tanya Paket &amp; Harga
-            </a>
+            <WaButton label="Cek Jadwal & Harga" acara={ev.name} />
             <a className="btn" href="/harga-sewa-photobooth">
               Lihat Harga
             </a>

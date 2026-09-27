@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check": "node scripts/check-wa-message.mts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

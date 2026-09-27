@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { waLink } from "@/lib/site";
+import { WaButton } from "./Wa";
 import { SocialLinks } from "./SocialIcons";
 
 const NAV = [
@@ -53,9 +53,7 @@ export default function Header() {
             )
           )}
           <SocialLinks className="hdr-socials" />
-          <a className="btn fill" href={waLink()} target="_blank" rel="noopener noreferrer">
-            Chat Admin
-          </a>
+          <WaButton label="Chat Admin" />
         </nav>
       </div>
     </header>

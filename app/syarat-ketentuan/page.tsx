@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
-import { LEGAL, EMAIL, WA_NUMBER } from "@/lib/site";
+import { LEGAL, EMAIL, waLink, waMessage } from "@/lib/site";
 
 // Halaman legal. Isinya diturunkan dari ketentuan yang sudah dikirim ke klien
 // lewat pricelist PDF, supaya tidak ada versi ketentuan yang berbeda-beda.
@@ -174,7 +174,7 @@ export default function SyaratKetentuanPage() {
               <h2>13. Kontak</h2>
               <p>
                 Pertanyaan umum, pemesanan, dan bantuan selama acara:{" "}
-                <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener noreferrer">
+                <a href={waLink(waMessage({ halaman: "Syarat Ketentuan" }))} target="_blank" rel="noopener noreferrer">
                   WhatsApp 0852-1352-6630
                 </a>{" "}
                 atau <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.

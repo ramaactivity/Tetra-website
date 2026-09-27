@@ -1,4 +1,4 @@
-import { waLink } from "@/lib/site";
+import { WaButton } from "./Wa";
 import FluidBg from "./hero/FluidBg";
 import PrintStack from "./hero/PrintStack";
 
@@ -30,14 +30,7 @@ export default function Hero() {
             instan. Memori nyata yang beneran disimpan para tamu.
           </p>
           <div className="cta" id="hc">
-            <a
-              className="btn fill"
-              href={waLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Tanya Paket &amp; Harga
-            </a>
+            <WaButton label="Cek Jadwal & Harga" />
             <a className="btn" href="#galeri" data-scroll="#galeri">
               Lihat Galeri
             </a>

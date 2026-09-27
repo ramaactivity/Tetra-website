@@ -6,7 +6,7 @@ import { AREAS } from "@/lib/areas";
 
 const CITIES = AREAS.filter((a) => !a.parent);
 import { PACKAGES, fromPrice, fmtIDR } from "@/lib/pricelist";
-import { waLink, waMessage } from "@/lib/site";
+import { WaButton } from "@/components/Wa";
 
 // Halaman harga publik — menjawab query "harga sewa photobooth" yang tidak
 // bisa ditangkap /pricelist (noindex, dibagikan privat via WhatsApp).
@@ -117,12 +117,6 @@ const jsonLd = [
   },
 ];
 
-const wa = waLink(
-  waMessage(
-    "Halo Tetra Photobooth!\n\nSaya lihat halaman harga di website Tetra dan mau tanya paket yang paling cocok buat acara saya.\nBoleh dibantu cek ketersediaan tanggalnya?"
-  )
-);
-
 export default function HargaPage() {
   return (
     <>
@@ -152,11 +146,9 @@ export default function HargaPage() {
             Tidak ada biaya cetak per lembar, tidak ada biaya kejutan di akhir.
           </p>
           <div className="area-cta" data-rv>
-            <a className="btn fill" href={wa} target="_blank" rel="noopener noreferrer">
+            <WaButton label="Cek Jadwal & Harga" />
+            <a className="btn" href="/pricelist">
               Minta Pricelist Lengkap
-            </a>
-            <a className="btn" href="/galeri">
-              Lihat Galeri
             </a>
           </div>
         </div>

@@ -5,7 +5,7 @@ import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
 import Pic from "@/components/Pic";
 import { AREAS, getArea } from "@/lib/areas";
-import { waLink, waMessage } from "@/lib/site";
+import { WaButton } from "@/components/Wa";
 
 // Halaman area layanan — SEO lokal per kota. Statis penuh.
 export const dynamicParams = false;
@@ -75,7 +75,6 @@ export default async function AreaPage({ params }: Props) {
   // Sesama level saja: kota utama saling menautkan, sub-area saling menautkan.
   const others = AREAS.filter((a) => a.slug !== area.slug && a.parent === area.parent);
   const subs = AREAS.filter((a) => a.parent === area.slug);
-  const wa = waLink(waMessage(area.waIntro));
 
   return (
     <>
@@ -102,9 +101,7 @@ export default async function AreaPage({ params }: Props) {
             {area.lead}
           </p>
           <div className="area-cta" data-rv>
-            <a className="btn fill" href={wa} target="_blank" rel="noopener noreferrer">
-              Tanya Paket &amp; Harga
-            </a>
+            <WaButton label="Cek Jadwal & Harga" lokasi={area.name} />
             <a className="btn" href="/galeri">
               Lihat Galeri
             </a>

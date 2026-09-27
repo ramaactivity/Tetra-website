@@ -1,4 +1,5 @@
-import { waLink, INSTAGRAM_URL, TIKTOK_URL } from "@/lib/site";
+import { INSTAGRAM_URL, TIKTOK_URL } from "@/lib/site";
+import { WaButton } from "./Wa";
 
 // Shared inline SVGs so the social links render consistently in the header,
 // the Kilas Momen band, and the footer without an icon-font dependency.
@@ -45,9 +46,9 @@ export function SocialLinks({ className = "" }: { className?: string }) {
       <a href={TIKTOK_URL} target="_blank" rel="noopener noreferrer" aria-label="TikTok Tetra Photobooth">
         <TiktokIcon />
       </a>
-      <a href={waLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Tetra Photobooth">
+      <WaButton label="" className="" ariaLabel="Chat Admin Tetra di WhatsApp">
         <WaIcon />
-      </a>
+      </WaButton>
     </div>
   );
 }

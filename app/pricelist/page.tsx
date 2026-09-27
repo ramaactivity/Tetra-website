@@ -5,7 +5,7 @@ import Pic from "@/components/Pic";
 import PriceNav from "@/components/pricelist/PriceNav";
 import PackageBlock from "@/components/pricelist/PackageBlock";
 import StickyActions from "@/components/pricelist/StickyActions";
-import { waLink, waMessage } from "@/lib/site";
+import { WaButton } from "@/components/Wa";
 import {
   PACKAGES,
   KEYCHAIN,
@@ -27,12 +27,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const WA_BOOK = waLink(
-  waMessage(
-    "Halo Tetra Photobooth!\n\nSaya dari website Tetra dan mau tanya & booking paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
-  )
-);
-
 export default function PricelistPage() {
   return (
     <>
@@ -53,9 +47,7 @@ export default function PricelistPage() {
               untuk acaramu, lalu amankan tanggalmu bareng admin kami.
             </p>
             <div className="pl-hero-actions" data-rv>
-              <a className="btn fill" href={WA_BOOK} target="_blank" rel="noopener noreferrer">
-                Booking via WhatsApp
-              </a>
+              <WaButton label="Booking via WhatsApp" />
               <a className="btn" href={PDF_URL} download={PDF_NAME}>
                 Download PDF
               </a>

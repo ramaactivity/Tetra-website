@@ -4,27 +4,107 @@
 export const WA_NUMBER =
   process.env.NEXT_PUBLIC_WA_NUMBER ?? "6285213526630"; // 0852-1352-6630 → international
 
-// Pre-filled WhatsApp handoff. The intro varies by where the visitor tapped
-// (paket / galeri / generic); the "Detail acara" form stays identical so the
-// auto-reply bot always gets the same three fields back in the same shape.
-// NOTE: no emoji here — emoji passed through the wa.me deep link gets mangled
-// into U+FFFD on handoff to the WhatsApp app. Bot replies (sent server-side)
-// can still use emoji; this prefilled text must stay plain.
-const WA_FORM =
-  "\n\nDetail acara:\n• Jenis acara   :\n• Tanggal acara :\n• Lokasi/venue  :\n\nTerima kasih, ditunggu infonya ya!";
+// ---------------------------------------------------------------------------
+// Pesan WhatsApp terisi.
+//
+// Pesan ini dibaca bot admin Tetra (~/tetra-wa-bot → parseWebsite). Label dan
+// kalimat penanda "Saya dari website Tetra (halaman ...)" adalah KONTRAK:
+// mengubahnya di sini mewajibkan parser bot ikut diubah.
+//
+// Dua aturan keras:
+//  1. Tanpa emoji — emoji lewat deep link wa.me berubah jadi U+FFFD.
+//  2. Tanpa & # + % — browser dalam aplikasi Instagram/TikTok men-decode ulang
+//     link wa.me, sehingga `&` dibaca sebagai pemisah query dan pesan terpotong
+//     di situ. Ini penyebab pesan buntung yang diterima bot selama Jun–Sep 2026.
+// ---------------------------------------------------------------------------
 
-/** Build the pre-filled chat body from a context-specific opening line. */
-export function waMessage(
-  intro: string = "Halo Tetra Photobooth!\n\nSaya dari website Tetra dan tertarik sama paket photobooth-nya.\nBoleh dibantu cek ketersediaan & rekomendasi paket buat acara saya?"
-): string {
-  return intro + WA_FORM;
+export type WaDetail = {
+  /** Halaman asal, mis. "Beranda", "Harga", "Wedding", "Area Bogor". */
+  halaman: string;
+  paket?: string;
+  acara?: string;
+  /** Sudah diformat, mis. "Sabtu, 28 November 2026". */
+  tanggal?: string;
+  /** Sudah diformat, mis. "18.00 - 21.00". */
+  jam?: string;
+  lokasi?: string;
+  tamu?: string;
+  nama?: string;
+};
+
+/** Buang karakter yang merusak deep link, ratakan jadi satu baris, potong 80. */
+export function sanitize(value: string): string {
+  return value
+    .replace(/&/g, "dan")
+    .replace(/\+/g, "plus")
+    .replace(/[#%]/g, "")
+    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80)
+    .trim();
 }
 
-export const WA_DEFAULT_MESSAGE = waMessage();
+// Urutan baris ikut kontrak bot.
+const WA_LABELS: [keyof Omit<WaDetail, "halaman">, string][] = [
+  ["acara", "Acara"],
+  ["tanggal", "Tanggal"],
+  ["jam", "Jam photobooth"],
+  ["lokasi", "Lokasi"],
+  ["tamu", "Jumlah tamu"],
+  ["paket", "Paket"],
+  ["nama", "Nama"],
+];
 
-/** Build a WhatsApp chat deep link with a prefilled message. */
-export function waLink(message: string = WA_DEFAULT_MESSAGE): string {
+/** Susun pesan WA. Baris tanpa isi tidak ditulis sama sekali. */
+export function waMessage(detail: WaDetail): string {
+  const halaman = sanitize(detail.halaman) || "Beranda";
+  const pembuka =
+    "Halo Tetra Photobooth!\n" +
+    `Saya dari website Tetra (halaman ${halaman}) dan mau cek ketersediaan serta rekomendasi paket.`;
+
+  const baris = WA_LABELS.map(([key, label]) => {
+    const raw = detail[key];
+    const value = raw ? sanitize(raw) : "";
+    return value ? `${label}: ${value}` : "";
+  }).filter(Boolean);
+
+  return baris.length ? `${pembuka}\n\n${baris.join("\n")}` : pembuka;
+}
+
+/** Deep link WhatsApp dengan pesan terisi. */
+export function waLink(message: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * Nama halaman untuk pesan WA, diturunkan dari pathname supaya tombol di
+ * header/footer menyebut halaman yang sama dengan tombol utama di badan
+ * halaman. Sengaja tidak mengimpor lib/events.ts atau lib/areas.ts — keduanya
+ * besar dan akan ikut terbawa ke bundle klien.
+ */
+export function halamanDariPath(pathname: string): string {
+  const path = pathname.replace(/\/+$/, "");
+  if (!path || path === "/") return "Beranda";
+
+  const judul = (slug: string) =>
+    slug
+      .split("-")
+      .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+      .join(" ");
+
+  const acara = path.match(/^\/photobooth\/([^/]+)/);
+  if (acara) return judul(acara[1]);
+
+  const area = path.match(/^\/sewa-photobooth\/([^/]+)/);
+  if (area) return `Area ${judul(area[1])}`;
+
+  const tetap: Record<string, string> = {
+    "/harga-sewa-photobooth": "Harga",
+    "/pricelist": "Pricelist",
+    "/galeri": "Galeri",
+  };
+  return tetap[path] ?? judul(path.slice(1).replace(/\//g, "-"));
 }
 
 export const INSTAGRAM_HANDLE = "@tetraphotobooth";

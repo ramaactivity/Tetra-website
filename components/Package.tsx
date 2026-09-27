@@ -1,7 +1,7 @@
 // PAKET — "Yang kamu dapat di acaramu". Editorial split: copy + a manifest-style
 // checklist (deliberately NOT an icon-title-subtitle card grid, per PRODUCT.md
 // anti-references). Scope is shown; price stays off the page → WhatsApp.
-import { waLink } from "@/lib/site";
+import { WaButton } from "./Wa";
 
 const INCLUDES = [
   { t: "Foto & cetak unlimited", s: "Bebas foto sepuasnya; tiap hasil langsung dicetak di tempat dengan sleeve frame." },
@@ -11,9 +11,6 @@ const INCLUDES = [
   { t: "File digital lengkap", s: "QR download di tempat + semua file di flashdisk kayu eksklusif." },
   { t: "Transport gratis", s: "Tanpa biaya perjalanan untuk seluruh area Jabodetabek." },
 ];
-
-const PKG_MSG =
-  "Halo Tetra, saya mau tanya detail paket dan cek ketersediaan tanggal untuk acara saya...";
 
 export default function Package() {
   return (
@@ -33,14 +30,7 @@ export default function Package() {
             Booking sekarang sebelum penuh.
           </p>
           <div className="pkg-cta" data-rv>
-            <a
-              className="btn fill"
-              href={waLink(PKG_MSG)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Tanya Paket &amp; Harga
-            </a>
+            <WaButton label="Cek Jadwal & Harga" />
             <a className="btn" href="/harga-sewa-photobooth">
               Lihat Harga
             </a>

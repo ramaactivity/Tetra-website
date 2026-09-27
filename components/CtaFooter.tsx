@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { waLink, INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL, LEGAL } from "@/lib/site";
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, TIKTOK_HANDLE, TIKTOK_URL, EMAIL, LEGAL } from "@/lib/site";
 import { SocialLinks } from "./SocialIcons";
+import { WaButton } from "./Wa";
 import Pic from "./Pic";
 import { AREAS } from "@/lib/areas";
 import { EVENTS } from "@/lib/events";
@@ -39,15 +40,10 @@ export default function CtaFooter() {
             Yuk amankan tanggalmu dan konsultasikan dengan admin.
           </p>
           <div data-rv>
-            <a
-              className="btn fill"
-              href={waLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontSize: 13, padding: "18px 34px" }}
-            >
-              Tanya Paket &amp; Harga
-            </a>
+            <WaButton
+              label="Cek Jadwal & Harga"
+              className="btn fill wa-cta-lg"
+            />
           </div>
         </div>
       </section>
@@ -65,9 +61,7 @@ export default function CtaFooter() {
             </div>
             <div className="col">
               <h3>Kontak</h3>
-              <a href={waLink()} target="_blank" rel="noopener noreferrer">
-                Chat Admin (WhatsApp)
-              </a>
+              <WaButton label="Chat Admin (WhatsApp)" className="" />
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                 Instagram {INSTAGRAM_HANDLE}
               </a>

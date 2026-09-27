@@ -31,8 +31,6 @@ export interface Area {
   points: { h: string; p: string }[];
   prints: AreaPrint[];
   faq: AreaFaq[];
-  /** Kalimat pembuka chat WhatsApp dari halaman ini */
-  waIntro: string;
 }
 
 export const AREAS: Area[] = [
@@ -81,8 +79,6 @@ export const AREAS: Area[] = [
         a: "Idealnya dua sampai empat minggu sebelum hari-H supaya tanggalmu aman dan frame sempat kami desain sesuai tema. Tanggal mepet tetap boleh ditanyakan, siapa tahu masih kosong.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Bogor.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "jakarta",
@@ -129,8 +125,6 @@ export const AREAS: Area[] = [
         a: "Sekitar satu jam sebelum acara dimulai booth sudah berdiri dan diuji. Untuk gedung dengan antrean loading dock, kami berangkat lebih awal lagi.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Jakarta.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "depok",
@@ -177,8 +171,6 @@ export const AREAS: Area[] = [
         a: "Photo strip 2R paling ramai dipilih karena satu sesi menghasilkan dua strip kembar, satu untuk dibawa pulang, satu untuk ditempel di album angkatan.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Depok.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "tangerang",
@@ -225,8 +217,6 @@ export const AREAS: Area[] = [
         a: "Dua sampai empat minggu sebelumnya paling ideal, apalagi untuk tanggal akhir pekan di musim wedding. Chat admin untuk cek tanggalmu.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Tangerang.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "bekasi",
@@ -273,8 +263,6 @@ export const AREAS: Area[] = [
         a: "Bisa. Lighting studio kami membuat hasil foto tetap terang dan tajam meski acara berlangsung malam di dalam maupun luar ruangan yang terlindung.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Bekasi.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "sentul",
@@ -322,8 +310,6 @@ export const AREAS: Area[] = [
         a: "Sekitar satu jam sebelum acara mulai. Untuk venue dengan akses loading yang jauh dari titik booth, tim kami datang lebih awal lagi.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Sentul.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "cibinong",
@@ -371,8 +357,6 @@ export const AREAS: Area[] = [
         a: "Ya. Kami terbiasa melengkapi penawaran tertulis, invoice, dan dokumen vendor untuk kebutuhan administrasi panitia.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cibinong.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "puncak-cisarua",
@@ -420,8 +404,6 @@ export const AREAS: Area[] = [
         a: "Aman. Bahan cetak kami simpan tertutup sampai dipakai, dan lapisan pelindung di permukaannya membuat hasilnya tahan air maupun sidik jari.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di kawasan Puncak/Cisarua.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "cileungsi",
@@ -469,8 +451,6 @@ export const AREAS: Area[] = [
         a: "Bisa. Kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, dan banyak acara rumahan yang kami kerjakan berlangsung di ruang tamu atau halaman.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cileungsi.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "ciawi",
@@ -518,8 +498,6 @@ export const AREAS: Area[] = [
         a: "Bisa. Booth kami hanya butuh area sekitar 3×3 meter dan satu sumber listrik, jadi muat di teras restoran maupun ruang keluarga vila.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Ciawi/Gadog.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "dramaga",
@@ -567,8 +545,6 @@ export const AREAS: Area[] = [
         a: "Tidak. Dramaga dan Bogor Barat masih wilayah Bogor, jadi masuk area bebas biaya perjalanan.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Dramaga/Bogor Barat.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "cibubur",
@@ -616,8 +592,6 @@ export const AREAS: Area[] = [
         a: "Ya. Seluruh kawasan Cibubur yang menyambung ke Cimanggis, Jatisampurna, dan Gunung Putri kami layani dengan paket yang sama.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Cibubur.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "margonda",
@@ -665,8 +639,6 @@ export const AREAS: Area[] = [
         a: "Menyesuaikan jarak dari basis kami di Bogor, dan angkanya selalu kami sebutkan di penawaran awal, bukan setelah acara.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Margonda/Depok kota.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "sawangan",
@@ -714,8 +686,6 @@ export const AREAS: Area[] = [
         a: "Melayani, dengan paket dan ketentuan yang sama seperti Sawangan dan Bojongsari.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Sawangan/Depok selatan.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "jakarta-selatan",
@@ -763,8 +733,6 @@ export const AREAS: Area[] = [
         a: "Sangat cocok. Untuk aktivasi, 360° spin booth biasanya paling efektif karena videonya langsung dibagikan pengunjung ke media sosial.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Jakarta Selatan.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
   {
     slug: "jakarta-timur",
@@ -812,8 +780,6 @@ export const AREAS: Area[] = [
         a: "Ya. Kirimkan ketentuan izin masuk dan jam loading-nya, lalu tim kami menyesuaikan waktu kedatangan.",
       },
     ],
-    waIntro:
-      "Halo Tetra Photobooth!\n\nSaya mau tanya paket photobooth untuk acara di Jakarta Timur.\nBoleh dibantu cek ketersediaan & rekomendasi paketnya?",
   },
 ];
 

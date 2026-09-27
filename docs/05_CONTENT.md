@@ -19,7 +19,7 @@ Placeholders are flagged `[PLACEHOLDER]`.
 - Eyebrow: `Photobooth Premium · Jabodetabek`
 - H1: `Sesuatu untuk *dipegang*, abadi untuk *dikenang*.`
 - Sub: `Mengubah experience acaramu menjadi suvenir cetak instan. Memori nyata yang beneran disimpan para tamu.`
-- CTA primary: `Tanya Paket & Harga`
+- CTA primary: `Cek Jadwal & Harga`
 - CTA secondary: `Lihat Galeri`
 - Trust: `★★★★★  Dipercaya ratusan acara · Wedding · Corporate · Ulang Tahun · Wisuda`
 - Background word: `kenangan.`
@@ -99,7 +99,7 @@ now lives in the Kenapa Tetra card "Realtime download softfile" + the Paket
   - `File digital lengkap` — `QR download di tempat + semua file di flashdisk kayu eksklusif.`
   - `Transport gratis` — `Tanpa biaya perjalanan untuk seluruh area Jabodetabek.`
 - Urgency: `Booking sekarang sebelum penuh.`
-- Button: `Tanya Paket & Harga` (price stays off-page → WhatsApp)
+- Button: `Cek Jadwal & Harga` (price stays off-page → WhatsApp)
 - WhatsApp (Paket): `Halo Tetra, saya mau tanya detail paket dan cek ketersediaan tanggal untuk acara saya...`
 
 ## Cara Kerja
@@ -129,7 +129,7 @@ now lives in the Kenapa Tetra card "Realtime download softfile" + the Paket
 - H2: `Punya tanggal acara? Kami bantu bikin *kenangannya*.`
 - Sub: `Cetakan yang dibawa pulang. Momen yang nggak hilang.`
 - Urgency line: `Jadwal akhir pekan biasanya cepat terisi, yuk amankan tanggalmu.`
-- Button: `Tanya Paket & Harga`
+- Button: `Cek Jadwal & Harga`
 
 ## WhatsApp handoff (pre-filled, lib/site.ts)
 Default opening + fixed fill-in template the admin (Mintet) receives back:
@@ -151,3 +151,34 @@ Terima kasih
 - Kontak: `Chat Admin (WhatsApp)` · `@tetraphotobooth` · `tetraphotobooth@gmail.com`
 - Jelajah: `Galeri` · `Format` · `Cara Kerja`
 - Legal: `© 2026 Tetra Photobooth`
+
+
+---
+
+## CTA WhatsApp (diperbarui 27 Sep 2026, permintaan owner)
+
+Teks tombol diseragamkan menurut niat pengunjung. Semua tombol dirender oleh
+`components/Wa.tsx` (`<WaButton>`); tidak ada komponen lain yang merakit
+`waLink()` sendiri.
+
+| Tempat | Teks |
+|---|---|
+| Header (desktop & menu) | `Chat Admin` |
+| Hero, Paket, blok kontak, halaman acara, halaman area, halaman harga | `Cek Jadwal & Harga` |
+| `/pricelist`, PkgOffer, bar bawah pricelist | `Booking via WhatsApp` / `Booking paket ini` |
+| Tautan kontak di footer | `Chat Admin (WhatsApp)` |
+| Ikon WA | `aria-label="Chat Admin Tetra di WhatsApp"` |
+| Bar chat bawah (HP, semua halaman selain `/pricelist`) | `Chat Admin` |
+
+`Minta Pricelist Lengkap` di `/harga-sewa-photobooth` kini menuju `/pricelist`
+(halaman yang memuat harga lengkap dan unduhan PDF), bukan ke WhatsApp.
+
+### Isi pesan WhatsApp adalah kontrak
+
+Pesan terisi dibaca bot admin (`~/tetra-wa-bot/src/lib/smartLead.js` →
+`parseWebsite`). Label (`Acara`, `Tanggal`, `Jam photobooth`, `Lokasi`,
+`Jumlah tamu`, `Paket`, `Nama`) dan kalimat penanda
+`Saya dari website Tetra (halaman ...)` TIDAK boleh diubah tanpa mengubah
+parser bot. Pesan tidak boleh memuat `&`, `#`, `+`, `%`, atau emoji: browser
+dalam aplikasi Instagram/TikTok men-decode ulang link `wa.me` sehingga `&`
+memotong pesan. Dijaga oleh `npm run check`.

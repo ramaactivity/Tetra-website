@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fmtIDR, type Pkg, type Tier } from "@/lib/pricelist";
-import { waLink, waMessage } from "@/lib/site";
+import { WaButton } from "../Wa";
 import FeatsDisclosure from "./FeatsDisclosure";
 import Collapsible from "./Collapsible";
 
@@ -16,12 +16,6 @@ export default function PkgOffer({ pkg }: { pkg: Pkg }) {
   const extend = pkg.tiers.find(isExtend);
   const [sel, setSel] = useState(0);
   const tier = durations[sel] ?? durations[0];
-
-  const wa = waLink(
-    waMessage(
-      `Halo Tetra Photobooth!\n\nSaya dari website Tetra dan tertarik dengan paket ${pkg.name} (${tier.label}).\nBoleh dibantu cek ketersediaan & detailnya buat acara saya?`
-    )
-  );
 
   // "2 Jam Unlimited" → "2 Jam" on the pill; the full label lives next to the price
   const short = (label: string) => label.replace(/\s+unlimited\s*$/i, "");
@@ -73,14 +67,11 @@ export default function PkgOffer({ pkg }: { pkg: Pkg }) {
         </div>
       )}
 
-      <a
+      <WaButton
+        label="Booking paket ini"
         className="btn fill pl-pkg-cta"
-        href={wa}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Booking paket ini
-      </a>
+        paket={`${pkg.name} - ${short(tier.label)}`}
+      />
     </div>
   );
 }

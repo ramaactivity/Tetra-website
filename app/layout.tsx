@@ -5,6 +5,7 @@ import "./mobile.css";
 import Loader from "@/components/Loader";
 import Ribbon from "@/components/Ribbon";
 import MotionRoot from "@/components/MotionRoot";
+import { WaProvider, WaSticky } from "@/components/Wa";
 
 // Display / headlines — Marcellus (italic emphasis rendered synthetically via font-style:italic)
 const marcellus = Marcellus({
@@ -85,7 +86,10 @@ export default function RootLayout({
         <div className="scrollprog" id="scrollprog" aria-hidden />
         <Ribbon />
         <Loader />
-        {children}
+        <WaProvider>
+          {children}
+          <WaSticky />
+        </WaProvider>
         {/* atmosphere overlays (fixed, non-interactive) */}
         <div className="vignette" aria-hidden />
         <div className="grain" aria-hidden />

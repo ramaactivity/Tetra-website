@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
-import { LEGAL, EMAIL, WA_NUMBER } from "@/lib/site";
+import { LEGAL, EMAIL, waLink, waMessage } from "@/lib/site";
 
 const TITLE = "Kebijakan Privasi";
 const DESCRIPTION =
@@ -142,7 +142,7 @@ export default function PrivasiPage() {
               <h2>9. Kontak</h2>
               <p>
                 Permintaan terkait data pribadi dapat disampaikan melalui{" "}
-                <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener noreferrer">
+                <a href={waLink(waMessage({ halaman: "Privasi" }))} target="_blank" rel="noopener noreferrer">
                   WhatsApp 0852-1352-6630
                 </a>{" "}
                 atau <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
