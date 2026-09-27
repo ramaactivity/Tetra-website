@@ -47,9 +47,10 @@ export const CREW_SENTENCE =
 export const BACKDROP_BASIC = [
   "Putih",
   "Merah",
-  "Gold",
   "Silver",
+  "Gold",
   "Hijau Emerald",
+  "Biru",
 ] as const;
 
 export const BACKDROP_INCLUDE_TEXT = `Backdrop basic pilihan: ${BACKDROP_BASIC.join(", ").replace(/, ([^,]*)$/, ", dan $1")}`;

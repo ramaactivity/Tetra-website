@@ -195,7 +195,7 @@ JSON-LD, serta metadata. Kalau sebuah angka berubah, ubah di sana saja.
 | Fakta | Nilai berlaku |
 |---|---|
 | Transport | Gratis seluruh Jabodetabek (Bogor, Jakarta, Depok, Tangerang, Bekasi) untuk Unlimited Photobooth, 360° Spin, dan Photo Stage. **Magazine Box: transport tidak termasuk.** Di luar Jabodetabek ada biaya transport, nominal dari admin. |
-| Backdrop basic (gratis) | Putih, Merah, Gold, Silver, Hijau Emerald. Hitam sudah tidak ada. Luxury/tema khusus berbiaya tambahan; dekorasi sendiri diperbolehkan. |
+| Backdrop basic (gratis) | Enam warna: Putih, Merah, Silver, Gold, Hijau Emerald, Biru. Hitam sudah tidak ada. Luxury/tema khusus berbiaya tambahan; dekorasi sendiri diperbolehkan. Warna swatch diambil dari foto kain asli (`BACKDROP TETRA.pdf`). |
 | Area & listrik (Classic, Photo Stage) | 3 × 4 meter, 1 meja dan 2 kursi, listrik ±500 watt. |
 | Area 360° Spin | 3 × 3 meter, langit-langit tinggi, 2–4 orang, maks. 250 kg. |
 | Area Magazine Box | 4 × 5 meter, ±700 watt, indoor (Magazine Box Only ±100 watt). |

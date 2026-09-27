@@ -374,7 +374,8 @@ export const BACKDROPS: Backdrop[] = [
   { name: "Gold", css: "linear-gradient(150deg, #b88a3e, #e9cd8e 50%, #9c7634)" },
   { name: "Putih", css: "linear-gradient(150deg, #f4efe6, #ffffff 55%, #e6ddcd)", dark: true },
   { name: "Silver", css: "linear-gradient(150deg, #9aa0a6, #e3e6ea 50%, #888d93)", dark: true },
-  { name: "Hijau Emerald", css: "linear-gradient(150deg, #0b5744, #17886a 52%, #08402f)" },
+  { name: "Hijau Emerald", css: "linear-gradient(150deg, #1a4239, #2c645c 55%, #0f2a21)" },
+  { name: "Biru", css: "linear-gradient(150deg, #232a5e, #334197 55%, #1a1a42)" },
 ];
 
 export const BOOKING_TERMS: string[] = [
