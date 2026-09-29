@@ -10,10 +10,12 @@ Saya dari website Tetra (halaman Wedding) dan mau cek ketersediaan serta rekomen
 Acara: Wedding
 Tanggal: Sabtu, 28 November 2026
 Jam photobooth: 18.00 - 21.00
+Durasi: 3 jam
 Lokasi: Sentul, Bogor
 Jumlah tamu: 200 - 300
 Paket: Unlimited 3 Jam
-Nama: Rizky`;
+Nama: Rizky
+Catatan: Tolong siapkan properti bertema rustic`;
 
 assert.equal(
   waMessage({
@@ -21,10 +23,12 @@ assert.equal(
     acara: "Wedding",
     tanggal: "Sabtu, 28 November 2026",
     jam: "18.00 - 21.00",
+    durasi: "3 jam",
     lokasi: "Sentul, Bogor",
     tamu: "200 - 300",
     paket: "Unlimited 3 Jam",
     nama: "Rizky",
+    catatan: "Tolong siapkan properti bertema rustic",
   }),
   LENGKAP,
   "pesan lengkap tidak sama persis"

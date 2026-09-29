@@ -27,9 +27,13 @@ export type WaDetail = {
   tanggal?: string;
   /** Sudah diformat, mis. "18.00 - 21.00". */
   jam?: string;
+  /** Dihitung otomatis dari rentang jam, mis. "5 jam". */
+  durasi?: string;
   lokasi?: string;
   tamu?: string;
   nama?: string;
+  /** Catatan bebas dari pengunjung. */
+  catatan?: string;
 };
 
 /** Buang karakter yang merusak deep link, ratakan jadi satu baris, potong 80. */
@@ -50,10 +54,12 @@ const WA_LABELS: [keyof Omit<WaDetail, "halaman">, string][] = [
   ["acara", "Acara"],
   ["tanggal", "Tanggal"],
   ["jam", "Jam photobooth"],
+  ["durasi", "Durasi"],
   ["lokasi", "Lokasi"],
   ["tamu", "Jumlah tamu"],
   ["paket", "Paket"],
   ["nama", "Nama"],
+  ["catatan", "Catatan"],
 ];
 
 /** Susun pesan WA. Baris tanpa isi tidak ditulis sama sekali. */
