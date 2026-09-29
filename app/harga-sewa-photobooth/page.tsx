@@ -8,6 +8,7 @@ const CITIES = AREAS.filter((a) => !a.parent);
 import { PACKAGES, fromPrice, fmtIDR } from "@/lib/pricelist";
 import { WaButton } from "@/components/Wa";
 import {
+  BUSINESS_REF,
   TRANSPORT_SENTENCE,
   AREA_CLASSIC,
   MEJA_KURSI,
@@ -98,6 +99,11 @@ const AFFECTS = [
   },
 ];
 
+// Rentang tarif sebenarnya. Dipakai di teks halaman DAN di AggregateOffer,
+// supaya markup tidak pernah mengklaim angka yang tidak terlihat pengunjung.
+const LOW = Math.min(...PACKAGES.map(fromPrice));
+const HIGH = Math.max(...PACKAGES.flatMap((p) => p.tiers.map((t) => t.price)));
+
 const url = "https://tetraphoto.com/harga-sewa-photobooth";
 
 const jsonLd = [
@@ -108,13 +114,13 @@ const jsonLd = [
     serviceType: "Photobooth rental",
     url,
     description: DESCRIPTION,
-    provider: { "@id": "https://tetraphoto.com/#business" },
+    provider: BUSINESS_REF,
     areaServed: CITIES.map((a) => ({ "@type": "City", name: a.name })),
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "IDR",
-      lowPrice: Math.min(...PACKAGES.map(fromPrice)),
-      highPrice: Math.max(...PACKAGES.flatMap((p) => p.tiers.map((t) => t.price))),
+      lowPrice: LOW,
+      highPrice: HIGH,
       offerCount: PACKAGES.length,
       availability: "https://schema.org/InStock",
     },
@@ -185,7 +191,9 @@ export default function HargaPage() {
           </h2>
           <p className="lead area-p" data-rv>
             Angka di bawah adalah harga terendah tiap paket, yaitu durasi paling singkat.
-            Rincian tiap durasi dan layanan tambahan kami kirim langsung lewat WhatsApp.
+            Keseluruhan tarif kami berkisar {fmtIDR(LOW)} sampai {fmtIDR(HIGH)},
+            tergantung paket dan durasi. Rincian tiap durasi dan layanan tambahan
+            kami kirim langsung lewat WhatsApp.
           </p>
           <div className="area-grid">
             {PACKAGES.map((p) => (

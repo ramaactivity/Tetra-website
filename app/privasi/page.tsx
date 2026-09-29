@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
 import { LEGAL, EMAIL, waLink, waMessage } from "@/lib/site";
+import { BUSINESS_REF } from "@/lib/facts";
 
 const TITLE = "Kebijakan Privasi";
 const DESCRIPTION =
@@ -95,7 +96,7 @@ const jsonLd = {
   url,
   description: DESCRIPTION,
   inLanguage: "id-ID",
-  publisher: { "@id": "https://tetraphoto.com/#business" },
+  publisher: BUSINESS_REF,
 };
 
 export default function PrivasiPage() {

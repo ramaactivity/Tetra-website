@@ -7,7 +7,7 @@ import { PACKAGES, fromPrice } from "@/lib/pricelist";
 // omitted (pricelist is shared privately via WhatsApp).
 const BUSINESS = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": "https://tetraphoto.com/#business",
   name: "Tetra Photobooth",
   alternateName: ["Tetra", "Sewa Photobooth Tetra", "Jasa Photobooth Tetra"],

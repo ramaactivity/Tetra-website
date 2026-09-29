@@ -8,6 +8,7 @@ import { EVENTS, getEvent } from "@/lib/events";
 import { GALLERY } from "@/lib/gallery";
 import { AREAS } from "@/lib/areas";
 import { WaButton } from "@/components/Wa";
+import { BUSINESS_REF } from "@/lib/facts";
 
 // Halaman layanan per jenis acara — SEO untuk query "photobooth wedding",
 // "photobooth ulang tahun", "sewa 360 photobooth", dst. Statis penuh.
@@ -48,7 +49,7 @@ function jsonLd(ev: NonNullable<ReturnType<typeof getEvent>>) {
       serviceType: "Photobooth rental",
       url,
       description: ev.description,
-      provider: { "@id": "https://tetraphoto.com/#business" },
+      provider: BUSINESS_REF,
       areaServed: AREAS.filter((a) => !a.parent).map((a) => ({ "@type": "City", name: a.name })),
     },
     {

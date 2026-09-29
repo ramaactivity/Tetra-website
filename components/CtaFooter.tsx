@@ -87,10 +87,25 @@ export default function CtaFooter() {
             </div>
             <div className="col">
               <h3>Area Layanan</h3>
-              {AREAS.filter((a) => !a.parent).map((a) => (
-                <a key={a.slug} href={`/sewa-photobooth/${a.slug}`}>
-                  Sewa Photobooth {a.name}
-                </a>
+              {/* Kota utama dulu, lalu sub-areanya. Semua 16 halaman area
+                  ditaut dari sini supaya tidak ada yang hanya bergantung pada
+                  tautan dari halaman hub — sub-area sempat tidak terjangkau
+                  dari beranda sama sekali. */}
+              {AREAS.filter((a) => !a.parent).map((kota) => (
+                <span className="ftr-area" key={kota.slug}>
+                  <a href={`/sewa-photobooth/${kota.slug}`}>
+                    Sewa Photobooth {kota.name}
+                  </a>
+                  {AREAS.filter((s) => s.parent === kota.slug).map((sub) => (
+                    <a
+                      className="ftr-sub"
+                      key={sub.slug}
+                      href={`/sewa-photobooth/${sub.slug}`}
+                    >
+                      {sub.name}
+                    </a>
+                  ))}
+                </span>
               ))}
             </div>
             <div className="col">

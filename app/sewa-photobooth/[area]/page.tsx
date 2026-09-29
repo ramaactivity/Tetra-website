@@ -6,6 +6,7 @@ import Divider from "@/components/Divider";
 import Pic from "@/components/Pic";
 import { AREAS, getArea } from "@/lib/areas";
 import { WaButton } from "@/components/Wa";
+import { BUSINESS_REF } from "@/lib/facts";
 
 // Halaman area layanan — SEO lokal per kota. Statis penuh.
 export const dynamicParams = false;
@@ -45,7 +46,7 @@ function jsonLd(area: NonNullable<ReturnType<typeof getArea>>) {
     url,
     description: area.description,
     areaServed: { "@type": "City", name: area.name },
-    provider: { "@id": "https://tetraphoto.com/#business" },
+    provider: BUSINESS_REF,
   };
   const breadcrumb = {
     "@context": "https://schema.org",

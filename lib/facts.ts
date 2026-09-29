@@ -72,3 +72,14 @@ export const TANPA_CETAK = [
   "Photo Stage Only",
   "Magazine Box Only",
 ] as const;
+
+/**
+ * Rujukan ke node LocalBusiness di beranda. Google me-resolve @id per halaman,
+ * jadi @id sendirian membuat provider/publisher terbaca sebagai entitas kosong
+ * di halaman selain beranda. name + url membuatnya berdiri sendiri.
+ */
+export const BUSINESS_REF = {
+  "@id": "https://tetraphoto.com/#business",
+  name: "Tetra Photobooth",
+  url: "https://tetraphoto.com",
+} as const;

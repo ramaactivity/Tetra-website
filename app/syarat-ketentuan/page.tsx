@@ -4,6 +4,7 @@ import CtaFooter from "@/components/CtaFooter";
 import Divider from "@/components/Divider";
 import { LEGAL, EMAIL, waLink, waMessage } from "@/lib/site";
 import {
+  BUSINESS_REF,
   AREA_CLASSIC,
   LISTRIK_CLASSIC,
   MEJA_KURSI,
@@ -136,7 +137,7 @@ const jsonLd = {
   url,
   description: DESCRIPTION,
   inLanguage: "id-ID",
-  publisher: { "@id": "https://tetraphoto.com/#business" },
+  publisher: BUSINESS_REF,
 };
 
 export default function SyaratKetentuanPage() {

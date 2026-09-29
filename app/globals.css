@@ -5326,3 +5326,18 @@ html.wa-open {
     transition: none;
   }
 }
+
+/* Kolom Area Layanan di footer: kota utama + sub-areanya. */
+.ftr-area {
+  display: block;
+  margin-bottom: 10px;
+}
+.ftr-area .ftr-sub {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 13px;
+  opacity: 0.62;
+}
+.ftr-area .ftr-sub:hover {
+  opacity: 1;
+}
