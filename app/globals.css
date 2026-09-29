@@ -5160,6 +5160,7 @@ html.reduced .gx-controls {
    ========================================================================= */
 html.wa-open {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 .wa-sheet {
   /* Reset global `* { margin: 0 }` menghapus margin:auto bawaan <dialog>,
@@ -5174,6 +5175,9 @@ html.wa-open {
   color: var(--ink);
   box-shadow: var(--sh);
   overflow: hidden;
+  /* Kunci gestur sentuh ke sumbu vertikal. Tanpa ini sheet masih bisa
+     digoyang ke kiri-kanan di HP walau tidak ada isi yang melebar. */
+  touch-action: pan-y;
 }
 /* Kursor kustom situs menyetel `cursor: none` pada button/a. Follower-nya
    tidak ikut naik ke top layer milik <dialog>, jadi kursor tampak hilang.
@@ -5199,7 +5203,9 @@ html.cursor-on .wa-sheet .wa-time {
 .wa-scroll {
   max-height: min(88vh, 860px);
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   padding: clamp(24px, 2.6vw, 34px);
 }
 .wa-close-form {
@@ -5415,7 +5421,9 @@ html.cursor-on .wa-sheet .wa-time {
 .wa-time-list {
   max-height: 210px;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
