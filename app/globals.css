@@ -5166,8 +5166,8 @@ html.wa-open {
   /* Reset global `* { margin: 0 }` menghapus margin:auto bawaan <dialog>,
      yang membuatnya menempel ke pojok kiri atas. Kembalikan di sini. */
   margin: auto;
-  width: min(940px, calc(100vw - 32px));
-  max-height: min(88vh, 860px);
+  width: min(980px, calc(100vw - 32px));
+  max-height: min(92vh, 900px);
   padding: 0;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -5201,12 +5201,12 @@ html.cursor-on .wa-sheet .wa-time {
   backdrop-filter: blur(3px);
 }
 .wa-scroll {
-  max-height: min(88vh, 860px);
+  max-height: min(92vh, 900px);
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
   touch-action: pan-y;
-  padding: clamp(24px, 2.6vw, 34px);
+  padding: clamp(20px, 2.2vw, 28px);
 }
 .wa-close-form {
   float: right;
@@ -5231,35 +5231,37 @@ html.cursor-on .wa-sheet .wa-time {
 .wa-head h2 {
   font-family: var(--disp);
   font-weight: 400;
-  font-size: clamp(22px, 2.4vw, 30px);
+  font-size: clamp(21px, 2vw, 26px);
   line-height: 1.2;
   padding-right: 40px;
 }
 .wa-sub {
   color: var(--ink2);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 6px;
 }
 .wa-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 clamp(24px, 3vw, 44px);
-  margin-top: clamp(18px, 2.4vh, 26px);
+  /* align-items:start supaya kolom pendek tidak ikut meregang */
+  align-items: start;
+  gap: 0 clamp(24px, 3vw, 40px);
+  margin-top: 16px;
 }
 .wa-field {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .wa-col > .wa-field:first-child {
   margin-top: 0;
 }
 .wa-label {
   display: block;
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink2);
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 .wa-opt {
   letter-spacing: 0;
@@ -5268,10 +5270,10 @@ html.cursor-on .wa-sheet .wa-time {
 .wa-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 .wa-chip {
-  padding: 9px 15px;
+  padding: 7px 13px;
   border-radius: 100px;
   border: 1px solid var(--line);
   background: transparent;
@@ -5294,7 +5296,7 @@ html.cursor-on .wa-sheet .wa-time {
 }
 .wa-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 13px;
   border-radius: 9px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.04);
@@ -5308,10 +5310,6 @@ html.cursor-on .wa-sheet .wa-time {
 }
 .wa-input:focus-visible {
   border-color: var(--gold);
-}
-.wa-textarea {
-  resize: none;
-  line-height: 1.5;
 }
 .wa-hint {
   margin-top: 8px;
@@ -5471,8 +5469,8 @@ html.cursor-on .wa-sheet .wa-time {
   height: 16px;
 }
 .wa-foot {
-  margin-top: clamp(22px, 3vh, 30px);
-  padding-top: clamp(18px, 2.4vh, 24px);
+  margin-top: 18px;
+  padding-top: 16px;
   border-top: 1px solid var(--line);
 }
 .wa-go {
@@ -5492,7 +5490,7 @@ html.cursor-on .wa-sheet .wa-time {
 .wa-plain {
   display: block;
   text-align: center;
-  margin-top: 14px;
+  margin-top: 11px;
   font-size: 13px;
   color: var(--ink2);
   text-decoration: underline;

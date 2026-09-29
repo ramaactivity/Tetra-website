@@ -505,9 +505,7 @@ export function WaProvider({ children }: { children: React.ReactNode }) {
                   </p>
                 )}
               </div>
-            </div>
 
-            <div className="wa-col">
               <div className="wa-field">
                 <label className="wa-label" htmlFor="wa-lokasi">
                   Lokasi acara
@@ -522,7 +520,9 @@ export function WaProvider({ children }: { children: React.ReactNode }) {
                   onChange={(e) => set("lokasi", e.target.value)}
                 />
               </div>
+            </div>
 
+            <div className="wa-col">
               <div className="wa-field">
                 <span className="wa-label" id="wa-tamu-label">
                   Perkiraan tamu
@@ -580,10 +580,10 @@ export function WaProvider({ children }: { children: React.ReactNode }) {
                 <label className="wa-label" htmlFor="wa-catatan">
                   Catatan <span className="wa-opt">(opsional)</span>
                 </label>
-                <textarea
-                  className="wa-input wa-textarea"
+                <input
+                  className="wa-input"
                   id="wa-catatan"
-                  rows={2}
+                  type="text"
                   maxLength={80}
                   placeholder="Tema acara, permintaan khusus, dll."
                   value={form.catatan}
