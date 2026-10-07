@@ -114,7 +114,7 @@ export function halamanDariPath(pathname: string): string {
 }
 
 /** Booking online & portal klien (Tetra Ops). */
-export const BOOKING_URL = "https://booking.tetraphoto.com";
+export const BOOKING_URL = "https://booking.tetraphoto.com/booking";
 
 export const INSTAGRAM_HANDLE = "@tetraphotobooth";
 export const INSTAGRAM_URL = "https://www.instagram.com/tetraphotobooth/";
