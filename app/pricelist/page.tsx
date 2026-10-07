@@ -6,6 +6,7 @@ import PriceNav from "@/components/pricelist/PriceNav";
 import PackageBlock from "@/components/pricelist/PackageBlock";
 import StickyActions from "@/components/pricelist/StickyActions";
 import { WaButton } from "@/components/Wa";
+import { BOOKING_URL } from "@/lib/site";
 import {
   PACKAGES,
   KEYCHAIN,
@@ -48,6 +49,9 @@ export default function PricelistPage() {
             </p>
             <div className="pl-hero-actions" data-rv>
               <WaButton label="Booking via WhatsApp" />
+              <a className="btn" href={BOOKING_URL}>
+                Booking Online
+              </a>
               <a className="btn" href={PDF_URL} download={PDF_NAME}>
                 Download PDF
               </a>

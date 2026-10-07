@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { WaButton } from "./Wa";
 import { SocialLinks } from "./SocialIcons";
+import { BOOKING_URL } from "@/lib/site";
 
 const NAV = [
   // Galeri is a full page now (/galeri); the rest stay smooth-scroll anchors.
@@ -10,6 +11,7 @@ const NAV = [
   { id: "#format", label: "Format" },
   { id: "#paket", label: "Paket" },
   { id: "#cara", label: "Cara Kerja" },
+  { id: BOOKING_URL, label: "Booking Online", page: true },
 ];
 
 // Fixed frosted header. Phase 1: simple scroll listener toggles `.solid` after 40px.
